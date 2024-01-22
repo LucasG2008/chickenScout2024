@@ -10,9 +10,13 @@ import SwiftUI
 struct PitScouting: View {
     
     @Environment(\.colorScheme) var colorScheme
+    @EnvironmentObject var dataManager: DataManager
+    @EnvironmentObject var viewModel: AuthViewModel
     
     @State private var isSearching = false
     @State private var selectedTeamName: String?
+    
+    @State private var showingSuccessAlert = false
     
     @State private var driveTrain = "Swerve"
     let driveTrains = ["Swerve", "Tank", "Omni", "Macanum", "Other"]
@@ -39,9 +43,11 @@ struct PitScouting: View {
     @State private var humanPlayer = "Med"
     let humanPlayerSkill = ["High", "Med", "Low"]
     
-    //@State private var notes = String
+    @State private var notes = ""
     
     let generator = UIImpactFeedbackGenerator(style: .heavy)
+    
+    
     
     
     var body: some View {
@@ -267,18 +273,45 @@ struct PitScouting: View {
                         
                         Divider()
                         
-                        //TextEditor(text: notes)
-                        //
-                        //    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 100, maxHeight: .infinity)
-                        //    .background(RoundedRectangle(cornerRadius: 10).stroke())
-                        //    .cornerRadius(10)
-                        //    .padding(.bottom, 5)
-                        //    .padding(.top, 10)
+                        TextEditor(text: $notes)
+                        
+                            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 100, maxHeight: .infinity)
+                            .background(RoundedRectangle(cornerRadius: 10).stroke())
+                            .cornerRadius(10)
+                            .padding(.bottom, 5)
+                            .padding(.top, 10)
                     }
                 }
                 
+                // Submit button 
                 Button(action: {
                     generator.impactOccurred(intensity: 1)
+                    
+                    let pitScoutData = pitScoutData(
+                        teamName: selectedTeamName ?? "",
+                        driveTrain: driveTrain,
+                        intake: intake,
+                        bestAuto: bestAuto,
+                        defense: defense,
+                        speaker: speaker,
+                        amp: amp,
+                        underStage: underStage,
+                        climb: climb,
+                        harmony: harmony,
+                        trap: trap,
+                        humanPlayer: humanPlayer,
+                        submissionTime: Date(),
+                        notes: notes,
+                        scout: viewModel.currentUser?.fullname ?? "")
+                    
+                    dataManager.addPitScoutData(pitScoutDataInstance: pitScoutData)
+                    
+                    // Show success alert
+                    showingSuccessAlert = true
+                    
+                    // Reset all values
+                    resetValues()
+                    
                 }, label : {
                     Text("Submit")
                         .frame(maxWidth: .infinity)
@@ -306,11 +339,32 @@ struct PitScouting: View {
                 }
                 .edgesIgnoringSafeArea(.all))
         }
+        .alert("Data Saved Successfully!", isPresented: $showingSuccessAlert) {
+                    Button("OK", role: .cancel) { }
+                }
     }
     
     // get accent color
     var accentColor: Color {
             return colorScheme == .dark ? .white : .black
+        }
+    
+    func resetValues() {
+        // Set each variable to its default value
+        selectedTeamName = ""
+        driveTrain = "Swerve"
+        intake = "Ground"
+        bestAuto = []
+        defense = "Yes"
+        speaker = false
+        amp = false
+        underStage = false
+        climb = false
+        harmony = false
+        trap = false
+        humanPlayer = "Med"
+        notes = ""
+
         }
     
 }

@@ -7,12 +7,14 @@
 
 import SwiftUI
 
-struct InputView: View {
+struct ScoutingView: View {
     
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var viewModel: AuthViewModel
     
     @State private var selectedView: String?
+    
+    @State private var isSignOutAlertPresented = false
     
     var body: some View {
         
@@ -72,7 +74,7 @@ struct InputView: View {
                 
                 Section {
                     Button  {
-                        viewModel.signOut()
+                        isSignOutAlertPresented.toggle()
                     } label: {
                         Text("Force Sign Out")
                     }
@@ -94,6 +96,17 @@ struct InputView: View {
             
             .navigationTitle("Scouting")
             .navigationBarHidden(false)
+            // ask for sign out confirmation
+            .alert(isPresented: $isSignOutAlertPresented) {
+                Alert(
+                    title: Text("Sign Out"),
+                    message: Text("Are you sure you want to sign out?"),
+                    primaryButton: .default(Text("Cancel")),
+                    secondaryButton: .destructive(Text("Sign Out")) {
+                        viewModel.signOut()
+                    }
+                )
+            }
             // open up detailed view for scouting
             .navigationDestination(isPresented: Binding(
                             get: { selectedView != nil },
@@ -125,5 +138,5 @@ struct InputView: View {
 }
 
 #Preview {
-    InputView()
+    ScoutingView()
 }

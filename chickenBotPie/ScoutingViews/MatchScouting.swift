@@ -421,7 +421,6 @@ struct MatchScouting: View {
                         
                         HStack {
                             
-                            
                             Button(action: {
                                 teleopSequence.removeAll()
                                 extraGenerator.impactOccurred(intensity: 3)

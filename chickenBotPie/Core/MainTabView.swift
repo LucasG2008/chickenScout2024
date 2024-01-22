@@ -20,11 +20,6 @@ struct MainTabView: View {
                 Image(systemName: "list.bullet")
             }
             
-            InputView().tabItem {
-                Text("Input")
-                Image(systemName: "square.and.pencil")
-            }
-            
             ProfileView().tabItem {
                 Text("Profile")
                 Image(systemName: "person.circle")

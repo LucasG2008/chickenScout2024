@@ -66,6 +66,16 @@ struct ProfileView: View {
                                             title: "Sign Out",
                                             tintColor: .red)
                         }
+                        .alert(isPresented: $isSignOutAlertPresented) {
+                            Alert(
+                                title: Text("Sign Out"),
+                                message: Text("Are you sure you want to sign out?"),
+                                primaryButton: .default(Text("Cancel")),
+                                secondaryButton: .destructive(Text("Sign Out")) {
+                                    viewModel.signOut()
+                                }
+                            )
+                        }
                         
                         Button {
                             isDeleteAccountAlertPresented.toggle()
@@ -73,6 +83,16 @@ struct ProfileView: View {
                             SettingsRowView(imageName: "xmark.circle.fill",
                                             title: "Delete Account",
                                             tintColor: .red)
+                        }
+                        .alert(isPresented: $isDeleteAccountAlertPresented) {
+                            Alert(
+                                title: Text("Delete Account"),
+                                message: Text("Are you sure you want to permanently delete your account?"),
+                                primaryButton: .default(Text("Cancel")),
+                                secondaryButton: .destructive(Text("Delete")) {
+                                    viewModel.deleteAccount()
+                                }
+                            )
                         }
                     }
                 }
@@ -89,28 +109,6 @@ struct ProfileView: View {
                         }
                     }
                         .edgesIgnoringSafeArea(.all))
-                
-                .alert(isPresented: $isDeleteAccountAlertPresented) {
-                    Alert(
-                        title: Text("Delete Account"),
-                        message: Text("Are you sure you want to permanently delete your account?"),
-                        primaryButton: .default(Text("Cancel")),
-                        secondaryButton: .destructive(Text("Delete")) {
-                            viewModel.deleteAccount()
-                        }
-                    )
-                }
-                
-                .alert(isPresented: $isSignOutAlertPresented) {
-                    Alert(
-                        title: Text("Sign Out"),
-                        message: Text("Are you sure you want to sign out?"),
-                        primaryButton: .default(Text("Cancel")),
-                        secondaryButton: .destructive(Text("Sign Out")) {
-                            viewModel.signOut()
-                        }
-                    )
-                }
             }
         }
     }
