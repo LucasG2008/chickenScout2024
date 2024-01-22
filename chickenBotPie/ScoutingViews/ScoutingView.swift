@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ScoutingView: View {
     
+    @Environment(\.colorScheme) var colorScheme
+    
     @EnvironmentObject var dataManager: DataManager
     @State private var selectedMatch: matchScoutData?
     
@@ -36,6 +38,16 @@ struct ScoutingView: View {
                     .tag(match)
                 }
             }
+            .scrollContentBackground(.hidden)
+            .background(
+                Group {
+                    if colorScheme == .light {
+                        LinearGradient(gradient: Gradient(colors: [Color.lightBlueStart, Color.lightBlueEnd]), startPoint: .top, endPoint: .bottom)
+                    } else {
+                        LinearGradient(gradient: Gradient(colors: [Color.darkBlueStart, Color.darkBlueEnd]), startPoint: .top, endPoint: .bottom)
+                    }
+                }
+                .edgesIgnoringSafeArea(.all))
             .navigationTitle("Matches")
         }
     }

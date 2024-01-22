@@ -11,6 +11,7 @@ import Firebase
 @main
 struct chickenBotPieApp: App {
     @StateObject var dataManager = DataManager()
+    @StateObject var viewModel = AuthViewModel()
     
     init() {
         FirebaseApp.configure()
@@ -20,6 +21,7 @@ struct chickenBotPieApp: App {
         WindowGroup {
             MainView()
                 .environmentObject(dataManager)
+                .environmentObject(viewModel)
         }
     }
 }

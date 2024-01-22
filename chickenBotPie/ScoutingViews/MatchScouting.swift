@@ -10,6 +10,7 @@ import ConfettiSwiftUI
 
 struct MatchScouting: View {
     
+    @EnvironmentObject var viewModel: AuthViewModel
     @EnvironmentObject var dataManager: DataManager
     @Environment(\.colorScheme) var colorScheme
     
@@ -520,7 +521,8 @@ struct MatchScouting: View {
                         highNote: spotlit,
                         highNoteMisses: highNoteMisses,
                         score: gameScore,
-                        submissionTime: Date())
+                        submissionTime: Date(),
+                        scout: viewModel.currentUser?.fullname ?? "")
                     
                     dataManager.addMatchScoutData(matchScoutDataInstance: matchScoutDataInstance)
                     
@@ -544,27 +546,17 @@ struct MatchScouting: View {
                         .stroke(accentColor, lineWidth: 2)
                     
                 )
-                
-                // debug
-                
-                //Text("Team Name: \(matchScoutDataInstance.teamName)")
-                //Text("Alliance: \(matchScoutDataInstance.alliance)")
-                //Text(matchScoutDataInstance.autoSequence.joined(separator: ", "))
-                //   .multilineTextAlignment(.trailing)
-                //   .padding()
-                //Text(matchScoutDataInstance.teleopSequence.joined(separator: ", "))
-                //   .multilineTextAlignment(.trailing)
-                //   .padding()
-                //Text("Climbed: \(matchScoutDataInstance.climbed)" as String)
-                //Text("Harmony: \(matchScoutDataInstance.harmony)" as String)
-                //Text("Trap: \(matchScoutDataInstance.trap)" as String)
-                //Text("High Notes: \(matchScoutDataInstance.highNote)" as String)
-                //Text("Misses: \(matchScoutDataInstance.highNoteMisses)")
-                //Text("Score: \(matchScoutDataInstance.score)")
-                
-
-                    
                 }
+                .scrollContentBackground(.hidden)
+                .background(
+                    Group {
+                        if colorScheme == .light {
+                            LinearGradient(gradient: Gradient(colors: [Color.lightBlueStart, Color.lightBlueEnd]), startPoint: .top, endPoint: .bottom)
+                        } else {
+                            LinearGradient(gradient: Gradient(colors: [Color.darkBlueStart, Color.darkBlueEnd]), startPoint: .top, endPoint: .bottom)
+                        }
+                    }
+                    .edgesIgnoringSafeArea(.all))
             
             }
         .alert("Data Saved Successfully!", isPresented: $showingSuccessAlert) {

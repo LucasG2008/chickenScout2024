@@ -9,129 +9,36 @@ import SwiftUI
 import Firebase
 
 struct MainView: View {
+    @EnvironmentObject var viewModel: AuthViewModel
     
     @State private var email: String = ""
     @State private var password: String = ""
-    @State private var userIsLoggedIn = false
     
     var body: some View {
-        if userIsLoggedIn {
-            
-            TabView {
-                TeamView().tabItem {
-                    Text("Teams")
-                    Image(systemName: "person.3")
-                }.tag(1)
-                
-                ScoutingView().tabItem {
-                    Text("Scouting")
-                    Image(systemName: "list.bullet")
-                }
-                
-                InputView().tabItem {
-                    Text("Input")
-                    Image(systemName: "square.and.pencil")
-                }.tag(2)
-            }
-            
-        } else {
-            loginContent
-        }
         
-    }
-    
-    var loginContent: some View {
-        
-        VStack{
-            
-            LinearGradient(
-                gradient: Gradient(colors: [Color.lightBlue, Color.darkBlue]),
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .edgesIgnoringSafeArea(.all)
-            .overlay(
-                VStack {
-                    Spacer()
-                    Text("Welcome to ChickenScout!")
-                        .font(.system(size: 45, weight: .bold))
-                        .foregroundColor(.white)
-                        .multilineTextAlignment(.center)
-                        .padding()
-                    
-                    TextField("Email", text: $email)
-                        .padding()
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .background(Color.white.opacity(0.2))
-                        .cornerRadius(10)
-                        .padding()
-                    
-                    SecureField("Password", text: $password)
-                        .padding()
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .background(Color.white.opacity(0.2))
-                        .cornerRadius(10)
-                        .padding()
-                    
-                    Button(action: {
-                        register()
-                    }) {
-                        Text("Sign Up")
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                    }
-                    .padding()
-                    
-                    Button(action: {
-                        login()
-                    }) {
-                        Text("Already have an account? Login")
-                            .foregroundColor(.white)
-                    }
-                    .padding()
-                    
-                    Spacer()
-                }
-                    .padding()
-            )
-        }
-        .onAppear {
-        Auth.auth().addStateDidChangeListener { auth, user in
-        if user != nil {
-        userIsLoggedIn.toggle()
-        }
-        }
-        }
-    }
-    
-    func login() {
-        Auth.auth().signIn(withEmail: email, password: password) {result, error in
-            if error != nil {
-                print(error!.localizedDescription)
+        VStack {
+            if viewModel.userSession != nil {
+                MainTabView()
+                    .transition(.opacity.animation(.easeInOut(duration: 1)))
+            } else {
+                LoginView()
+                    .transition(.opacity.animation(.easeInOut(duration: 1)))
             }
         }
     }
-    
-    func register() {
-        Auth.auth().createUser(withEmail: email, password: password) {result, error in
-            if error != nil {
-                print(error!.localizedDescription)
-            }
-        }
-    }
-
-    
 }
 
 #Preview {
     MainView()
 }
 
-
 extension Color {
     static let lightBlue = Color(red: 173/255, green: 216/255, blue: 230/255)
     static let darkBlue = Color(red: 25/255, green: 25/255, blue: 112/255)
+    
+    static let lightBlueStart = Color(#colorLiteral(red: 0.8, green: 0.9, blue: 1.0, alpha: 1.0))
+    static let lightBlueEnd = Color(#colorLiteral(red: 0.6, green: 0.7, blue: 1.0, alpha: 1.0))
+    
+    static let darkBlueStart = Color(#colorLiteral(red: 0.1, green: 0.2, blue: 0.4, alpha: 1.0))
+        static let darkBlueEnd = Color(#colorLiteral(red: 0.05, green: 0.1, blue: 0.25, alpha: 1.0))
 }

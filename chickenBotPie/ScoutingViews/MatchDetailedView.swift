@@ -8,12 +8,16 @@
 import SwiftUI
 
 struct MatchDetailedView: View {
+    
+    @Environment(\.colorScheme) var colorScheme
+    
     let match: matchScoutData
 
     var body: some View {
         List {
             // Display detailed information for the match
             Text("Team: \(match.teamName)")
+            Text("Scout: \(match.scout)")
             Text("Alliance: \(match.alliance)")
             Text("Auto Sequence: \(match.autoSequence.joined(separator: ", "))")
                .multilineTextAlignment(.trailing)
@@ -28,6 +32,16 @@ struct MatchDetailedView: View {
             Text("Misses: \(match.highNoteMisses)")
             Text("Score: \(match.score)")
         }
+        .scrollContentBackground(.hidden)
+        .background(
+            Group {
+                if colorScheme == .light {
+                    LinearGradient(gradient: Gradient(colors: [Color.lightBlueStart, Color.lightBlueEnd]), startPoint: .top, endPoint: .bottom)
+                } else {
+                    LinearGradient(gradient: Gradient(colors: [Color.darkBlueStart, Color.darkBlueEnd]), startPoint: .top, endPoint: .bottom)
+                }
+            }
+            .edgesIgnoringSafeArea(.all))
         .navigationTitle("Match Details")
     }
 }

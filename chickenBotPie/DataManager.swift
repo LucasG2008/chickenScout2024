@@ -28,6 +28,7 @@ struct matchScoutData: Identifiable, Hashable {
     var score: Int
     
     var submissionTime: Date
+    var scout: String
     
 }
 
@@ -64,15 +65,16 @@ class DataManager: ObservableObject {
                     let highNote = data["highNote"] as? Bool ?? false
                     let highNoteMisses = data["highNoteMisses"] as? Int ?? 0
                     let score = data["score"] as? Int ?? 0
+                    let scout = data["scout"] as? String ?? ""
                     
                     // Check if "date" field exists in Firestore data
                     if let dateTimestamp = data["date"] as? Timestamp {
                         let date = dateTimestamp.dateValue()
-                        let matchScoutData = matchScoutData(teamName: teamName, alliance: alliance, autoSequence: autoSequence, teleopSequence: teleopSequence, drops: drops, park: park, climbed: climbed, harmony: harmony, trap: trap, highNote: highNote, highNoteMisses: highNoteMisses, score: score, submissionTime: date)
+                        let matchScoutData = matchScoutData(teamName: teamName, alliance: alliance, autoSequence: autoSequence, teleopSequence: teleopSequence, drops: drops, park: park, climbed: climbed, harmony: harmony, trap: trap, highNote: highNote, highNoteMisses: highNoteMisses, score: score, submissionTime: date, scout: scout)
                         self.matches.append(matchScoutData)
                     } else {
                         // Handle the case when "date" is not present in Firestore
-                        let matchScoutData = matchScoutData(teamName: teamName, alliance: alliance, autoSequence: autoSequence, teleopSequence: teleopSequence, drops: drops, park: park, climbed: climbed, harmony: harmony, trap: trap, highNote: highNote, highNoteMisses: highNoteMisses, score: score, submissionTime: Date())
+                        let matchScoutData = matchScoutData(teamName: teamName, alliance: alliance, autoSequence: autoSequence, teleopSequence: teleopSequence, drops: drops, park: park, climbed: climbed, harmony: harmony, trap: trap, highNote: highNote, highNoteMisses: highNoteMisses, score: score, submissionTime: Date(), scout: scout)
                         self.matches.append(matchScoutData)
                                     }
                     
@@ -95,7 +97,8 @@ class DataManager: ObservableObject {
                                                               "highNote": matchScoutDataInstance.highNote,
                                                               "highNoteMisses": matchScoutDataInstance.highNoteMisses,
                                                               "score": matchScoutDataInstance.score,
-                                                              "date": matchScoutDataInstance.submissionTime]) { error in
+                                                              "date": matchScoutDataInstance.submissionTime,
+                                                            "scout": matchScoutDataInstance.scout]) { error in
             if let error = error {
                 print("Error adding document: \(error)")
             }

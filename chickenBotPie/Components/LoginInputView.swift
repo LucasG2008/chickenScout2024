@@ -9,6 +9,8 @@ import SwiftUI
 
 struct LoginInputView: View {
     
+    @Environment(\.colorScheme) var colorScheme
+    
     @Binding var text: String
     let title: String
     let placeholder: String
@@ -19,16 +21,18 @@ struct LoginInputView: View {
         VStack(alignment: .leading, spacing: 12) {
             
             Text(title)
-                .foregroundColor(Color(.darkGray))
+                .foregroundColor(colorScheme == .dark ? .white : Color(.darkGray))
                 .fontWeight(.semibold)
                 .font(.footnote)
             
             if isSecuredField {
                 SecureField(placeholder, text: $text)
                     .font(.system(size: 14))
+                    .foregroundColor(colorScheme == .dark ? .white : Color(.darkGray))
             } else {
                 TextField(placeholder, text: $text)
                     .font(.system(size: 14))
+                    .foregroundColor(colorScheme == .dark ? .white : Color(.darkGray))
             }
             
             Divider()

@@ -10,6 +10,8 @@ import Charts
 
 struct TeamDataView: View {
     
+    @Environment(\.colorScheme) var colorScheme
+    
     var forTeamID: String
     
     var teams = Team.loadCSV(from: "teams")
@@ -249,6 +251,16 @@ struct TeamDataView: View {
             }
 
         }
+        .scrollContentBackground(.hidden)
+        .background(
+            Group {
+                if colorScheme == .light {
+                    LinearGradient(gradient: Gradient(colors: [Color.lightBlueStart, Color.lightBlueEnd]), startPoint: .top, endPoint: .bottom)
+                } else {
+                    LinearGradient(gradient: Gradient(colors: [Color.darkBlueStart, Color.darkBlueEnd]), startPoint: .top, endPoint: .bottom)
+                }
+            }
+            .edgesIgnoringSafeArea(.all))
     }
 }
 
