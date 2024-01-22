@@ -35,7 +35,7 @@ struct LoginView: View, LoginAuthenticationFormProtocol {
                 // Welcome text
                 Text("Welcome to ChickenScout!")
                     .multilineTextAlignment(.center)
-                    .font(.system(size: 40, design: .rounded))
+                    .font(.system(size: 36, design: .rounded))
                     .fontWeight(.bold)
                     .padding(.bottom, 25)
                     .padding([.leading, .trailing], 10)
@@ -90,6 +90,40 @@ struct LoginView: View, LoginAuthenticationFormProtocol {
                 .opacity(formIsValid ? 1.0 : 0.5)
                 .cornerRadius(10)
                 .padding(.top, 24)
+                
+                HStack {
+                    VStack{ Divider() }
+                    Text("or")
+                        .font(.system(size: 14, design: .rounded))
+                    VStack { Divider() }
+                }
+                
+                // Google sign in
+                Button {
+                    Task {
+                        let success = await viewModel.signInWithGoogle()
+                        if success {
+                            // Handle successful sign-in
+                            print("User signed in with Google")
+                        } else {
+                            // Handle sign-in failure
+                            print("Failed to sign in with Google")
+                        }
+                    }
+                } label: {
+                    Text("Sign in with Google")
+                        .foregroundStyle(colorScheme == .dark ? .white : .black)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 8)
+                        .background(alignment: .leading) {
+                            Image("Google")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 30, alignment: .center)
+                        }
+                }
+                .buttonStyle(.bordered)
+
                 
                 Spacer()
                 

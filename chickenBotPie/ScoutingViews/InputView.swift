@@ -10,6 +10,7 @@ import SwiftUI
 struct InputView: View {
     
     @Environment(\.colorScheme) var colorScheme
+    @EnvironmentObject var viewModel: AuthViewModel
     
     @State private var selectedScouting: String?
     
@@ -39,6 +40,15 @@ struct InputView: View {
                             .cornerRadius(10)
                             .padding()
                     }
+                }
+                
+                Section {
+                    Button  {
+                        viewModel.signOut()
+                    } label: {
+                        Text("Force Sign Out")
+                    }
+
                 }
                 
             }

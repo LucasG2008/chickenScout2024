@@ -23,123 +23,160 @@ struct RegistrationView: View, SignupAuthenticationFormProtocol {
     @EnvironmentObject var viewModel: AuthViewModel
     
     var body: some View {
-        VStack {
-            
-            // image
-            if colorScheme == .light {
-                Image("chicken-light")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 150, height: 150)
-            } else {
-                Image("chicken-dark")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 150, height: 150)
-            }
-            
-            Text("Create an Account")
-                .multilineTextAlignment(.center)
-                .font(.system(size: 30, design: .rounded))
-                .fontWeight(.bold)
-                .padding(.bottom, 5)
-                .padding([.leading, .trailing], 10)
-            
-            
-            VStack (spacing: 24) {
-                LoginInputView(text: $email,
-                               title: "Email Address",
-                               placeholder: "name@example.com")
-                .autocapitalization(.none)
+        
+            VStack {
+                // image
+                //if colorScheme == .light {
+                //    Image("chicken-light")
+                //        .resizable()
+                //        .aspectRatio(contentMode: .fit)
+                //        .frame(width: 90, height: 90)
+                //} else {
+                //    Image("chicken-dark")
+                //        .resizable()
+                //        .aspectRatio(contentMode: .fit)
+                //        .frame(width: 90, height: 90)
+                //}
                 
-                LoginInputView(text: $fullname,
-                               title: "Full Name",
-                               placeholder: "Enter your name")
+                Text("Create an Account")
+                    .multilineTextAlignment(.center)
+                    .font(.system(size: 35, design: .rounded))
+                    .fontWeight(.bold)
+                    .padding([.bottom, .top], 20)
+                    .padding([.leading, .trailing], 10)
                 
-                LoginInputView(text: $password,
-                               title: "Password",
-                               placeholder: "Enter your pasword",
-                               isSecuredField: true)
                 
-                ZStack(alignment: .trailing) {
-                    LoginInputView(text: $confirmPassword,
-                                   title: "Confirm Password",
-                                   placeholder: "Confirm your pasword",
+                VStack (spacing: 22) {
+                    LoginInputView(text: $email,
+                                   title: "Email Address",
+                                   placeholder: "name@example.com")
+                    .autocapitalization(.none)
+                    
+                    LoginInputView(text: $fullname,
+                                   title: "Full Name",
+                                   placeholder: "Enter your name")
+                    
+                    LoginInputView(text: $password,
+                                   title: "Password",
+                                   placeholder: "Enter your pasword",
                                    isSecuredField: true)
-                    if !password.isEmpty && !confirmPassword.isEmpty {
-                        if password == confirmPassword {
-                            Image(systemName: "checkmark.circle.fill")
-                                .imageScale(.large)
-                                .fontWeight(.bold)
-                                .foregroundStyle(Color(.systemGreen))
-                        } else {
-                            Image(systemName: "xmark.circle.fill")
-                                .imageScale(.large)
-                                .fontWeight(.bold)
-                                .foregroundStyle(Color(.systemRed))
+                    
+                    ZStack(alignment: .trailing) {
+                        LoginInputView(text: $confirmPassword,
+                                       title: "Confirm Password",
+                                       placeholder: "Confirm your pasword",
+                                       isSecuredField: true)
+                        if !password.isEmpty && !confirmPassword.isEmpty {
+                            if password == confirmPassword {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .imageScale(.large)
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(Color(.systemGreen))
+                            } else {
+                                Image(systemName: "xmark.circle.fill")
+                                    .imageScale(.large)
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(Color(.systemRed))
+                            }
                         }
                     }
+                    
+                    
                 }
+                .padding(.horizontal)
+                .padding(.top, 12)
                 
-                
-            }
-            .padding(.horizontal)
-            .padding(.top, 12)
-            
-            Button {
-                Task {
-                    viewModel.createUser(withEmail: email, password: password, fullname: fullname) { result in
-                        switch result {
-                        case .success:
-                            //print("User created successfully")
-                            break
-                        case .failure(let error):
-                            // Handle user creation failure
-                            //print("User creation failed with error: \(error.localizedDescription)")
-                            showAlert = true
-                            alertMessage = "User creation failed. \(error.localizedDescription)"
+                Button {
+                    Task {
+                        viewModel.createUser(withEmail: email, password: password, fullname: fullname) { result in
+                            switch result {
+                            case .success:
+                                //print("User created successfully")
+                                break
+                            case .failure(let error):
+                                // Handle user creation failure
+                                //print("User creation failed with error: \(error.localizedDescription)")
+                                showAlert = true
+                                alertMessage = "User creation failed. \(error.localizedDescription)"
+                            }
                         }
                     }
+                } label: {
+                    HStack {
+                        Text("SIGN UP")
+                            .fontWeight(.semibold)
+                        Image(systemName: "arrow.right")
+                    }
+                    .foregroundStyle(.white)
+                    .frame(width: UIScreen.main.bounds.width - 32, height: 48)
                 }
-            } label: {
+                .background(Color(.systemBlue))
+                .disabled(!formIsValid)
+                .opacity(formIsValid ? 1.0 : 0.5)
+                .cornerRadius(10)
+                .padding(.top, 14)
+                
                 HStack {
-                    Text("SIGN UP")
-                        .fontWeight(.semibold)
-                    Image(systemName: "arrow.right")
+                    VStack{ Divider() }
+                    Text("or")
+                        .font(.system(size: 14, design: .rounded))
+                    VStack { Divider() }
                 }
-                .foregroundStyle(.white)
+                .padding([.leading, .trailing])
+                
+                // Google account creation
+                Button {
+                    Task {
+                        let success = await viewModel.signInWithGoogle()
+                        if success {
+                            // Handle successful sign-in
+                            print("User signed in with Google")
+                        } else {
+                            // Handle sign-in failure
+                            print("Failed to sign in with Google")
+                        }
+                    }
+                } label: {
+                    Text("Sign up with Google")
+                        .foregroundStyle(colorScheme == .dark ? .white : .black)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 8)
+                        .background(alignment: .leading) {
+                            Image("Google")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 30, alignment: .center)
+                        }
+                }
                 .frame(width: UIScreen.main.bounds.width - 32, height: 48)
-            }
-            .background(Color(.systemBlue))
-            .disabled(!formIsValid)
-            .opacity(formIsValid ? 1.0 : 0.5)
-            .cornerRadius(10)
-            .padding(.top, 14)
-            
-            Spacer()
-            
-            Button {
-                dismiss()
-            } label: {
-                HStack(spacing: 3) {
-                    Text("Already have an account?")
-                    Text("Sign in")
-                        .fontWeight(.bold)
+                .buttonStyle(.bordered)
+                .padding(.bottom, 10)
+                
+                Spacer()
+                
+                Button {
+                    dismiss()
+                } label: {
+                    HStack(spacing: 3) {
+                        Text("Already have an account?")
+                        Text("Sign in")
+                            .fontWeight(.bold)
+                    }
+                    .font(.system(size: 14))
                 }
-                .font(.system(size: 14))
+                .padding(.bottom, 20)
             }
-            .padding(.bottom, 20)
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(
-            Group {
-                if colorScheme == .light {
-                    LinearGradient(gradient: Gradient(colors: [Color.lightBlueStart, Color.lightBlueEnd]), startPoint: .top, endPoint: .bottom)
-                } else {
-                    LinearGradient(gradient: Gradient(colors: [Color.darkBlueStart, Color.darkBlueEnd]), startPoint: .top, endPoint: .bottom)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(
+                Group {
+                    if colorScheme == .light {
+                        LinearGradient(gradient: Gradient(colors: [Color.lightBlueStart, Color.lightBlueEnd]), startPoint: .top, endPoint: .bottom)
+                    } else {
+                        LinearGradient(gradient: Gradient(colors: [Color.darkBlueStart, Color.darkBlueEnd]), startPoint: .top, endPoint: .bottom)
+                    }
                 }
-            }
-            .edgesIgnoringSafeArea(.all))
+                    .edgesIgnoringSafeArea(.all))
+        
     }
     
     var formIsValid: Bool {
