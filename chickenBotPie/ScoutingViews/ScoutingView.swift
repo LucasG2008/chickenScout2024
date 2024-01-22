@@ -2,41 +2,82 @@
 //  ScoutingView.swift
 //  chickenBotPie
 //
-//  Created by Lucas Granucci on 1/19/24.
+//  Created by Lucas Granucci on 1/17/24.
 //
 
 import SwiftUI
 
-struct ScoutingView: View {
+struct InputView: View {
     
     @Environment(\.colorScheme) var colorScheme
+    @EnvironmentObject var viewModel: AuthViewModel
     
-    @EnvironmentObject var dataManager: DataManager
-    @State private var selectedMatch: matchScoutData?
-    
-    let dateFormatter: DateFormatter = {
-            let formatter = DateFormatter()
-            formatter.dateStyle = .short
-            formatter.timeStyle = .short
-            return formatter
-        }()
+    @State private var selectedView: String?
     
     var body: some View {
-        NavigationView {
+        
+        // navigation stack to navigate options
+        NavigationStack {
             List {
-                ForEach(dataManager.matches.sorted(by: { $0.submissionTime > $1.submissionTime }), id: \.submissionTime) { match in
-                    NavigationLink(
-                        destination: MatchDetailedView(match: match),
-                        label: {
-                            HStack {
-                                Text("\(match.teamName)")
-                                Spacer()
-                                Text("\(dateFormatter.string(from: match.submissionTime))")
-                            }
-                        }
-                    )
-                    .tag(match)
+                
+                
+                Section {
+                    Button {
+                        selectedView = "pitScouting"
+                    } label: {
+                        Text("Pit Scouting")
+                    }
+                    
+                    Button {
+                        selectedView = "standScouting"
+                    } label: {
+                        Text("Match Scouting")
+                    }
+                
+                } header: {
+                    Text("Add Data")
                 }
+                
+                
+                
+                Section {
+                    
+                    Button {
+                        selectedView = "pastMatchData"
+                    } label: {
+                        Text("Past Match Data")
+                    }
+                    
+                    Button {
+                        selectedView = "pastPitData"
+                    } label: {
+                        Text("Past Pit Data")
+                    }
+                    
+                    
+                } header: {
+                    Text("Past Data")
+                }
+                
+                Section {
+                    VStack{
+                        Image("data-image")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 300, height: 300)
+                            .cornerRadius(10)
+                            .padding()
+                    }
+                }
+                
+                Section {
+                    Button  {
+                        viewModel.signOut()
+                    } label: {
+                        Text("Force Sign Out")
+                    }
+                }
+                
             }
             .scrollContentBackground(.hidden)
             .background(
@@ -48,11 +89,41 @@ struct ScoutingView: View {
                     }
                 }
                 .edgesIgnoringSafeArea(.all))
-            .navigationTitle("Matches")
+            
+            
+            
+            .navigationTitle("Scouting")
+            .navigationBarHidden(false)
+            // open up detailed view for scouting
+            .navigationDestination(isPresented: Binding(
+                            get: { selectedView != nil },
+                            set: { _ in selectedView = nil }
+                        )) {
+                            if selectedView == "pitScouting" {
+                                PitScouting()
+                                    .navigationBarTitle("Pit Scouting", displayMode: .inline)
+                            } else if selectedView == "pastMatchData" {
+                                PastMatchView()
+                                    .navigationBarTitle("Match Data", displayMode: .inline)
+                            } else if selectedView == "pastPitData" {
+                                PastPitView()
+                                    .navigationBarTitle("Past Data", displayMode: .inline)
+                            } else {
+                                MatchScouting()
+                                    .navigationBarTitle("Match Scouting", displayMode: .inline)
+                            }
+                        }
+            
         }
+        .accentColor(accentColor)
     }
+    
+    // get accent color
+    var accentColor: Color {
+            return colorScheme == .dark ? .white : .black
+        }
 }
 
 #Preview {
-    ScoutingView()
+    InputView()
 }
