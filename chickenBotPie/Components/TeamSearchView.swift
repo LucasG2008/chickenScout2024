@@ -15,7 +15,7 @@ struct TeamSearchView: View {
 
     @State private var searchText = ""
 
-    var teamListItems = TeamListItem.loadCSV(from: "teams")
+    var teamListItems = Team.loadCSV(from: "teams")
 
     var body: some View {
             NavigationStack {
@@ -44,7 +44,7 @@ struct TeamSearchView: View {
             .accentColor(accentColor)
         }
 
-    var filteredTeams: [TeamListItem] {
+    var filteredTeams: [Team] {
         if searchText.isEmpty {
             return teamListItems
         } else {

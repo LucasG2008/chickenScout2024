@@ -29,6 +29,10 @@
 		EE73CB992B5ECA33005F4588 /* PitDetailedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE73CB982B5ECA33005F4588 /* PitDetailedView.swift */; };
 		EE73CB9B2B5ECECE005F4588 /* PastMatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE73CB9A2B5ECECE005F4588 /* PastMatchView.swift */; };
 		EE73CB9D2B5ECF96005F4588 /* PastPitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE73CB9C2B5ECF96005F4588 /* PastPitView.swift */; };
+		EE73CBA02B6064FB005F4588 /* GuestLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE73CB9F2B6064FB005F4588 /* GuestLoginView.swift */; };
+		EE73CBA22B60C204005F4588 /* StartupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE73CBA12B60C204005F4588 /* StartupView.swift */; };
+		EE73CBA42B61D5FC005F4588 /* teamMembers.json in Resources */ = {isa = PBXBuildFile; fileRef = EE73CBA32B61D5FB005F4588 /* teamMembers.json */; };
+		EE73CBAA2B62B872005F4588 /* eventTeams.csv in Resources */ = {isa = PBXBuildFile; fileRef = EE73CBA92B62B872005F4588 /* eventTeams.csv */; };
 		EE7C36DA2B5C9B9C00439DB3 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7C36D92B5C9B9C00439DB3 /* LoginView.swift */; };
 		EE7C36DC2B5C9DD500439DB3 /* LoginInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7C36DB2B5C9DD500439DB3 /* LoginInputView.swift */; };
 		EE7C36DE2B5CD20800439DB3 /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7C36DD2B5CD20800439DB3 /* RegistrationView.swift */; };
@@ -88,6 +92,10 @@
 		EE73CB982B5ECA33005F4588 /* PitDetailedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitDetailedView.swift; sourceTree = "<group>"; };
 		EE73CB9A2B5ECECE005F4588 /* PastMatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastMatchView.swift; sourceTree = "<group>"; };
 		EE73CB9C2B5ECF96005F4588 /* PastPitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastPitView.swift; sourceTree = "<group>"; };
+		EE73CB9F2B6064FB005F4588 /* GuestLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestLoginView.swift; sourceTree = "<group>"; };
+		EE73CBA12B60C204005F4588 /* StartupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupView.swift; sourceTree = "<group>"; };
+		EE73CBA32B61D5FB005F4588 /* teamMembers.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = teamMembers.json; sourceTree = "<group>"; };
+		EE73CBA92B62B872005F4588 /* eventTeams.csv */ = {isa = PBXFileReference; lastKnownFileType = file; path = eventTeams.csv; sourceTree = SOURCE_ROOT; };
 		EE7C36D92B5C9B9C00439DB3 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		EE7C36DB2B5C9DD500439DB3 /* LoginInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInputView.swift; sourceTree = "<group>"; };
 		EE7C36DD2B5CD20800439DB3 /* RegistrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
@@ -173,6 +181,8 @@
 				EE73CB952B5E06F0005F4588 /* GoogleService-Info.plist */,
 				EE47E21D2B54F60800FF192C /* teams.csv */,
 				EE47E21F2B55AACD00FF192C /* teamHistory.csv */,
+				EE73CBA92B62B872005F4588 /* eventTeams.csv */,
+				EE73CBA32B61D5FB005F4588 /* teamMembers.json */,
 				EE47E1F32B54F4E800FF192C /* Assets.xcassets */,
 				EE47E1F52B54F4E800FF192C /* Preview Content */,
 			);
@@ -254,6 +264,8 @@
 			children = (
 				EE7C36D92B5C9B9C00439DB3 /* LoginView.swift */,
 				EE7C36DD2B5CD20800439DB3 /* RegistrationView.swift */,
+				EE73CB9F2B6064FB005F4588 /* GuestLoginView.swift */,
+				EE73CBA12B60C204005F4588 /* StartupView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -411,8 +423,10 @@
 			files = (
 				EE47E1F72B54F4E800FF192C /* Preview Assets.xcassets in Resources */,
 				EE73CB962B5E06F0005F4588 /* GoogleService-Info.plist in Resources */,
+				EE73CBA42B61D5FC005F4588 /* teamMembers.json in Resources */,
 				EE47E1F42B54F4E800FF192C /* Assets.xcassets in Resources */,
 				EE47E2202B55AACD00FF192C /* teamHistory.csv in Resources */,
+				EE73CBAA2B62B872005F4588 /* eventTeams.csv in Resources */,
 				EE47E21E2B54F60900FF192C /* teams.csv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -449,7 +463,9 @@
 				EE7C36DC2B5C9DD500439DB3 /* LoginInputView.swift in Sources */,
 				EE73CB9B2B5ECECE005F4588 /* PastMatchView.swift in Sources */,
 				EE7C36E72B5CD82100439DB3 /* User.swift in Sources */,
+				EE73CBA02B6064FB005F4588 /* GuestLoginView.swift in Sources */,
 				EE47E2222B55ADB100FF192C /* TeamDataView.swift in Sources */,
+				EE73CBA22B60C204005F4588 /* StartupView.swift in Sources */,
 				EE7C36F52B5DEED500439DB3 /* MainTabView.swift in Sources */,
 				EE47E21A2B54F58A00FF192C /* TeamView.swift in Sources */,
 				EE7C36E22B5CD50B00439DB3 /* ProfileView.swift in Sources */,

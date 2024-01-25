@@ -23,7 +23,7 @@ struct RegistrationView: View, SignupAuthenticationFormProtocol {
     @EnvironmentObject var viewModel: AuthViewModel
     
     var body: some View {
-        
+        NavigationStack {
             VStack {
                 // image
                 //if colorScheme == .light {
@@ -42,7 +42,7 @@ struct RegistrationView: View, SignupAuthenticationFormProtocol {
                     .multilineTextAlignment(.center)
                     .font(.system(size: 35, design: .rounded))
                     .fontWeight(.bold)
-                    .padding([.bottom, .top], 20)
+                    .padding(.bottom, 25)
                     .padding([.leading, .trailing], 10)
                 
                 
@@ -84,7 +84,7 @@ struct RegistrationView: View, SignupAuthenticationFormProtocol {
                     
                 }
                 .padding(.horizontal)
-                .padding(.top, 12)
+                
                 
                 Button {
                     Task {
@@ -110,7 +110,9 @@ struct RegistrationView: View, SignupAuthenticationFormProtocol {
                     .foregroundStyle(.white)
                     .frame(width: UIScreen.main.bounds.width - 32, height: 48)
                 }
-                .background(Color(.systemBlue))
+                .background(
+                    LinearGradient(gradient: colorScheme == .dark ? Gradient(colors: [Color.blue.opacity(0.8), Color.blue.opacity(0.6)]) : Gradient(colors: [Color(hex: "#0047AB").opacity(1), Color(hex: "#0047AB").opacity(0.8)]), startPoint: .top, endPoint: .bottom)
+                )
                 .disabled(!formIsValid)
                 .opacity(formIsValid ? 1.0 : 0.5)
                 .cornerRadius(10)
@@ -154,18 +156,8 @@ struct RegistrationView: View, SignupAuthenticationFormProtocol {
                 
                 Spacer()
                 
-                Button {
-                    dismiss()
-                } label: {
-                    HStack(spacing: 3) {
-                        Text("Already have an account?")
-                        Text("Sign in")
-                            .fontWeight(.bold)
-                    }
-                    .font(.system(size: 14))
-                }
-                .padding(.bottom, 20)
             }
+            .navigationBarHidden(true)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(
                 Group {
@@ -176,7 +168,7 @@ struct RegistrationView: View, SignupAuthenticationFormProtocol {
                     }
                 }
                     .edgesIgnoringSafeArea(.all))
-        
+        }
     }
     
     var formIsValid: Bool {

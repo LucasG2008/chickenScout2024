@@ -8,8 +8,8 @@
 import Foundation
 
 import FirebaseFirestoreSwift
-import Firebase
 import FirebaseAuth
+import Firebase
 import GoogleSignIn
 
 protocol LoginAuthenticationFormProtocol {
@@ -29,8 +29,9 @@ protocol SignupAuthenticationFormProtocol {
 @MainActor
 class AuthViewModel: ObservableObject {
     @Published var errorMessage: String = ""
-    @Published var userSession: FirebaseAuth.User?
+    @Published var userSession: Any?
     @Published var currentUser: User?
+    
     
     enum AuthError: Error {
         case emailAlreadyInUse
@@ -178,5 +179,16 @@ extension AuthViewModel {
             errorMessage = error.localizedDescription
             return false
         }
+    }
+}
+
+extension AuthViewModel {
+    func guestSignIn(name: String, email: String) {
+        // Create a guest user without involving Firebase authentication
+        let guestUser = User(id: UUID().uuidString, fullname: name, email: email)
+
+        self.userSession = guestUser
+
+        self.currentUser = guestUser
     }
 }

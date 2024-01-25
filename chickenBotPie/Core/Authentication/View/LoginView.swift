@@ -32,20 +32,23 @@ struct LoginView: View, LoginAuthenticationFormProtocol {
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 150, height: 150)
                 }
+                
                 // Welcome text
-                Text("Welcome to ChickenScout!")
+                Text("Login")
                     .multilineTextAlignment(.center)
                     .font(.system(size: 36, design: .rounded))
                     .fontWeight(.bold)
                     .padding(.bottom, 25)
                     .padding([.leading, .trailing], 10)
                 
+                
+                
                 // Form fields
                 VStack(spacing: 24) {
                     LoginInputView(text: $email,
                                    title: "Email Address",
                                    placeholder: "name@example.com")
-                        .autocapitalization(.none)
+                    .autocapitalization(.none)
                     
                     LoginInputView(text: $password,
                                    title: "Password",
@@ -53,7 +56,6 @@ struct LoginView: View, LoginAuthenticationFormProtocol {
                                    isSecuredField: true)
                 }
                 .padding(.horizontal)
-                .padding(.top, 12)
                 
                 // Sign in button
                 Button {
@@ -84,7 +86,7 @@ struct LoginView: View, LoginAuthenticationFormProtocol {
                     Alert(title: Text("Error"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
                 }
                 .background(
-                    LinearGradient(gradient: Gradient(colors: [Color.blue.opacity(0.8), Color.blue.opacity(0.6)]), startPoint: .top, endPoint: .bottom)
+                    LinearGradient(gradient: colorScheme == .dark ? Gradient(colors: [Color.blue.opacity(0.8), Color.blue.opacity(0.6)]) : Gradient(colors: [Color(hex: "#0047AB").opacity(1), Color(hex: "#0047AB").opacity(0.8)]), startPoint: .top, endPoint: .bottom)
                 )
                 .disabled(!formIsValid)
                 .opacity(formIsValid ? 1.0 : 0.5)
@@ -123,25 +125,11 @@ struct LoginView: View, LoginAuthenticationFormProtocol {
                         }
                 }
                 .buttonStyle(.bordered)
-
                 
                 Spacer()
                 
-                // Sign up button
-                NavigationLink {
-                    RegistrationView()
-                        .navigationBarBackButtonHidden(true)
-                } label: {
-                    HStack(spacing: 3) {
-                        Text("Don't have an account?")
-                        Text("Sign up")
-                            .fontWeight(.bold)
-                    }
-                    .font(.system(size: 14))
-                    .foregroundColor(.blue)  // Set text color to blue
-                }
-                .padding(.bottom, 20)
             }
+            .navigationBarHidden(true)
             .padding(.horizontal)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(

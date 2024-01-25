@@ -6,22 +6,64 @@ struct TeamView: View {
     
     @State private var searchText = ""
     @State private var selectedTeamID: String?
+    @State private var selectedSortOption: SortOption = .teamNumber
     
-    var teamListItems = TeamListItem.loadCSV(from: "teams")
+    @State var seletedEvent = Events.all
+    
+    enum SortOption: String, Codable, CaseIterable {
+        case teamNumber = "Team Number"
+        case winRate = "Win Rate"
+        case rookieYear = "Rookie Year"
+    }
+    
+    var teamListItems = Team.loadCSV(from: "teams")
+    
+    var eventTeams = EventTeams.loadCSV(from: "eventTeams")
     
     var body: some View {
         
         // navigation stack to display all the robotics teams
         NavigationStack {
-            List(filteredTeams) { teamItem in
-                Button {
-                    selectedTeamID = teamItem.teamNum
-                } label: {
-                    TeamRow(teamItem: teamItem)
-                }
+            
+            VStack(spacing: 0) {
                 
+                Picker("Sort by", selection: $selectedSortOption) {
+                    ForEach(SortOption.allCases, id: \.self) { option in
+                        Text(option.rawValue)
+                    }
+                }
+                .padding([.leading, .trailing], 15)
+                .pickerStyle(SegmentedPickerStyle())
+                
+                //List(eventTeams) { eventData in
+                //    Button {
+                //        //stuff
+                //    } label: {
+                //        TeamEventDataRow(teamEventItem: eventData)
+                //    }
+                //}
+                //.scrollContentBackground(.hidden)
+                
+                List(filteredTeams) { teamItem in
+                    Button {
+                        selectedTeamID = teamItem.teamNum
+                    } label: {
+                        TeamRow(teamItem: teamItem)
+                    }
+                    
+                }
+                .scrollContentBackground(.hidden)
+                .navigationTitle("Teams")
+                .navigationBarHidden(false)
+                .searchable(text: $searchText)
+                // open up detailed view when a team is clicked
+                .navigationDestination(isPresented: Binding(
+                    get: { selectedTeamID != nil },
+                    set: { _ in selectedTeamID = nil }
+                )) {
+                    teamDetailsView()
+                }
             }
-            .scrollContentBackground(.hidden)
             .background(
                 Group {
                     if colorScheme == .light {
@@ -30,32 +72,36 @@ struct TeamView: View {
                         LinearGradient(gradient: Gradient(colors: [Color.darkBlueStart, Color.darkBlueEnd]), startPoint: .top, endPoint: .bottom)
                     }
                 }
-                .edgesIgnoringSafeArea(.all))
-            .navigationTitle("Teams")
-            .navigationBarHidden(false)
-            .searchable(text: $searchText)
-            // open up detailed view when a team is clicked
-            .navigationDestination(isPresented: Binding(
-                            get: { selectedTeamID != nil },
-                            set: { _ in selectedTeamID = nil }
-                        )) {
-                            teamDetailsView()
-                        }
+                    .edgesIgnoringSafeArea(.all))
         }
+        
         .accentColor(accentColor)
     }
 
     // filter teams when searching
-    var filteredTeams: [TeamListItem] {
+    var filteredTeams: [Team] {
+        var teamsToDisplay = teamListItems
+
+        switch selectedSortOption {
+        case .teamNumber:
+            // No need to sort, as teams are already sorted by team number
+            break
+        case .winRate:
+            teamsToDisplay.sort { $0.winrate > $1.winrate }
+        case .rookieYear:
+            teamsToDisplay.sort { $0.rookie_year < $1.rookie_year }
+        }
+
         if searchText.isEmpty {
-            return teamListItems
+            return teamsToDisplay
         } else {
-            return teamListItems.filter { teamItem in
+            return teamsToDisplay.filter { teamItem in
                 teamItem.teamNum.localizedCaseInsensitiveContains(searchText) ||
                 teamItem.name.localizedCaseInsensitiveContains(searchText)
             }
         }
     }
+
     
     // get accent color
     var accentColor: Color {
@@ -73,12 +119,24 @@ struct TeamView: View {
 }
 
 struct TeamRow: View {
-    var teamItem: TeamListItem
+    var teamItem: Team
 
     var body: some View {
         HStack {
             Text(teamItem.teamNum + ":")
             Text(teamItem.name)
+        }
+        .padding(8)
+    }
+}
+
+struct TeamEventDataRow: View {
+    var teamEventItem: EventTeams
+    
+    var body: some View {
+        HStack {
+            Text(teamEventItem.teamNum + ":")
+            Text(teamEventItem.name)
         }
         .padding(8)
     }

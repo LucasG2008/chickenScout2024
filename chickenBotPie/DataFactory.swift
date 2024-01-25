@@ -56,6 +56,21 @@ struct TeamListItem: Identifiable, CSVLoadable {
     }
 }
 
+struct EventTeams: Identifiable, CSVLoadable {
+    var name: String
+    var index: String
+    var teamNum: String
+    var event: String
+    var id: UUID = UUID()
+    
+    init?(raw: [String]) {
+        index = raw[0]
+        name = raw[1]
+        teamNum = raw[2]
+        event = raw[3]
+    }
+}
+
 extension CSVLoadable {
     static func loadCSV(from csvName: String) -> [Self] {
         var csvToStruct = [Self]()
@@ -143,4 +158,13 @@ struct TeamHistData: Identifiable, CSVLoadable {
         state_epa_percentile = raw[17]
         state_team_count = raw[18]
     }
+}
+
+enum Events: String, Codable, CaseIterable {
+    case all = "All"
+    case african = "Northern Lights"
+    case american = "American"
+    case asian = "Asian"
+    case europian = "Europian"
+    case oceanian = "Oceanian"
 }

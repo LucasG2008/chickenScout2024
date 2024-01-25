@@ -1,0 +1,251 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2759
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh14760\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 \{\
+  "teamMembers": [\
+    \{"id": 1, "fullName": "Aafia Farhan"\},\
+    \{"id": 2, "fullName": "Aarush Pomar"\},\
+    \{"id": 3, "fullName": "Abby Hudson"\},\
+    \{"id": 4, "fullName": "Adriane Brown"\},\
+    \{"id": 5, "fullName": "Akshan"\},\
+    \{"id": 6, "fullName": "Alex B"\},\
+    \{"id": 7, "fullName": "Alex Ballbach"\},\
+    \{"id": 8, "fullName": "Alexander Bartholomew"\},\
+    \{"id": 9, "fullName": "Alexander Mattson"\},\
+    \{"id": 10, "fullName": "Alexander Stamboldjiev"\},\
+    \{"id": 11, "fullName": "Alsion Stroh"\},\
+    \{"id": 12, "fullName": "Allen Avelar Manzanarez"\},\
+    \{"id": 13, "fullName": "Anirudh Pulavarthi"\},\
+    \{"id": 14, "fullName": "Anjali Jayanti"\},\
+    \{"id": 15, "fullName": "AnnMarie Gerczak"\},\
+    \{"id": 16, "fullName": "Anthony Dosev"\},\
+    \{"id": 17, "fullName": "Ari Yevzelman"\},\
+    \{"id": 18, "fullName": "Augustine Stroh"\},\
+    \{"id": 19, "fullName": "Austin Wang"\},\
+    \{"id": 20, "fullName": "Autumn Eversman"\},\
+    \{"id": 21, "fullName": "Ayman"\},\
+    \{"id": 22, "fullName": "Ayush Shah"\},\
+    \{"id": 23, "fullName": "Ben Affolter"\},\
+    \{"id": 24, "fullName": "Ben Wallace"\},\
+    \{"id": 25, "fullName": "Benjamin Bhatia"\},\
+    \{"id": 26, "fullName": "Benjamin Carney"\},\
+    \{"id": 27, "fullName": "Bjorn Johnson"\},\
+    \{"id": 28, "fullName": "Bob Newman"\},\
+    \{"id": 29, "fullName": "Bob Trench"\},\
+    \{"id": 30, "fullName": "Brett Hitchcock"\},\
+    \{"id": 31, "fullName": "Brian Hill"\},\
+    \{"id": 32, "fullName": "Brobertsonmartin"\},\
+    \{"id": 33, "fullName": "Bryce Budijono"\},\
+    \{"id": 34, "fullName": "Camden Mona"\},\
+    \{"id": 35, "fullName": "Carmen Li"\},\
+    \{"id": 36, "fullName": "Carter Johnson"\},\
+    \{"id": 37, "fullName": "Celeste Hill"\},\
+    \{"id": 38, "fullName": "Chance"\},\
+    \{"id": 39, "fullName": "Chase Trinh"\},\
+    \{"id": 40, "fullName": "Chelsey Mona"\},\
+    \{"id": 41, "fullName": "Chetan Chandrasekara"\},\
+    \{"id": 42, "fullName": "Chris Nagel"\},\
+    \{"id": 43, "fullName": "Cindy Moy"\},\
+    \{"id": 44, "fullName": "Cole Michael Rabe"\},\
+    \{"id": 45, "fullName": "Colette Nicoletta"\},\
+    \{"id": 46, "fullName": "Cooper Hopkins"\},\
+    \{"id": 47, "fullName": "Curtis Lindahl"\},\
+    \{"id": 48, "fullName": "Cynthia Zeng"\},\
+    \{"id": 49, "fullName": "Dan Malvin"\},\
+    \{"id": 50, "fullName": "Daniel Cheung"\},\
+    \{"id": 51, "fullName": "Dave Ellis"\},\
+    \{"id": 52, "fullName": "Debbie Levy"\},\
+    \{"id": 53, "fullName": "Derek Schlosser"\},\
+    \{"id": 54, "fullName": "Deven Burkhart"\},\
+    \{"id": 55, "fullName": "Devin Maahs"\},\
+    \{"id": 56, "fullName": "DJK Trinh"\},\
+    \{"id": 57, "fullName": "Drew Malk"\},\
+    \{"id": 58, "fullName": "Elena Wallace"\},\
+    \{"id": 59, "fullName": "Ellen Ingham"\},\
+    \{"id": 60, "fullName": "Elliot Jones"\},\
+    \{"id": 61, "fullName": "Elliott Burrows"\},\
+    \{"id": 62, "fullName": "Elliott Hill"\},\
+    \{"id": 63, "fullName": "Emilio Moreno"\},\
+    \{"id": 64, "fullName": "Emily McNeil"\},\
+    \{"id": 65, "fullName": "Emily Nicoletta"\},\
+    \{"id": 66, "fullName": "Ethan Black"\},\
+    \{"id": 67, "fullName": "Evan Ginter"\},\
+    \{"id": 68, "fullName": "Fernanda Arreola-lucio"\},\
+    \{"id": 69, "fullName": "Fhineas"\},\
+    \{"id": 70, "fullName": "Finn Braun"\},\
+    \{"id": 71, "fullName": "Forrest Johnson"\},\
+    \{"id": 72, "fullName": "Francess Mathies"\},\
+    \{"id": 73, "fullName": "Frannie Murphy"\},\
+    \{"id": 74, "fullName": "Gabi Queiroz"\},\
+    \{"id": 75, "fullName": "Gayathri Sambasivan"\},\
+    \{"id": 76, "fullName": "Ge Wang"\},\
+    \{"id": 77, "fullName": "George Dolan"\},\
+    \{"id": 78, "fullName": "Graham Pierce"\},\
+    \{"id": 79, "fullName": "Grant"\},\
+    \{"id": 80, "fullName": "Henry Wurdell"\},\
+    \{"id": 81, "fullName": "Hingsun Kong"\},\
+    \{"id": 82, "fullName": "Hoa Trinh"\},\
+    \{"id": 83, "fullName": "Holden Anderson"\},\
+    \{"id": 84, "fullName": "Holden Pardoe"\},\
+    \{"id": 85, "fullName": "Hsiaochi Kuo"\},\
+    \{"id": 86, "fullName": "Ian Esser"\},\
+    \{"id": 87, "fullName": "Ian Wallace"\},\
+    \{"id": 88, "fullName": "Inba Rajashankar"\},\
+    \{"id": 89, "fullName": "Isabella Constantin"\},\
+    \{"id": 90, "fullName": "Ivan Naleid"\},\
+    \{"id": 91, "fullName": "Izzy Maddalena"\},\
+    \{"id": 92, "fullName": "Jack Allenburg"\},\
+    \{"id": 93, "fullName": "Jack Sexton"\},\
+    \{"id": 94, "fullName": "Jacob Ekstrand"\},\
+    \{"id": 95, "fullName": "Jacob Johnson"\},\
+    \{"id": 96, "fullName": "Jaden Cai"\},\
+    \{"id": 97, "fullName": "Jahnavi Darji"\},\
+    \{"id": 98, "fullName": "Janelle Schlosser"\},\
+    \{"id": 99, "fullName": "Janene Murtha"\},\
+    \{"id": 100, "fullName": "Janet Meddalena"\},\
+    \{"id": 101, "fullName": "Jason Huang"\},\
+    \{"id": 102, "fullName": "Jason Windels"\},\
+    \{"id": 103, "fullName": "Jay Gerczak"\},\
+    \{"id": 104, "fullName": "Jeana Schafer"\},\
+    \{"id": 105, "fullName": "Jeff Anderson"\},\
+    \{"id": 106, "fullName": "Jeff Hopkins"\},\
+    \{"id": 107, "fullName": "Jennifer Hahn"\},\
+    \{"id": 108, "fullName": "Jerry Zhang"\},\
+    \{"id": 109, "fullName": "Jessica Malvin"\},\
+    \{"id": 110, "fullName": "Jessica Spears"\},\
+    \{"id": 111, "fullName": "Joanie Rabe"\},\
+    \{"id": 112, "fullName": "Jody Breitling"\},\
+    \{"id": 113, "fullName": "Joel Merry"\},\
+    \{"id": 114, "fullName": "John Malvin"\},\
+    \{"id": 115, "fullName": "John Pierce"\},\
+    \{"id": 116, "fullName": "Jon-Paul Merry"\},\
+    \{"id": 117, "fullName": "Joseph M"\},\
+    \{"id": 118, "fullName": "Kaavya Checka"\},\
+    \{"id": 119, "fullName": "Kade B"\},\
+    \{"id": 120, "fullName": "Kade Boodry"\},\
+    \{"id": 121, "fullName": "Kade Rabe"\},\
+    \{"id": 122, "fullName": "Kaden Hansen"\},\
+    \{"id": 123, "fullName": "Kaden Squires"\},\
+    \{"id": 124, "fullName": "Kahl"\},\
+    \{"id": 125, "fullName": "Kaleb Flores"\},\
+    \{"id": 126, "fullName": "Kali M"\},\
+    \{"id": 127, "fullName": "Karen Kenney"\},\
+    \{"id": 128, "fullName": "Karen Pederson"\},\
+    \{"id": 129, "fullName": "Karl Coulter"\},\
+    \{"id": 130, "fullName": "Katriana Trinh"\},\
+    \{"id": 131, "fullName": "Katya Borisova"\},\
+    \{"id": 132, "fullName": "Keegan"\},\
+    \{"id": 133, "fullName": "Keegan Johansen"\},\
+    \{"id": 134, "fullName": "Keith Lunzer"\},\
+    \{"id": 135, "fullName": "Kelsey Lunzer"\},\
+    \{"id": 136, "fullName": "Ken Husted"\},\
+    \{"id": 137, "fullName": "Kenrick Trinh"\},\
+    \{"id": 138, "fullName": "Kiefer Miskiw"\},\
+    \{"id": 139, "fullName": "Kim G"\},\
+    \{"id": 140, "fullName": "Krista Hitchcock"\},\
+    \{"id": 141, "fullName": "Kurt Macho"\},\
+    \{"id": 142, "fullName": "Kyle Drew"\},\
+    \{"id": 143, "fullName": "Kyle G"\},\
+    \{"id": 144, "fullName": "Larah Colon-Ortiz"\},\
+    \{"id": 145, "fullName": "Laura Johnson"\},\
+    \{"id": 146, "fullName": "LeAnne Johansen"\},\
+    \{"id": 147, "fullName": "Lily Salyards"\},\
+    \{"id": 148, "fullName": "Lindsay Ginter"\},\
+    \{"id": 149, "fullName": "Lindsey Archer"\},\
+    \{"id": 150, "fullName": "Liz K"\},\
+    \{"id": 151, "fullName": "Lu Shi"\},\
+    \{"id": 152, "fullName": "Lucas Granucci"\},\
+    \{"id": 153, "fullName": "Lydia Heupel"\},\
+    \{"id": 154, "fullName": "Lynn Carlson"\},\
+    \{"id": 155, "fullName": "Madan Rao"\},\
+    \{"id": 156, "fullName": "Mandy Burrows"\},\
+    \{"id": 157, "fullName": "Maria MnLinn"\},\
+    \{"id": 158, "fullName": "Mark Karstens"\},\
+    \{"id": 159, "fullName": "Mary Lynn Carver"\},\
+    \{"id": 160, "fullName": "Matteo Schneider"\},\
+    \{"id": 161, "fullName": "Matthew Schlosser"\},\
+    \{"id": 162, "fullName": "Max Kaung"\},\
+    \{"id": 163, "fullName": "Maz Z"\},\
+    \{"id": 164, "fullName": "Maya"\},\
+    \{"id": 165, "fullName": "Meiling Mathur"\},\
+    \{"id": 166, "fullName": "Merritt Jones"\},\
+    \{"id": 167, "fullName": "Michael Scholz"\},\
+    \{"id": 168, "fullName": "Michael White"\},\
+    \{"id": 169, "fullName": "Michelle trench"\},\
+    \{"id": 170, "fullName": "Mike Breitling"\},\
+    \{"id": 171, "fullName": "Mike Lindahl"\},\
+    \{"id": 172, "fullName": "Mike Moy"\},\
+    \{"id": 173, "fullName": "Milan Darji"\},\
+    \{"id": 174, "fullName": "Ming Shiun Lee"\},\
+    \{"id": 175, "fullName": "Monica Jones"\},\
+    \{"id": 176, "fullName": "Mukil Senthil Kumar"\},\
+    \{"id": 177, "fullName": "Nash Brusven"\},\
+    \{"id": 178, "fullName": "Neel Kashyap"\},\
+    \{"id": 179, "fullName": "Nicholas Breitling"\},\
+    \{"id": 180, "fullName": "Nicholas Patz"\},\
+    \{"id": 181, "fullName": "Nicholas Wyatt"\},\
+    \{"id": 182, "fullName": "Nick Bahr"\},\
+    \{"id": 183, "fullName": "Nick S"\},\
+    \{"id": 184, "fullName": "Nicole Gromova"\},\
+    \{"id": 185, "fullName": "Noah Anderson"\},\
+    \{"id": 186, "fullName": "Oliver Jones"\},\
+    \{"id": 187, "fullName": "Oskar Post"\},\
+    \{"id": 188, "fullName": "Owen Murtha"\},\
+    \{"id": 189, "fullName": "Parker Hitchcock"\},\
+    \{"id": 190, "fullName": "Parker Olson"\},\
+    \{"id": 191, "fullName": "Parthiv Krishna"\},\
+    \{"id": 192, "fullName": "Peter Maddalena"\},\
+    \{"id": 193, "fullName": "Phoebe Lee"\},\
+    \{"id": 194, "fullName": "Prathul Rao"\},\
+    \{"id": 195, "fullName": "Quinn Hughes"\},\
+    \{"id": 196, "fullName": "Rachel Klemaszewski"\},\
+    \{"id": 197, "fullName": "Rachna Smith"\},\
+    \{"id": 198, "fullName": "Rainee Ryan"\},\
+    \{"id": 199, "fullName": "Raj"\},\
+    \{"id": 200, "fullName": "Rajashree Rao"\},\
+    \{"id": 201, "fullName": "Remy lemmer Monighan"\},\
+    \{"id": 202, "fullName": "Renee Squires"\},\
+    \{"id": 203, "fullName": "Riley Maxwell Kelley"\},\
+    \{"id": 204, "fullName": "Robert Wang"\},\
+    \{"id": 205, "fullName": "Robin Ose"\},\
+    \{"id": 206, "fullName": "Ron Martin"\},\
+    \{"id": 207, "fullName": "Ronan Trench"\},\
+    \{"id": 208, "fullName": "Ryan D"\},\
+    \{"id": 209, "fullName": "Ryan Johnson"\},\
+    \{"id": 210, "fullName": "Sachin Darki"\},\
+    \{"id": 211, "fullName": "Samuel McHugh"\},\
+    \{"id": 212, "fullName": "Sarah Esser"\},\
+    \{"id": 213, "fullName": "Shannon Heupel"\},\
+    \{"id": 214, "fullName": "Shari Husted"\},\
+    \{"id": 215, "fullName": "Shawn M"\},\
+    \{"id": 216, "fullName": "Sheila Wyatt"\},\
+    \{"id": 217, "fullName": "Sheri Auclair"\},\
+    \{"id": 218, "fullName": "Silas S"\},\
+    \{"id": 219, "fullName": "Simon Hahn"\},\
+    \{"id": 220, "fullName": "Sophia Gilliam"\},\
+    \{"id": 221, "fullName": "Sophie P"\},\
+    \{"id": 222, "fullName": "Sophronis Mantoles"\},\
+    \{"id": 223, "fullName": "Sriram Viswanathan"\},\
+    \{"id": 224, "fullName": "Stanley Miskiew"\},\
+    \{"id": 225, "fullName": "Steve H"\},\
+    \{"id": 226, "fullName": "Steve Murphy"\},\
+    \{"id": 227, "fullName": "Suresh Krishna"\},\
+    \{"id": 228, "fullName": "Taylor Meyer"\},\
+    \{"id": 229, "fullName": "Tim Carlson"\},\
+    \{"id": 230, "fullName": "Tommy Robben"\},\
+    \{"id": 231, "fullName": "Trent Broas"\},\
+    \{"id": 232, "fullName": "Varun Viswanathan"\},\
+    \{"id": 233, "fullName": "Vikram Nathan"\},\
+    \{"id": 234, "fullName": "Vincent Trinh"\},\
+    \{"id": 235, "fullName": "William Oliver Christenson"\},\
+    \{"id": 236, "fullName": "Yvesander Tan"\},\
+    \{"id": 237, "fullName": "Zoe R"\},\
+    \{"id": 238, "fullName": "Zotiy Wallace"\}\
+  ]\
+\}\
+\
+}

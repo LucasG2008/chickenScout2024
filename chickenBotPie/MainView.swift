@@ -21,11 +21,11 @@ struct MainView: View {
                 MainTabView()
                     .transition(.opacity.animation(.easeInOut(duration: 1)))
             } else {
-                LoginView()
-                    .transition(.opacity.animation(.easeInOut(duration: 1)))
+                StartupView()
             }
         }
     }
+    
 }
 
 #Preview {
@@ -40,5 +40,19 @@ extension Color {
     static let lightBlueEnd = Color(#colorLiteral(red: 0.6, green: 0.7, blue: 1.0, alpha: 1.0))
     
     static let darkBlueStart = Color(#colorLiteral(red: 0.1, green: 0.2, blue: 0.4, alpha: 1.0))
-        static let darkBlueEnd = Color(#colorLiteral(red: 0.05, green: 0.1, blue: 0.25, alpha: 1.0))
+    static let darkBlueEnd = Color(#colorLiteral(red: 0.05, green: 0.1, blue: 0.25, alpha: 1.0))
+    
+    init(hex: String) {
+            var cleanHexCode = hex.trimmingCharacters(in: .whitespacesAndNewlines)
+            cleanHexCode = cleanHexCode.replacingOccurrences(of: "#", with: "")
+            print(cleanHexCode)
+            var rgb: UInt64 = 0
+            
+            Scanner(string: cleanHexCode).scanHexInt64(&rgb)
+            
+            let redValue = Double((rgb >> 16) & 0xFF) / 255.0
+            let greenValue = Double((rgb >> 8) & 0xFF) / 255.0
+            let blueValue = Double(rgb & 0xFF) / 255.0
+            self.init(red: redValue, green: greenValue, blue: blueValue)
+        }
 }
