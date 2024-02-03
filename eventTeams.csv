@@ -1,109 +1,109 @@
-,nickname,team_number,event
-0,MORE Robotics,1714,2024mndu2
-1,Redbird Robotics,1716,2024mndu2
-2,Round Table Robotics,1792,2024mndu2
-3,S.W.A.T.,1806,2024mndu2
-4,CORE 2062,2062,2024mndu2
-5,Ultraviolet,2129,2024mndu2
-6,KING TeC,2169,2024mndu2
-7,The Fighting Calculators,2175,2024mndu2
-8,Tigers,2227,2024mndu2
-9,Trojan Robotics,2264,2024mndu2
-10,Centurions,2472,2024mndu2
-11,NoMythic,2491,2024mndu2
-12,Bionic Polars,2501,2024mndu2
-13,Duluth East Daredevils,2512,2024mndu2
-14,RoboHuskie,2574,2024mndu2
-15,FireBears,2846,2024mndu2
-16,BEASTBOT,2855,2024mndu2
-17,Rogue Robotics,2987,2024mndu2
-18,STARK Industries,3023,2024mndu2
-19,Chicken Bot Pie,3082,2024mndu2
-20,Lightning Turtles,3100,2024mndu2
-21,The ERRORs,3130,2024mndu2
-22,Royal T-Wrecks,3206,2024mndu2
-23,YME Stingbots,3212,2024mndu2
-24,Full Metal Jackets,3297,2024mndu2
-25,RoboRiot,3418,2024mndu2
-26,Data Bits,3883,2024mndu2
-27,Robostang,4166,2024mndu2
-28,Viking Robotics,4182,2024mndu2
-29,Magnetech,4229,2024mndu2
-30,TopperBots,4230,2024mndu2
-31,Flyer Robotics,4623,2024mndu2
-32,Menahga Gigabot$,4703,2024mndu2
-33,Nicolet FEAR,4786,2024mndu2
-34,Talons,5232,2024mndu2
-35,Open Circuits,5271,2024mndu2
-36,T.I.M.E.-Bots,5275,2024mndu2
-37,Hurricanes,5339,2024mndu2
-38,Jagobotics,5720,2024mndu2
-39,Patriotics,5913,2024mndu2
-40,Circuit Breakers,6044,2024mndu2
-41,Sabre Robotics,6045,2024mndu2
-42,Proctor Frostbyte,6047,2024mndu2
-43,Iron Rangers,6132,2024mndu2
-44,Tonkabots,6147,2024mndu2
-45,ICE,6419,2024mndu2
-46,Ferradermis,6574,2024mndu2
-47,Otternauts,6758,2024mndu2
-48,ZooM 7273,7273,2024mndu2
-49,B.O.S. Robotics,7530,2024mndu2
-50,illumiBOTi,7619,2024mndu2
-51,Mechanical Mustaches,8122,2024mndu2
-52,W.I.R.E.D,8700,2024mndu2
-53,MechaMarines,8803,2024mndu2
-54,Oriole Assault,1091,2024wila
-55,Paradigm Shift,1259,2024wila
-56,BadgerBOTS,1306,2024wila
-57,Winnovation,1625,2024wila
-58,UPS (Ultimate Protection Squad),1675,2024wila
-59,Cheese Curd Herd,171,2024wila
-60,The Ravonics Revolution,1710,2024wila
-61,Redbird Robotics,1716,2024wila
-62,Ultraviolet,2129,2024wila
-63,Fondy Fire,2194,2024wila
-64,BEAST Robotics,2202,2024wila
-65,Saber Robotics,2506,2024wila
-66,Roaring Robotics,2704,2024wila
-67,Wave Robotics,2826,2024wila
-68,Riverside RoboTigers,2830,2024wila
-69,Sir Lancer Bots,2977,2024wila
-70,Chicken Bot Pie,3082,2024wila
-71,Ramhawks,3090,2024wila
-72,Droid Rage,3381,2024wila
-73,RoboRiot,3418,2024wila
-74,Rock N' Robotics,3692,2024wila
-75,πρbοtics   (Pi Robotics),4011,2024wila
-76,igKnightion,4021,2024wila
-77,Phoenix Robotics,4054,2024wila
-78,TopperBots,4230,2024wila
-79,Gearbox Heroes,5019,2024wila
-80,New Berlin Blitz,5148,2024wila
-81,Swartdogs,525,2024wila
-82,Hurricanes,5339,2024wila
-83,Charger Robotics,537,2024wila
-84,Bond Brigade,5586,2024wila
-85,Avis Automata,5826,2024wila
-86,ThorBots,5903,2024wila
-87,Robotic Warriors,5914,2024wila
-88,Thorobotics,6166,2024wila
-89,Arsenal of Engineering,6223,2024wila
-90,Golden Bots,6651,2024wila
-91,BHS RoboRaiders,6732,2024wila
-92,TC Robotics,7021,2024wila
-93,Cyberhawks,706,2024wila
-94,Robo Remedy @ Mantiowoc Lutheran High School,7103,2024wila
-95,illumiBOTi,7619,2024wila
-96,Robotans,8024,2024wila
-97,TermiKnightors,8531,2024wila
-98,W.I.R.E.D,8700,2024wila
-99,GRAFFITI,8701,2024wila
-100,TroBotics,8782,2024wila
-101,Milwaukee United,8802,2024wila
-102,MechaMarines,8803,2024wila
-103,RoboCats,9149,2024wila
-104,Loretto Lightning,9576,2024wila
-105,Player One,9578,2024wila
-106,Iron Lions,967,2024wila
-107,Hub City STEAM,9676,2024wila
+,team_number,nickname,event,winrate
+0,1714,MORE Robotics,2024mndu2,0.5588
+1,1716,Redbird Robotics,2024mndu2,0.3727
+2,1792,Round Table Robotics,2024mndu2,0.5279
+3,1806,S.W.A.T.,2024mndu2,0.6492
+4,2062,CORE 2062,2024mndu2,0.5857
+5,2129,Ultraviolet,2024mndu2,0.4631
+6,2169,KING TeC,2024mndu2,0.5808
+7,2175,The Fighting Calculators,2024mndu2,0.5586
+8,2227,Tigers,2024mndu2,0.4659
+9,2264,Trojan Robotics,2024mndu2,0.5259
+10,2472,Centurions,2024mndu2,0.4908
+11,2491,NoMythic,2024mndu2,0.5348
+12,2501,Bionic Polars,2024mndu2,0.478
+13,2512,Duluth East Daredevils,2024mndu2,0.5959
+14,2574,RoboHuskie,2024mndu2,0.5378
+15,2846,FireBears,2024mndu2,0.5209
+16,2855,BEASTBOT,2024mndu2,0.3525
+17,2987,Rogue Robotics,2024mndu2,0.57
+18,3023,STARK Industries,2024mndu2,0.3994
+19,3082,Chicken Bot Pie,2024mndu2,0.531
+20,3100,Lightning Turtles,2024mndu2,0.4652
+21,3130,The ERRORs,2024mndu2,0.6481
+22,3206,Royal T-Wrecks,2024mndu2,0.4874
+23,3212,YME Stingbots,2024mndu2,0.4
+24,3297,Full Metal Jackets,2024mndu2,0.4113
+25,3418,RoboRiot,2024mndu2,0.5374
+26,3883,Data Bits,2024mndu2,0.5808
+27,4166,Robostang,2024mndu2,0.3131
+28,4182,Viking Robotics,2024mndu2,0.4771
+29,4229,Magnetech,2024mndu2,0.405
+30,4230,TopperBots,2024mndu2,0.432
+31,4623,Flyer Robotics,2024mndu2,0.551
+32,4703,Menahga Gigabot$,2024mndu2,0.3952
+33,4786,Nicolet FEAR,2024mndu2,0.5291
+34,5232,Talons,2024mndu2,0.5125
+35,5271,Open Circuits,2024mndu2,0.4851
+36,5275,T.I.M.E.-Bots,2024mndu2,0.4847
+37,5339,Hurricanes,2024mndu2,0.35
+38,5720,Jagobotics,2024mndu2,0.3472
+39,5913,Patriotics,2024mndu2,0.6348
+40,6044,Circuit Breakers,2024mndu2,0.3492
+41,6045,Sabre Robotics,2024mndu2,0.5225
+42,6047,Proctor Frostbyte,2024mndu2,0.3611
+43,6132,Iron Rangers,2024mndu2,0.4062
+44,6147,Tonkabots,2024mndu2,0.3934
+45,6419,ICE,2024mndu2,0.4118
+46,6574,Ferradermis,2024mndu2,0.557
+47,6758,Otternauts,2024mndu2,0.3718
+48,7273,ZooM 7273,2024mndu2,0.3
+49,7530,B.O.S. Robotics,2024mndu2,0.3966
+50,7619,illumiBOTi,2024mndu2,0.5455
+51,8122,Mechanical Mustaches,2024mndu2,0.5301
+52,8700,W.I.R.E.D,2024mndu2,0.2778
+53,8803,MechaMarines,2024mndu2,0.3111
+54,1091,Oriole Assault,2024wila,0.4632
+55,1259,Paradigm Shift,2024wila,0.5738
+56,1306,BadgerBOTS,2024wila,0.4706
+57,1625,Winnovation,2024wila,0.6597
+58,1675,UPS (Ultimate Protection Squad),2024wila,0.4749
+59,171,Cheese Curd Herd,2024wila,0.5358
+60,1710,The Ravonics Revolution,2024wila,0.5312
+61,1716,Redbird Robotics,2024wila,0.3727
+62,2129,Ultraviolet,2024wila,0.4631
+63,2194,Fondy Fire,2024wila,0.5407
+64,2202,BEAST Robotics,2024wila,0.5712
+65,2506,Saber Robotics,2024wila,0.4792
+66,2704,Roaring Robotics,2024wila,0.4205
+67,2826,Wave Robotics,2024wila,0.6643
+68,2830,Riverside RoboTigers,2024wila,0.4698
+69,2977,Sir Lancer Bots,2024wila,0.4821
+70,3082,Chicken Bot Pie,2024wila,0.531
+71,3090,Ramhawks,2024wila,0.4167
+72,3381,Droid Rage,2024wila,0.3755
+73,3418,RoboRiot,2024wila,0.5374
+74,3692,Rock N' Robotics,2024wila,0.4742
+75,4011,πρbοtics   (Pi Robotics),2024wila,0.4455
+76,4021,igKnightion,2024wila,0.4813
+77,4054,Phoenix Robotics,2024wila,0.515
+78,4230,TopperBots,2024wila,0.432
+79,5019,Gearbox Heroes,2024wila,0.41
+80,5148,New Berlin Blitz,2024wila,0.4631
+81,525,Swartdogs,2024wila,0.7008
+82,5339,Hurricanes,2024wila,0.35
+83,537,Charger Robotics,2024wila,0.5198
+84,5586,Bond Brigade,2024wila,0.4
+85,5826,Avis Automata,2024wila,0.5056
+86,5903,ThorBots,2024wila,0.5496
+87,5914,Robotic Warriors,2024wila,0.4744
+88,6166,Thorobotics,2024wila,0.3789
+89,6223,Arsenal of Engineering,2024wila,0.3203
+90,6651,Golden Bots,2024wila,0.4252
+91,6732,BHS RoboRaiders,2024wila,0.2941
+92,7021,TC Robotics,2024wila,0.6711
+93,706,Cyberhawks,2024wila,0.5383
+94,7103,Robo Remedy @ Mantiowoc Lutheran High School,2024wila,0.4858
+95,7619,illumiBOTi,2024wila,0.5455
+96,8024,Robotans,2024wila,0.4727
+97,8531,TermiKnightors,2024wila,0.5085
+98,8700,W.I.R.E.D,2024wila,0.2778
+99,8701,GRAFFITI,2024wila,0.4365
+100,8782,TroBotics,2024wila,0.2857
+101,8802,Milwaukee United,2024wila,0.5088
+102,8803,MechaMarines,2024wila,0.3111
+103,9149,RoboCats,2024wila,0.25
+104,9576,Loretto Lightning,2024wila,
+105,9578,Player One,2024wila,
+106,967,Iron Lions,2024wila,0.5838
+107,9676,Hub City STEAM,2024wila,

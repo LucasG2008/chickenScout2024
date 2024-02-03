@@ -57,17 +57,19 @@ struct TeamListItem: Identifiable, CSVLoadable {
 }
 
 struct EventTeams: Identifiable, CSVLoadable {
-    var name: String
-    var index: String
-    var teamNum: String
-    var event: String
+    var index: String = ""
+    var teamNum: String = ""
+    var name: String = ""
+    var event: String = ""
+    var winrate: String = ""
     var id: UUID = UUID()
     
     init?(raw: [String]) {
         index = raw[0]
-        name = raw[1]
-        teamNum = raw[2]
+        teamNum = raw[1]
+        name = raw[2]
         event = raw[3]
+        winrate = raw[4]
     }
 }
 
@@ -162,9 +164,6 @@ struct TeamHistData: Identifiable, CSVLoadable {
 
 enum Events: String, Codable, CaseIterable {
     case all = "All"
-    case african = "Northern Lights"
-    case american = "American"
-    case asian = "Asian"
-    case europian = "Europian"
-    case oceanian = "Oceanian"
+    case northern_lights = "Northern Lights"
+    case seven_rivers = "Seven Rivers"
 }

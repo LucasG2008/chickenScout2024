@@ -12,7 +12,7 @@ struct TeamDataView: View {
     
     @Environment(\.colorScheme) var colorScheme
     
-    var forTeamID: String
+    var selectedTeamID: String
     
     var teams = Team.loadCSV(from: "teams")
     
@@ -34,7 +34,7 @@ struct TeamDataView: View {
             endPoint: .bottom
         )
         
-        let selectedTeam = filterTeam(forTeamID: self.forTeamID)
+        let selectedTeam = filterTeam(forTeamID: selectedTeamID)
         
         
         let wins = Double(selectedTeam!.wins) ?? 0
@@ -55,7 +55,7 @@ struct TeamDataView: View {
                     .fontWeight(.bold)
                 Spacer()
             }) {
-                ForEach(teams.filter {$0.teamNum == forTeamID}) {
+                ForEach(teams.filter {$0.teamNum == selectedTeamID}) {
                     team in
                     Text("Team Num: " + team.teamNum)
                     Text("Location: " + team.state + ", " + team.country)
@@ -72,7 +72,7 @@ struct TeamDataView: View {
                     Text("Total Games: " + team.count)
                 }
             }
-            if let latestYearData = teamHistData.filter({ $0.teamNum == forTeamID }).max(by: { $0.year < $1.year }) {
+            if let latestYearData = teamHistData.filter({ $0.teamNum == selectedTeamID }).max(by: { $0.year < $1.year }) {
                 Section(header: HStack {
                     Spacer()
                     Text("Rankings (\(latestYearData.year))")
@@ -202,7 +202,7 @@ struct TeamDataView: View {
                         .font(.title2)
                         .padding(.bottom, 10)
                     Chart {
-                        ForEach(teamHistData.filter {$0.teamNum == forTeamID}) { yearData in
+                        ForEach(teamHistData.filter {$0.teamNum == selectedTeamID}) { yearData in
                             LineMark(
                                 x: .value("Year", yearData.year),
                                 y: .value("Winrate", Double(yearData.winrate)!)
@@ -327,7 +327,7 @@ struct LegendItemView: View {
 
 struct TeamDataView_Previews: PreviewProvider {
     static var previews: some View {
-        TeamDataView(forTeamID: "3082")
+        TeamDataView(selectedTeamID: "3082")
     }
 }
 
