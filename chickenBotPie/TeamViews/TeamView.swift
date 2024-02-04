@@ -1,5 +1,16 @@
 import SwiftUI
 
+struct BlueAllianceTeam: Codable, Hashable {
+    var city: String?
+    var country: String?
+    var key: String?
+    var name: String?
+    var nickname: String?
+    var state_prov: String?
+    var team_number: Int?
+    var rookie_year: Int?
+}
+
 struct TeamView: View {
     
     @Environment(\.colorScheme) var colorScheme
@@ -9,19 +20,62 @@ struct TeamView: View {
     @State private var selectedSortOption: SortOption = .teamNumber
     
     @State private var sortByNumber = true
-    @State private var sortByWinrate = false
-    @State private var selectedEvent = "All"
+    @State private var sortByName = false
     
-    let eventOptions = ["All", "Northern Lights", "Seven Rivers"]
+    @State private var selectedEvent = "2024mndu2"
+    let eventOptions = ["All", "2024mndu2", "2024wila"]
 
     enum SortOption: String, Codable, CaseIterable {
         case teamNumber = "Team Number"
-        case winRate = "Win Rate"
+        case name = "Name"
     }
     
-    var teamListItems = Team.loadCSV(from: "teams")
+    @State var teams: [BlueAllianceTeam] = []
+    @State private var teamsViewModel = TBAManager()
     
+    var teamListItems = Team.loadCSV(from: "teams")
     var eventTeams = EventTeams.loadCSV(from: "eventTeams")
+    
+    // Get data from The Blue Alliance
+    func requestTeamsBlueAlliance() async {
+        //Update to get based off events
+        //create it to get events and then get team data
+        //Northern Lights is 2024mndu2
+        //Seven Rivers is 2024wila
+        
+        guard let blueAllianceTeamsURL = URL(string: selectedEvent == "All" ? 
+                                             "https://www.thebluealliance.com/api/v3/teams/0" : "https://www.thebluealliance.com/api/v3/event/\(selectedEvent)/teams") else {
+            return
+        }
+        
+        var request = URLRequest(url: blueAllianceTeamsURL)
+        
+        request.httpMethod = "GET"
+        request.addValue("OcfTAuwiy7dvQouocBbQFTstVLeDWUeMF5DoZo4catY50cPSWlGjiGHP1VOiH74A", forHTTPHeaderField: "X-TBA-Auth-Key")
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+              if let error = error {
+                print("Error: \(error.localizedDescription)")
+                return
+              }
+              guard let data = data else {
+                print("No data received")
+                return
+              }
+              do {
+                let fetchedTeams = try JSONDecoder().decode([BlueAllianceTeam].self, from: data)
+                //print(String(data: data, encoding: .utf8))
+                DispatchQueue.main.async {
+                  teams = fetchedTeams
+                  print(teams)
+                }
+              } catch {
+                print("Error decoding JSON: \(error.localizedDescription)")
+                print(error)
+              }
+            }.resume()
+        print("asfasdfa")
+      }
     
     var body: some View {
         
@@ -31,14 +85,13 @@ struct TeamView: View {
             VStack(spacing: 0) {
                 
                 HStack {
-                    // Toggle Button 1
+                    // Number sort
                     Button(action: {
-                        
                         sortByNumber.toggle()
                         selectedSortOption = SortOption.teamNumber
                         
-                        if sortByWinrate == true {
-                            sortByWinrate.toggle()
+                        if sortByName == true {
+                            sortByName.toggle()
                         }
                     }) {
                         Capsule()
@@ -47,29 +100,30 @@ struct TeamView: View {
                             .overlay(Text("Number").foregroundColor(colorScheme == .dark ? .white : .black))
                             .background(Capsule().stroke(lineWidth: 2))
                     }
-                    
-
-                    // Toggle Button 2
+                    // Name sort
                     Button(action: {
-                        
-                        sortByWinrate.toggle()
-                        selectedSortOption = SortOption.winRate
+                        sortByName.toggle()
+                        selectedSortOption = SortOption.name
                         
                         if sortByNumber == true {
                             sortByNumber.toggle()
                         }
                     }) {
                         Capsule()
-                            .foregroundColor(sortByWinrate ? .blue : .clear)
+                            .foregroundColor(sortByName ? .blue : .clear)
                             .frame(height: 40)
-                            .overlay(Text("Winrate").foregroundColor(colorScheme == .dark ? .white : .black))
+                            .overlay(Text("Name").foregroundColor(colorScheme == .dark ? .white : .black))
                             .background(Capsule().stroke(lineWidth: 2))
                     }
-
-                    // Picker
+                    // Event Picker
                     Picker("Select Event", selection: $selectedEvent) {
                         ForEach(eventOptions, id: \.self) { option in
                             Text(option)
+                        }
+                    }
+                    .onChange(of: selectedEvent) {
+                        Task {
+                            await requestTeamsBlueAlliance()
                         }
                     }
                     .pickerStyle(MenuPickerStyle())
@@ -79,47 +133,26 @@ struct TeamView: View {
                 .padding([.leading, .trailing])
                 .padding([.bottom, .top], 10)
                 
-                if selectedEvent == "All" {
-                    
-                    List(filteredTeams) { teamItem in
+                // Display list of teams
+                List() {
+                    ForEach(teamsToDisplay, id: \.self) {teamItem in
                         Button {
-                            selectedTeamID = teamItem.teamNum
+                            selectedTeamID = String(teamItem.team_number ?? 0000)
                         } label: {
-                            TeamRow(teamItem: teamItem)
+                            TeamListRow(teamItem: teamItem)
                         }
-                    }
-                    .scrollContentBackground(.hidden)
-                    .navigationTitle("Teams")
-                    .navigationBarHidden(false)
-                    .searchable(text: $searchText)
-                    // open up detailed view when a team is clicked
-                    .navigationDestination(isPresented: Binding(
-                        get: { selectedTeamID != nil },
-                        set: { _ in selectedTeamID = nil }
-                    )) {
-                        teamDetailsView(withEvent: false)
-                    }
-                    
-                } else {
-                    List(filterByEvent) { teamItem in
-                        Button {
-                            selectedTeamID = teamItem.teamNum
-                        } label: {
-                            TeamEventDataRow(teamEventItem: teamItem)
-                        }
-                    }
-                    .scrollContentBackground(.hidden)
-                    .navigationTitle("Teams")
-                    .navigationBarHidden(false)
-                    .searchable(text: $searchText)
-                    // open up detailed view when a team is clicked
-                    .navigationDestination(isPresented: Binding(
-                        get: { selectedTeamID != nil },
-                        set: { _ in selectedTeamID = nil }
-                    )) {
-                        teamDetailsView(withEvent: true)
                     }
                 }
+                .navigationDestination(isPresented: Binding(
+                    get: { selectedTeamID != nil },
+                    set: { _ in selectedTeamID = nil }
+                )) {
+                    teamDetailsView()
+                }
+                .searchable(text: $searchText)
+                .navigationTitle("Teams")
+                .navigationBarHidden(false)
+                .scrollContentBackground(.hidden)
             }
             .background(
                 Group {
@@ -131,60 +164,63 @@ struct TeamView: View {
                 }
                     .edgesIgnoringSafeArea(.all))
         }
+        .task {
+            Task {
+                await requestTeamsBlueAlliance()
+            }
+        }
+        .task {
+            Task {
+                await teamsViewModel.requestAllTeamsFromBlueAlliance()
+            }
+        }
         
         .accentColor(accentColor)
     }
-
-    // filter teams when searching
-    var filteredTeams: [Team] {
-        var teamsToDisplay = teamListItems
-
+    
+    var searchResults: [BlueAllianceTeam] {
+        
+        var teamsToDisplay = teams
+        
         switch selectedSortOption {
-        case .teamNumber:
-            teamsToDisplay.sort { Double($0.teamNum)! < Double($1.teamNum)! }
-        case .winRate:
-            teamsToDisplay.sort { $0.winrate > $1.winrate }
-        }
-
+            case .teamNumber:
+                teamsToDisplay.sort { $0.team_number ?? 0000 < $1.team_number ?? 0000 }
+            case .name:
+                teamsToDisplay.sort { $0.nickname ?? "" < $1.nickname ?? "" }
+            }
+        
         if searchText.isEmpty {
             return teamsToDisplay
         } else {
             return teamsToDisplay.filter { teamItem in
-                teamItem.teamNum.localizedCaseInsensitiveContains(searchText) ||
-                teamItem.name.localizedCaseInsensitiveContains(searchText)
+                String(teamItem.team_number ?? 0000).localizedCaseInsensitiveContains(searchText) ||
+                String(teamItem.nickname ?? "none").localizedCaseInsensitiveContains(searchText)
             }
         }
     }
     
-    var filterByEvent: [EventTeams] {
-        var eventTeams = eventTeams
-        
-        switch selectedSortOption {
-        case .teamNumber:
-            eventTeams.sort { (Double($0.teamNum) ?? 0000) < (Double($1.teamNum) ?? 0000) }
-        case .winRate:
-            eventTeams.sort { $0.winrate > $1.winrate }
-        }
-        
-        if selectedEvent == "Northern Lights" {
-            eventTeams = eventTeams.filter {teamItem in
-                teamItem.event == "2024mndu2"
-            }
-        } else if selectedEvent == "Seven Rivers" {
-            eventTeams = eventTeams.filter {teamItem in
-                teamItem.event == "2024wila"
+    var teamsToDisplay: [BlueAllianceTeam] {
+        if selectedEvent == "All" {
+            
+            var teamsToDisplay = teamsViewModel.teams
+            
+            switch selectedSortOption {
+                case .teamNumber:
+                    teamsToDisplay.sort { $0.team_number ?? 0000 < $1.team_number ?? 0000 }
+                case .name:
+                    teamsToDisplay.sort { $0.nickname ?? "" < $1.nickname ?? "" }
+                }
+            
+            if searchText.isEmpty {
+                return teamsToDisplay
+            } else {
+                return teamsToDisplay.filter { teamItem in
+                    String(teamItem.team_number ?? 0000).localizedCaseInsensitiveContains(searchText) ||
+                    String(teamItem.nickname ?? "none").localizedCaseInsensitiveContains(searchText)
+                }
             }
         } else {
-            return eventTeams
-        }
-        
-        if searchText.isEmpty {
-            return eventTeams
-        } else {
-            return eventTeams.filter { teamItem in
-                teamItem.teamNum.localizedCaseInsensitiveContains(searchText) ||
-                teamItem.name.localizedCaseInsensitiveContains(searchText)
-            }
+            return searchResults
         }
     }
 
@@ -194,24 +230,12 @@ struct TeamView: View {
     }
     
     @ViewBuilder
-    private func teamDetailsView(withEvent event: Bool) -> some View {
+    private func teamDetailsView() -> some View {
         if let teamID = selectedTeamID {
-            if event {
-                if let teamItem = eventTeams.first(where: { $0.teamNum == teamID }) {
-                    TeamDataView(selectedTeamID: teamItem.teamNum)
-                        .navigationBarTitle("Team Details", displayMode: .inline)
-                }
-            } else {
-                if let teamItem = teamListItems.first(where: { $0.teamNum == teamID }) {
-                    Text(selectedTeamID ?? "none")
-                    TeamDataView(selectedTeamID: teamItem.teamNum)
-                        .navigationBarTitle("Team Details", displayMode: .inline)
-                }
+            if let teamItem = teams.first(where: { String($0.team_number ?? 0000) == teamID }) {
+                TeamDataView(selectedTeamID: String(teamItem.team_number ?? 0000))
+                    .navigationBarTitle("Team Details", displayMode: .inline)
             }
-        } else {
-            // Handle the case when selectedTeamID is nil (optional)
-            // For example, you might present an empty view or some default content.
-            Text("No team selected")
         }
     }
 }
@@ -235,13 +259,13 @@ struct TeamRow: View {
     }
 }
 
-struct TeamEventDataRow: View {
-    var teamEventItem: EventTeams
-    
+struct TeamListRow: View {
+    var teamItem: BlueAllianceTeam
+
     var body: some View {
         HStack {
-            Text(teamEventItem.teamNum + ":")
-            Text(teamEventItem.name)
+            Text(String(teamItem.team_number ?? 0000) + ":")
+            Text(teamItem.nickname ?? "none")
         }
         .padding(8)
     }

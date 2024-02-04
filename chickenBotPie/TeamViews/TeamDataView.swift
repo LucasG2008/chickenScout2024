@@ -36,231 +36,276 @@ struct TeamDataView: View {
         
         let selectedTeam = filterTeam(forTeamID: selectedTeamID)
         
-        
-        let wins = Double(selectedTeam!.wins) ?? 0
-        let losses = Double(selectedTeam!.losses) ?? 0
-        let ties = Double(selectedTeam!.ties) ?? 0
-
-        let data: [(Double, Color)] = [
-            (wins, Color.blue),
-            (losses, Color.red),
-            (ties, Color.purple)
-        ]
-        
-        List{
-            Section(header:HStack {
-                Spacer()
-                Text(selectedTeam!.name)
-                    .font(.title2)
-                    .fontWeight(.bold)
-                Spacer()
-            }) {
-                ForEach(teams.filter {$0.teamNum == selectedTeamID}) {
-                    team in
-                    Text("Team Num: " + team.teamNum)
-                    Text("Location: " + team.state + ", " + team.country)
-                    Text("Rookie Year: " + team.rookie_year)
-                    Text("Active: " + team.active)
-                    HStack {
-                        Text("Wins: " + team.wins)
-                        Spacer()
-                        Text("Losses: " + team.losses)
-                        Spacer()
-                        Text("Ties: " + team.ties)
-                        
-                    }
-                    Text("Total Games: " + team.count)
-                }
-            }
-            if let latestYearData = teamHistData.filter({ $0.teamNum == selectedTeamID }).max(by: { $0.year < $1.year }) {
-                Section(header: HStack {
+        if selectedTeam != nil {
+            
+            
+            let wins = Double(selectedTeam!.wins) ?? 0
+            let losses = Double(selectedTeam!.losses) ?? 0
+            let ties = Double(selectedTeam!.ties) ?? 0
+            
+            let data: [(Double, Color)] = [
+                (wins, Color.blue),
+                (losses, Color.red),
+                (ties, Color.purple)
+            ]
+            
+            List{
+                Section(header:HStack {
                     Spacer()
-                    Text("Rankings (\(latestYearData.year))")
+                    Text(selectedTeam!.name)
                         .font(.title2)
                         .fontWeight(.bold)
                     Spacer()
                 }) {
-                    
-                    HStack {
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(Color.blue)
-                            .frame(height: 80)
-                            .overlay(
-                                VStack {
-                                    Text(latestYearData.total_epa_rank)
-                                        .foregroundColor(.white)
-                                        .font(.system(size: 24, weight: .bold))
-                                    Text("Worldwide")
-                                        .foregroundColor(.white)
-                                        .font(.system(size: 14))
-                                    Text("out of \(latestYearData.total_team_count)")
-                                        .foregroundColor(.white)
-                                        .font(.system(size: 14))
-                                }
-                                    .padding(10)
-                            )
-                        Spacer()
-                        
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(Color.blue)
-                            .frame(height: 80)
-                            .overlay(
-                                VStack {
-                                    Text(latestYearData.country_epa_rank)
-                                        .foregroundColor(.white)
-                                        .font(.system(size: 24, weight: .bold))
-                                    Text(latestYearData.country)
-                                        .foregroundColor(.white)
-                                        .font(.system(size: 14))
-                                    Text("out of \(latestYearData.country_team_count)")
-                                        .foregroundColor(.white)
-                                        .font(.system(size: 14))
-                                }
-                                    .padding(10)
-                            )
-                        Spacer()
-                        
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(Color.blue)
-                            .frame(height: 80)
-                            .overlay(
-                                VStack {
-                                    Text(latestYearData.state_epa_rank)
-                                        .foregroundColor(.white)
-                                        .font(.system(size: 24, weight: .bold))
-                                    Text(latestYearData.state)
-                                        .foregroundColor(.white)
-                                        .font(.system(size: 14))
-                                    Text("out of \(latestYearData.state_team_count)")
-                                        .foregroundColor(.white)
-                                        .font(.system(size: 14))
-                                    
-                                }
-                                    .padding(10)
-                            )
+                    ForEach(teams.filter {$0.teamNum == selectedTeamID}) {
+                        team in
+                        Text("Team Num: " + team.teamNum)
+                        Text("Location: " + team.state + ", " + team.country)
+                        Text("Rookie Year: " + team.rookie_year)
+                        Text("Active: " + team.active)
+                        HStack {
+                            Text("Wins: " + team.wins)
+                            Spacer()
+                            Text("Losses: " + team.losses)
+                            Spacer()
+                            Text("Ties: " + team.ties)
+                            
+                        }
+                        Text("Total Games: " + team.count)
                     }
-                    HStack {
+                }
+                if let latestYearData = teamHistData.filter({ $0.teamNum == selectedTeamID }).max(by: { $0.year < $1.year }) {
+                    Section(header: HStack {
                         Spacer()
-                        Text("Percentile")
+                        Text("Rankings (\(latestYearData.year))")
+                            .font(.title2)
+                            .fontWeight(.bold)
                         Spacer()
-                    }
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(Color.blue)
-                        .frame(height: 80)
-                        .overlay(
-                            VStack {
-                                HStack {
+                    }) {
+                        
+                        HStack {
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color.blue)
+                                .frame(height: 80)
+                                .overlay(
                                     VStack {
-                                        Text(latestYearData.total_epa_percentile + "%")
+                                        Text(latestYearData.total_epa_rank)
                                             .foregroundColor(.white)
-                                            .font(.system(size: 20, weight: .bold))
+                                            .font(.system(size: 24, weight: .bold))
                                         Text("Worldwide")
-                                    }
-                                    Spacer()
-                                    VStack {
-                                        Text(latestYearData.country_epa_percentile + "%")
                                             .foregroundColor(.white)
-                                            .font(.system(size: 20, weight: .bold))
+                                            .font(.system(size: 14))
+                                        Text("out of \(latestYearData.total_team_count)")
+                                            .foregroundColor(.white)
+                                            .font(.system(size: 14))
+                                    }
+                                        .padding(10)
+                                )
+                            Spacer()
+                            
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color.blue)
+                                .frame(height: 80)
+                                .overlay(
+                                    VStack {
+                                        Text(latestYearData.country_epa_rank)
+                                            .foregroundColor(.white)
+                                            .font(.system(size: 24, weight: .bold))
                                         Text(latestYearData.country)
-                                    }
-                                    Spacer()
-                                    VStack {
-                                        Text(latestYearData.state_epa_percentile + "%")
                                             .foregroundColor(.white)
-                                            .font(.system(size: 20, weight: .bold))
+                                            .font(.system(size: 14))
+                                        Text("out of \(latestYearData.country_team_count)")
+                                            .foregroundColor(.white)
+                                            .font(.system(size: 14))
+                                    }
+                                        .padding(10)
+                                )
+                            Spacer()
+                            
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color.blue)
+                                .frame(height: 80)
+                                .overlay(
+                                    VStack {
+                                        Text(latestYearData.state_epa_rank)
+                                            .foregroundColor(.white)
+                                            .font(.system(size: 24, weight: .bold))
                                         Text(latestYearData.state)
+                                            .foregroundColor(.white)
+                                            .font(.system(size: 14))
+                                        Text("out of \(latestYearData.state_team_count)")
+                                            .foregroundColor(.white)
+                                            .font(.system(size: 14))
+                                        
+                                    }
+                                        .padding(10)
+                                )
+                        }
+                        HStack {
+                            Spacer()
+                            Text("Percentile")
+                            Spacer()
+                        }
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color.blue)
+                            .frame(height: 80)
+                            .overlay(
+                                VStack {
+                                    HStack {
+                                        VStack {
+                                            Text(latestYearData.total_epa_percentile + "%")
+                                                .foregroundColor(.white)
+                                                .font(.system(size: 20, weight: .bold))
+                                            Text("Worldwide")
+                                        }
+                                        Spacer()
+                                        VStack {
+                                            Text(latestYearData.country_epa_percentile + "%")
+                                                .foregroundColor(.white)
+                                                .font(.system(size: 20, weight: .bold))
+                                            Text(latestYearData.country)
+                                        }
+                                        Spacer()
+                                        VStack {
+                                            Text(latestYearData.state_epa_percentile + "%")
+                                                .foregroundColor(.white)
+                                                .font(.system(size: 20, weight: .bold))
+                                            Text(latestYearData.state)
+                                        }
                                     }
                                 }
-                            }
-                            .padding(10)
-                        )
-                }
-            }
-            
-            Section(header:HStack {
-                Spacer()
-                Text("Data Visualization")
-                    .font(.title2)
-                    .fontWeight(.bold)
-                Spacer()
-            }) {
-                VStack {
-                    Text("Win/Loss Ratio")
-                        .font(.title2)
-                        .padding(.bottom, 10)
-                    
-                    LegendView(winsValue: selectedTeam!.wins, lossesValue: selectedTeam!.losses, tiesValue: selectedTeam!.ties)
-                    
-                    PieChartView(data: data)
-                        .padding()
-                }
-            }
-            
-            Section() {
-                VStack {
-                    Text("Historic Winrate")
-                        .font(.title2)
-                        .padding(.bottom, 10)
-                    Chart {
-                        ForEach(teamHistData.filter {$0.teamNum == selectedTeamID}) { yearData in
-                            LineMark(
-                                x: .value("Year", yearData.year),
-                                y: .value("Winrate", Double(yearData.winrate)!)
+                                    .padding(10)
                             )
-                            .interpolationMethod(.catmullRom)
-                            .lineStyle(StrokeStyle(lineWidth: 3))
-                            .foregroundStyle(curColor)
-                            .symbol() {
+                    }
+                }
+                
+                Section(header:HStack {
+                    Spacer()
+                    Text("Data Visualization")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                    Spacer()
+                }) {
+                    VStack {
+                        Text("Win/Loss Ratio")
+                            .font(.title2)
+                            .padding(.bottom, 10)
+                        
+                        LegendView(winsValue: selectedTeam!.wins, lossesValue: selectedTeam!.losses, tiesValue: selectedTeam!.ties)
+                        
+                        PieChartView(data: data)
+                            .padding()
+                    }
+                }
+                
+                Section() {
+                    VStack {
+                        Text("Historic Winrate")
+                            .font(.title2)
+                            .padding(.bottom, 10)
+                        Chart {
+                            ForEach(teamHistData.filter {$0.teamNum == selectedTeamID}) { yearData in
+                                LineMark(
+                                    x: .value("Year", yearData.year),
+                                    y: .value("Winrate", Double(yearData.winrate)!)
+                                )
+                                .interpolationMethod(.catmullRom)
+                                .lineStyle(StrokeStyle(lineWidth: 3))
+                                .foregroundStyle(curColor)
+                                .symbol() {
                                     Circle()
                                         .fill(curColor)
                                         .frame(width: 10)
                                 }
-                            AreaMark(
+                                AreaMark(
                                     x: .value("Year", yearData.year),
                                     y: .value("Winrate", Double(yearData.winrate)!)
                                 )
                                 .interpolationMethod(.catmullRom)
                                 .foregroundStyle(curGradient)
-                        
+                                
+                            }
                         }
-                    }
-                    .chartXAxis(content: {
-                        AxisMarks { value in
-                            AxisValueLabel {
-                                if let year = value.as(String.self) {
-                                    if let yearInt = Int(year), yearInt % 4 == 0 {
-                                        Text(year)
+                        .chartXAxis(content: {
+                            AxisMarks { value in
+                                AxisValueLabel {
+                                    if let year = value.as(String.self) {
+                                        if let yearInt = Int(year), yearInt % 4 == 0 {
+                                            Text(year)
+                                        }
                                     }
                                 }
+                                AxisTick(centered: true)
+                                AxisGridLine(
+                                    centered: false,
+                                    stroke: StrokeStyle(
+                                        dash: [2]))
+                                .foregroundStyle(Color.blue)
                             }
-                            AxisTick(centered: true)
-                            AxisGridLine(
-                                centered: false,
-                                stroke: StrokeStyle(
-                                    dash: [2]))
-                            .foregroundStyle(Color.blue)
+                        })
+                        .frame(height: 200)
+                        .chartYScale(domain: 0.0...1.0)
+                        .chartYAxis {
+                            AxisMarks(values: .automatic(desiredCount: 5))
                         }
-                    })
-                    .frame(height: 200)
-                    .chartYScale(domain: 0.0...1.0)
-                    .chartYAxis {
-                        AxisMarks(values: .automatic(desiredCount: 5))
+                        
                     }
-
+                }
+                
+            }
+            .scrollContentBackground(.hidden)
+            .background(
+                Group {
+                    if colorScheme == .light {
+                        LinearGradient(gradient: Gradient(colors: [Color.lightBlueStart, Color.lightBlueEnd]), startPoint: .top, endPoint: .bottom)
+                    } else {
+                        LinearGradient(gradient: Gradient(colors: [Color.darkBlueStart, Color.darkBlueEnd]), startPoint: .top, endPoint: .bottom)
+                    }
+                }
+                    .edgesIgnoringSafeArea(.all))
+        } else {
+            ZStack {
+                Group {
+                    if colorScheme == .light {
+                        LinearGradient(gradient: Gradient(colors: [Color.lightBlueStart, Color.lightBlueEnd]), startPoint: .top, endPoint: .bottom)
+                    } else {
+                        LinearGradient(gradient: Gradient(colors: [Color.darkBlueStart, Color.darkBlueEnd]), startPoint: .top, endPoint: .bottom)
+                    }
+                }
+                .edgesIgnoringSafeArea(.all)
+                
+                HStack {
+                    VStack {
+                        RoundedRectangle(cornerRadius: 20)
+                            .fill(colorScheme == .light ? Color.white : Color(UIColor.secondarySystemBackground))
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .frame(width: UIScreen.main.bounds.width - 40, height: 500)
+                            .overlay(
+                                VStack {
+                                    if colorScheme == .light {
+                                        Image("chicken-light")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 300, height: 300)
+                                    } else {
+                                        Image("chicken-dark")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 300, height: 300)
+                                    }
+                                    
+                                    Text("No historical data to display for Team \(selectedTeamID)")
+                                        .foregroundColor(colorScheme == .light ? .black : .white)
+                                        .font(.title)
+                                        .multilineTextAlignment(.center)
+                                        .padding()
+                                }
+                            )
+                        Spacer()
+                    }
                 }
             }
-
         }
-        .scrollContentBackground(.hidden)
-        .background(
-            Group {
-                if colorScheme == .light {
-                    LinearGradient(gradient: Gradient(colors: [Color.lightBlueStart, Color.lightBlueEnd]), startPoint: .top, endPoint: .bottom)
-                } else {
-                    LinearGradient(gradient: Gradient(colors: [Color.darkBlueStart, Color.darkBlueEnd]), startPoint: .top, endPoint: .bottom)
-                }
-            }
-            .edgesIgnoringSafeArea(.all))
     }
 }
 
@@ -327,7 +372,7 @@ struct LegendItemView: View {
 
 struct TeamDataView_Previews: PreviewProvider {
     static var previews: some View {
-        TeamDataView(selectedTeamID: "3082")
+        TeamDataView(selectedTeamID: "9999")
     }
 }
 
