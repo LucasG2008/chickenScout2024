@@ -69,7 +69,7 @@ class AuthViewModel: ObservableObject {
             do {
                 let result = try await Auth.auth().createUser(withEmail: email, password: password)
                 self.userSession = result.user
-                let user = User(id: result.user.uid, fullname: fullname, email: email)
+                let user = User(id: result.user.uid, fullname: fullname, password: "none", email: email, matchesScouted: 0)
                 let encodedUser = try Firestore.Encoder().encode(user)
                 try await Firestore.firestore().collection("users").document(user.id).setData(encodedUser)
                 await fetchUser()
@@ -167,7 +167,7 @@ extension AuthViewModel {
             let firebaseUser = result.user
             self.userSession = result.user
             
-            let newUser = User(id: result.user.uid, fullname: firebaseUser.displayName ?? "unkown", email: firebaseUser.email ?? "unknown")
+            let newUser = User(id: result.user.uid, fullname: firebaseUser.displayName ?? "unkown", password: "none", email: firebaseUser.email ?? "unknown", matchesScouted: 0)
             let encodedUser = try Firestore.Encoder().encode(newUser)
             try await Firestore.firestore().collection("users").document(newUser.id).setData(encodedUser)
             
@@ -185,7 +185,7 @@ extension AuthViewModel {
 extension AuthViewModel {
     func guestSignIn(name: String, email: String) {
         // Create a guest user without involving Firebase authentication
-        let guestUser = User(id: UUID().uuidString, fullname: name, email: email)
+        let guestUser = User(id: UUID().uuidString, fullname: name, password: "none", email: email, matchesScouted: 0)
 
         self.userSession = guestUser
 

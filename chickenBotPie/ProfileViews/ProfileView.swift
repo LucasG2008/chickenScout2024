@@ -15,8 +15,10 @@ struct ProfileView: View {
     @State private var isDeleteAccountAlertPresented = false
     @State private var isSignOutAlertPresented = false
     
+    @ObservedObject var UserManager: UserManagement
+    
     var body: some View {
-        if let user = viewModel.currentUser {
+        if let user = UserManager.currentUser {
             NavigationStack {
                 List {
                     
@@ -56,6 +58,17 @@ struct ProfileView: View {
                                 .font(.subheadline)
                                 .foregroundStyle(.gray)
                         }
+                        HStack {
+                            SettingsRowView(imageName: "gear",
+                                            title: "Matches Scouted",
+                                            tintColor: Color(.systemGray))
+                            
+                            Spacer()
+                            
+                            Text("\(UserManager.currentUser?.matchesScouted ?? 000000)")
+                                .font(.subheadline)
+                                .foregroundStyle(.gray)
+                        }
                     }
                     
                     Section ("Account"){
@@ -72,7 +85,7 @@ struct ProfileView: View {
                                 message: Text("Are you sure you want to sign out?"),
                                 primaryButton: .default(Text("Cancel")),
                                 secondaryButton: .destructive(Text("Sign Out")) {
-                                    viewModel.signOut()
+                                    UserManager.signOut()
                                 }
                             )
                         }
@@ -115,5 +128,5 @@ struct ProfileView: View {
 }
 
 #Preview {
-    ProfileView()
+    ProfileView(UserManager: UserManagement())
 }

@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct MainTabView: View {
+    
+    @ObservedObject var UserManager: UserManagement
+    
     var body: some View {
         TabView {
             TeamView().tabItem {
@@ -15,12 +18,12 @@ struct MainTabView: View {
                 Image(systemName: "person.3")
             }
             
-            ScoutingView().tabItem {
+            ScoutingView(UserManager: UserManager).tabItem {
                 Text("Scouting")
                 Image(systemName: "list.bullet")
             }
             
-            ProfileView().tabItem {
+            ProfileView(UserManager: UserManager).tabItem {
                 Text("Profile")
                 Image(systemName: "person.circle")
                 

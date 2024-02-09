@@ -22,22 +22,12 @@ struct RegistrationView: View, SignupAuthenticationFormProtocol {
 
     @EnvironmentObject var viewModel: AuthViewModel
     
+    @ObservedObject var UserManager: UserManagement
+
+    
     var body: some View {
         NavigationStack {
             VStack {
-                // image
-                //if colorScheme == .light {
-                //    Image("chicken-light")
-                //        .resizable()
-                //        .aspectRatio(contentMode: .fit)
-                //        .frame(width: 90, height: 90)
-                //} else {
-                //    Image("chicken-dark")
-                //        .resizable()
-                //        .aspectRatio(contentMode: .fit)
-                //        .frame(width: 90, height: 90)
-                //}
-                
                 Text("Create an Account")
                     .multilineTextAlignment(.center)
                     .font(.system(size: 35, design: .rounded))
@@ -88,19 +78,9 @@ struct RegistrationView: View, SignupAuthenticationFormProtocol {
                 
                 Button {
                     Task {
-                        viewModel.createUser(withEmail: email, password: password, fullname: fullname) { result in
-                            switch result {
-                            case .success:
-                                //print("User created successfully")
-                                break
-                            case .failure(let error):
-                                // Handle user creation failure
-                                //print("User creation failed with error: \(error.localizedDescription)")
-                                showAlert = true
-                                alertMessage = "User creation failed. \(error.localizedDescription)"
-                            }
-                        }
+                        await UserManager.signUp(email: email, username: fullname, password: password)
                     }
+                    
                 } label: {
                     HStack {
                         Text("SIGN UP")
@@ -117,42 +97,6 @@ struct RegistrationView: View, SignupAuthenticationFormProtocol {
                 .opacity(formIsValid ? 1.0 : 0.5)
                 .cornerRadius(10)
                 .padding(.top, 14)
-                
-                HStack {
-                    VStack{ Divider() }
-                    Text("or")
-                        .font(.system(size: 14, design: .rounded))
-                    VStack { Divider() }
-                }
-                .padding([.leading, .trailing])
-                
-                // Google account creation
-                Button {
-                    Task {
-                        let success = await viewModel.signInWithGoogle()
-                        if success {
-                            // Handle successful sign-in
-                            print("User signed in with Google")
-                        } else {
-                            // Handle sign-in failure
-                            print("Failed to sign in with Google")
-                        }
-                    }
-                } label: {
-                    Text("Sign up with Google")
-                        .foregroundStyle(colorScheme == .dark ? .white : .black)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 8)
-                        .background(alignment: .leading) {
-                            Image("Google")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 30, alignment: .center)
-                        }
-                }
-                .frame(width: UIScreen.main.bounds.width - 32, height: 48)
-                .buttonStyle(.bordered)
-                .padding(.bottom, 10)
                 
                 Spacer()
                 
@@ -181,5 +125,5 @@ struct RegistrationView: View, SignupAuthenticationFormProtocol {
 }
 
 #Preview {
-    RegistrationView()
+    RegistrationView(UserManager: UserManagement())
 }

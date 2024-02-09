@@ -13,13 +13,15 @@ struct chickenBotPieApp: App {
     @StateObject var dataManager = DataManager()
     @StateObject var viewModel = AuthViewModel()
     
+    @StateObject var UserManager = UserManagement()
+    
     init() {
         FirebaseApp.configure()
     }
     
     var body: some Scene {
         WindowGroup {
-            MainView()
+            MainView(UserManager: UserManager)
                 .environmentObject(dataManager)
                 .environmentObject(viewModel)
         }

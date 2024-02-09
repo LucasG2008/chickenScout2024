@@ -93,39 +93,6 @@ struct LoginView: View, LoginAuthenticationFormProtocol {
                 .cornerRadius(10)
                 .padding(.top, 24)
                 
-                HStack {
-                    VStack{ Divider() }
-                    Text("or")
-                        .font(.system(size: 14, design: .rounded))
-                    VStack { Divider() }
-                }
-                
-                // Google sign in
-                Button {
-                    Task {
-                        let success = await viewModel.signInWithGoogle()
-                        if success {
-                            // Handle successful sign-in
-                            print("User signed in with Google")
-                        } else {
-                            // Handle sign-in failure
-                            print("Failed to sign in with Google")
-                        }
-                    }
-                } label: {
-                    Text("Sign in with Google")
-                        .foregroundStyle(colorScheme == .dark ? .white : .black)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 8)
-                        .background(alignment: .leading) {
-                            Image("Google")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 30, alignment: .center)
-                        }
-                }
-                .buttonStyle(.bordered)
-                
                 Spacer()
                 
             }

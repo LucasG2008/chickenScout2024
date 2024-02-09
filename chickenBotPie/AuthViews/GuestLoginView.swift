@@ -15,6 +15,8 @@ struct GuestLoginView: View {
     @State internal var name = ""
     @State internal var email = ""
     
+    @ObservedObject var UserManager: UserManagement
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -54,7 +56,7 @@ struct GuestLoginView: View {
                 
                 // Sign in button
                 Button {
-                    viewModel.guestSignIn(name: name, email: email)
+                    UserManager.guestSignIn(name: name, email: email)
                 } label: {
                     HStack {
                         Text("SIGN IN AS GUEST")
@@ -96,5 +98,5 @@ struct GuestLoginView: View {
 }
 
 #Preview {
-    GuestLoginView()
+    GuestLoginView(UserManager: UserManagement())
 }

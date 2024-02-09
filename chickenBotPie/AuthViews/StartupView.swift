@@ -11,6 +11,8 @@ struct StartupView: View {
     
     @Environment(\.colorScheme) var colorScheme
     
+    @ObservedObject var UserManager: UserManagement
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -45,7 +47,7 @@ struct StartupView: View {
                     }
                     .navigationBarHidden(true)
                     
-                    NavigationLink(destination: RegistrationView()) {
+                    NavigationLink(destination: RegistrationView(UserManager: UserManager)) {
                         StartupButton(label: "Sign Up", color: "light")
                     }
                     .padding(.top, 16)
@@ -57,7 +59,7 @@ struct StartupView: View {
                 
                 // Sign in as guest
                 NavigationLink {
-                    GuestLoginView()
+                    GuestLoginView(UserManager: UserManager)
                     
                 } label: {
                     HStack(spacing: 3) {
@@ -132,6 +134,6 @@ struct StartupButton: View {
 
 struct StartupView_Previews: PreviewProvider {
     static var previews: some View {
-        StartupView()
+        StartupView(UserManager: UserManagement())
     }
 }

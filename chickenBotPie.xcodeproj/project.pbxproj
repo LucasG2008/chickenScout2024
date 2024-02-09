@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		EE0CD3FF2B6EC8EA00555085 /* TeamStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0CD3FE2B6EC8EA00555085 /* TeamStruct.swift */; };
 		EE0CD4022B6F3BE700555085 /* TBAManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0CD4012B6F3BE700555085 /* TBAManager.swift */; };
+		EE1C36172B72EB1600FC97E7 /* UserManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE1C36162B72EB1600FC97E7 /* UserManagement.swift */; };
 		EE1F16512B58383000123E69 /* TeamSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE1F16502B58383000123E69 /* TeamSearchView.swift */; };
 		EE1F16562B59547900123E69 /* ConfettiSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = EE1F16552B59547900123E69 /* ConfettiSwiftUI */; };
 		EE1F16582B5AD65A00123E69 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE1F16572B5AD65A00123E69 /* DataManager.swift */; };
@@ -40,7 +41,6 @@
 		EE7C36DE2B5CD20800439DB3 /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7C36DD2B5CD20800439DB3 /* RegistrationView.swift */; };
 		EE7C36E22B5CD50B00439DB3 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7C36E12B5CD50B00439DB3 /* ProfileView.swift */; };
 		EE7C36E42B5CD68600439DB3 /* SettingsRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7C36E32B5CD68600439DB3 /* SettingsRowView.swift */; };
-		EE7C36E72B5CD82100439DB3 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7C36E62B5CD82100439DB3 /* User.swift */; };
 		EE7C36E92B5CDB1700439DB3 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = EE7C36E82B5CDB1700439DB3 /* FirebaseFirestoreSwift */; };
 		EE7C36EB2B5CDB2A00439DB3 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = EE7C36EA2B5CDB2A00439DB3 /* FirebaseStorage */; };
 		EE7C36F02B5CDC2700439DB3 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7C36EF2B5CDC2700439DB3 /* AuthViewModel.swift */; };
@@ -74,6 +74,7 @@
 /* Begin PBXFileReference section */
 		EE0CD3FE2B6EC8EA00555085 /* TeamStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamStruct.swift; sourceTree = "<group>"; };
 		EE0CD4012B6F3BE700555085 /* TBAManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TBAManager.swift; sourceTree = "<group>"; };
+		EE1C36162B72EB1600FC97E7 /* UserManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManagement.swift; sourceTree = "<group>"; };
 		EE1F16502B58383000123E69 /* TeamSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamSearchView.swift; sourceTree = "<group>"; };
 		EE1F16572B5AD65A00123E69 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		EE47E1EC2B54F4E600FF192C /* chickenBotPie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = chickenBotPie.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -105,7 +106,6 @@
 		EE7C36DD2B5CD20800439DB3 /* RegistrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
 		EE7C36E12B5CD50B00439DB3 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		EE7C36E32B5CD68600439DB3 /* SettingsRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRowView.swift; sourceTree = "<group>"; };
-		EE7C36E62B5CD82100439DB3 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		EE7C36EF2B5CDC2700439DB3 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		EE7C36F42B5DEED500439DB3 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		EE88F9D02B55C6200016E68E /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -151,8 +151,7 @@
 		EE0CD4002B6F3BB400555085 /* FBManagement */ = {
 			isa = PBXGroup;
 			children = (
-				EE47E21B2B54F5C600FF192C /* DataFactory.swift */,
-				EE1F16572B5AD65A00123E69 /* DataManager.swift */,
+				EE76B7542B76EC5E0056F445 /* TBD */,
 			);
 			path = FBManagement;
 			sourceTree = "<group>";
@@ -183,15 +182,16 @@
 				EE73CB972B5E0729005F4588 /* Info.plist */,
 				EE47E1EF2B54F4E600FF192C /* chickenBotPieApp.swift */,
 				EE88F9D02B55C6200016E68E /* MainView.swift */,
+				EE7C36F42B5DEED500439DB3 /* MainTabView.swift */,
+				EE76B7532B76EC160056F445 /* AuthViews */,
 				EE88F9E12B5810DE0016E68E /* TeamViews */,
 				EE88F9E22B5810FA0016E68E /* ScoutingViews */,
 				EE7C36E02B5CD4D000439DB3 /* ProfileViews */,
 				EE7C36D82B5C9AF600439DB3 /* Components */,
-				EE7C36E52B5CD7F600439DB3 /* Model */,
-				EE7C36F12B5CDDB600439DB3 /* Core */,
+				EE76B7552B76ECA90056F445 /* DataManagement */,
 				EE0CD4002B6F3BB400555085 /* FBManagement */,
-				EE0CD4012B6F3BE700555085 /* TBAManager.swift */,
 				EE0CD3FE2B6EC8EA00555085 /* TeamStruct.swift */,
+				EE1C36162B72EB1600FC97E7 /* UserManagement.swift */,
 				EE73CB952B5E06F0005F4588 /* GoogleService-Info.plist */,
 				EE47E21D2B54F60800FF192C /* teams.csv */,
 				EE47E21F2B55AACD00FF192C /* teamHistory.csv */,
@@ -228,6 +228,35 @@
 			path = chickenBotPieUITests;
 			sourceTree = "<group>";
 		};
+		EE76B7532B76EC160056F445 /* AuthViews */ = {
+			isa = PBXGroup;
+			children = (
+				EE7C36D92B5C9B9C00439DB3 /* LoginView.swift */,
+				EE7C36DD2B5CD20800439DB3 /* RegistrationView.swift */,
+				EE73CB9F2B6064FB005F4588 /* GuestLoginView.swift */,
+				EE73CBA12B60C204005F4588 /* StartupView.swift */,
+			);
+			path = AuthViews;
+			sourceTree = "<group>";
+		};
+		EE76B7542B76EC5E0056F445 /* TBD */ = {
+			isa = PBXGroup;
+			children = (
+				EE7C36EF2B5CDC2700439DB3 /* AuthViewModel.swift */,
+			);
+			path = TBD;
+			sourceTree = "<group>";
+		};
+		EE76B7552B76ECA90056F445 /* DataManagement */ = {
+			isa = PBXGroup;
+			children = (
+				EE0CD4012B6F3BE700555085 /* TBAManager.swift */,
+				EE47E21B2B54F5C600FF192C /* DataFactory.swift */,
+				EE1F16572B5AD65A00123E69 /* DataManager.swift */,
+			);
+			path = DataManagement;
+			sourceTree = "<group>";
+		};
 		EE7C36D82B5C9AF600439DB3 /* Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -246,51 +275,6 @@
 				EE7C36E12B5CD50B00439DB3 /* ProfileView.swift */,
 			);
 			path = ProfileViews;
-			sourceTree = "<group>";
-		};
-		EE7C36E52B5CD7F600439DB3 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				EE7C36E62B5CD82100439DB3 /* User.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		EE7C36EC2B5CDB7200439DB3 /* Authentication */ = {
-			isa = PBXGroup;
-			children = (
-				EE7C36EE2B5CDBAA00439DB3 /* View */,
-				EE7C36ED2B5CDB8900439DB3 /* ViewModel */,
-			);
-			path = Authentication;
-			sourceTree = "<group>";
-		};
-		EE7C36ED2B5CDB8900439DB3 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				EE7C36EF2B5CDC2700439DB3 /* AuthViewModel.swift */,
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		EE7C36EE2B5CDBAA00439DB3 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				EE7C36D92B5C9B9C00439DB3 /* LoginView.swift */,
-				EE7C36DD2B5CD20800439DB3 /* RegistrationView.swift */,
-				EE73CB9F2B6064FB005F4588 /* GuestLoginView.swift */,
-				EE73CBA12B60C204005F4588 /* StartupView.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		EE7C36F12B5CDDB600439DB3 /* Core */ = {
-			isa = PBXGroup;
-			children = (
-				EE7C36F42B5DEED500439DB3 /* MainTabView.swift */,
-				EE7C36EC2B5CDB7200439DB3 /* Authentication */,
-			);
-			path = Core;
 			sourceTree = "<group>";
 		};
 		EE88F9E12B5810DE0016E68E /* TeamViews */ = {
@@ -469,6 +453,7 @@
 				EE7C36F02B5CDC2700439DB3 /* AuthViewModel.swift in Sources */,
 				EE7C36DA2B5C9B9C00439DB3 /* LoginView.swift in Sources */,
 				EE88F9DC2B580D910016E68E /* ScoutingView.swift in Sources */,
+				EE1C36172B72EB1600FC97E7 /* UserManagement.swift in Sources */,
 				EE88F9D52B55CA870016E68E /* PieChartView.swift in Sources */,
 				EE73CB9D2B5ECF96005F4588 /* PastPitView.swift in Sources */,
 				EE88F9E62B58116F0016E68E /* MatchScouting.swift in Sources */,
@@ -476,7 +461,6 @@
 				EE7C36DE2B5CD20800439DB3 /* RegistrationView.swift in Sources */,
 				EE7C36DC2B5C9DD500439DB3 /* LoginInputView.swift in Sources */,
 				EE73CB9B2B5ECECE005F4588 /* PastMatchView.swift in Sources */,
-				EE7C36E72B5CD82100439DB3 /* User.swift in Sources */,
 				EE73CBA02B6064FB005F4588 /* GuestLoginView.swift in Sources */,
 				EE47E2222B55ADB100FF192C /* TeamDataView.swift in Sources */,
 				EE73CBA22B60C204005F4588 /* StartupView.swift in Sources */,

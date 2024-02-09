@@ -19,6 +19,7 @@ struct TeamData: Hashable, Codable, Identifiable {
     var averageAutoPoints: Double
     var averageTelePoints: Double
     var avgDropsPerMatch: Double
+    var coopertitionRate: Double
     
     //Build Info
     var driveType: String
@@ -31,4 +32,15 @@ struct TeamData: Hashable, Codable, Identifiable {
     var underStage: Bool
     var trap: Bool
     var extraNotes: [String]
+}
+
+struct UserSignUp: Hashable, Codable {
+    var username: String
+    var password: String
+    var email: String
+}
+
+struct UserLogIn: Hashable, Codable {
+    var username: String
+    var password: String
 }

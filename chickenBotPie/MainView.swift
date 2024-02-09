@@ -14,14 +14,16 @@ struct MainView: View {
     @State private var email: String = ""
     @State private var password: String = ""
     
+    @ObservedObject var UserManager: UserManagement
+    
     var body: some View {
         
         VStack {
-            if viewModel.userSession != nil {
-                MainTabView()
+            if UserManager.loggedIn == true {
+                MainTabView(UserManager: UserManager)
                     .transition(.opacity.animation(.easeInOut(duration: 1)))
             } else {
-                StartupView()
+                StartupView(UserManager: UserManager)
             }
         }
     }
@@ -29,7 +31,7 @@ struct MainView: View {
 }
 
 #Preview {
-    MainView()
+    MainView(UserManager: UserManagement())
 }
 
 extension Color {

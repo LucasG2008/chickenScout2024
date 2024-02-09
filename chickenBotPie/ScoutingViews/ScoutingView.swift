@@ -16,6 +16,8 @@ struct ScoutingView: View {
     
     @State private var isSignOutAlertPresented = false
     
+    @ObservedObject var UserManager: UserManagement
+    
     var body: some View {
         
         // navigation stack to navigate options
@@ -103,7 +105,7 @@ struct ScoutingView: View {
                     message: Text("Are you sure you want to sign out?"),
                     primaryButton: .default(Text("Cancel")),
                     secondaryButton: .destructive(Text("Sign Out")) {
-                        viewModel.signOut()
+                        UserManager.signOut()
                     }
                 )
             }
@@ -138,5 +140,5 @@ struct ScoutingView: View {
 }
 
 #Preview {
-    ScoutingView()
+    ScoutingView(UserManager: UserManagement())
 }
