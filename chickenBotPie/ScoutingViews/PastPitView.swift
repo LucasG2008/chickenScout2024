@@ -10,7 +10,6 @@ import SwiftUI
 struct PastPitView: View {
     @Environment(\.colorScheme) var colorScheme
     
-    @EnvironmentObject var dataManager: DataManager
     @State private var selectedPit: pitScoutData?
     
     @State private var searchText = ""
@@ -25,21 +24,7 @@ struct PastPitView: View {
     var body: some View {
         NavigationView {
             List {
-                Section {
-                    ForEach(filteredPits.sorted(by: { $0.submissionTime > $1.submissionTime }), id: \.submissionTime) { pit in
-                        NavigationLink(
-                            destination: PitDetailedView(pit: pit),
-                            label: {
-                                HStack {
-                                    Text("\(pit.teamName)")
-                                    Spacer()
-                                    Text("\(dateFormatter.string(from: pit.submissionTime))")
-                                }
-                            }
-                        )
-                        .tag(pit)
-                    }
-                }
+                Text("Past Pit Data")
             }
             .searchable(text: $searchText)
             .scrollContentBackground(.hidden)
@@ -53,17 +38,6 @@ struct PastPitView: View {
                 }
                 .edgesIgnoringSafeArea(.all))
             .navigationTitle("Past Pit Data")
-        }
-    }
-    
-    var filteredPits: [pitScoutData] {
-        if searchText.isEmpty {
-            return dataManager.pits
-        } else {
-            return dataManager.pits.filter { match in
-                dateFormatter.string(from: match.submissionTime).localizedCaseInsensitiveContains(searchText) ||
-                    match.teamName.localizedCaseInsensitiveContains(searchText)
-            }
         }
     }
 }

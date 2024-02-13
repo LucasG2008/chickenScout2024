@@ -45,6 +45,29 @@ class UserManagement: ObservableObject {
     var dict_email = ""
     var dict_matchesScouted = 0
     
+    // Add properties for storing persistent authentication state
+    private let userDefaults = UserDefaults.standard
+    private let loggedInKey = "loggedIn"
+    private let userIdKey = "userId"
+    private let userFullname = "userFullname"
+    private let userPassword = "userPassword"
+    private let userEmail = "userEmail"
+    private let userMatchesScouted = 0
+    
+    init() {
+        // Check for stored authentication state
+        if userDefaults.bool(forKey: loggedInKey) {
+            let savedUserId = userDefaults.string(forKey: userIdKey) ?? ""
+            let savedUserFullname = userDefaults.string(forKey: userFullname) ?? ""
+            let savedUserPassword = userDefaults.string(forKey: userPassword) ?? ""
+            let savedUserEmail = userDefaults.string(forKey: userEmail) ?? ""
+            let savedUserMatchesScouted = userDefaults.integer(forKey: String(userMatchesScouted))
+            
+            currentUser = User(id: savedUserId, fullname: savedUserFullname, password: savedUserPassword, email: savedUserEmail, matchesScouted: savedUserMatchesScouted)
+            loggedIn = true
+        }
+    }
+    
     // SIGN UP
     
     func signUp(email: String, username: String, password: String) async {
@@ -111,11 +134,19 @@ class UserManagement: ObservableObject {
         }
     }
     
-    // SIGN IN
+    // SIGN OUT
     
     func signOut() {
-        self.loggedIn = false // wipes out user session and takes user back to login
-        self.currentUser = nil // wipes out current user data model
+        self.loggedIn = false
+        self.currentUser = nil
+        
+        // Clear stored authentication state
+        userDefaults.set(false, forKey: loggedInKey)
+        userDefaults.set("", forKey: userIdKey)
+        userDefaults.set("", forKey: userFullname)
+        userDefaults.set("", forKey: userPassword)
+        userDefaults.set("", forKey: userEmail)
+        userDefaults.set(0, forKey: String(userMatchesScouted))
     }
     
     // LOG IN
@@ -177,15 +208,19 @@ class UserManagement: ObservableObject {
                     }
                 }
                 
-                
-                print(data, String(data: data, encoding: .utf8) ?? "*unknown encoding")
-                //self.currentUser = User(id: data, fullname: <#T##String#>, password: <#T##String#>, email: <#T##String#>, matchesScouted: <#T##Int#>)
-                
             }
             
             task.resume()
             
         }
+        
+        // Save authentication state
+        userDefaults.set(true, forKey: loggedInKey)
+        userDefaults.set(dict_userid, forKey: userIdKey)
+        userDefaults.set(dict_username, forKey: userFullname)
+        userDefaults.set(dict_password, forKey: userPassword)
+        userDefaults.set(dict_email, forKey: userEmail)
+        userDefaults.set(dict_matchesScouted, forKey: String(userMatchesScouted))
     }
     
     // GUEST SIGN IN
@@ -196,8 +231,14 @@ class UserManagement: ObservableObject {
         let guestUser = User(id: UUID().uuidString, fullname: name, password: "none", email: email, matchesScouted: 0)
 
         self.loggedIn = true
-
         self.currentUser = guestUser
+        
+        userDefaults.set(true, forKey: loggedInKey)
+        userDefaults.set(guestUser.id, forKey: userIdKey)
+        userDefaults.set(guestUser.fullname, forKey: userFullname)
+        userDefaults.set(guestUser.password, forKey: userPassword)
+        userDefaults.set(guestUser.email, forKey: userEmail)
+        userDefaults.set(guestUser.matchesScouted, forKey: String(userMatchesScouted))
     }
 
 }

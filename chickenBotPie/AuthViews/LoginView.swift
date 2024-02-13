@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct LoginView: View, LoginAuthenticationFormProtocol {
+    @State internal var fullName = ""
     @State internal var email = ""
     @State internal var password = ""
     
@@ -16,6 +17,8 @@ struct LoginView: View, LoginAuthenticationFormProtocol {
     
     @EnvironmentObject var viewModel: AuthViewModel
     @Environment(\.colorScheme) var colorScheme
+    
+    @ObservedObject var UserManager: UserManagement
     
     var body: some View {
         NavigationStack {
@@ -45,9 +48,9 @@ struct LoginView: View, LoginAuthenticationFormProtocol {
                 
                 // Form fields
                 VStack(spacing: 24) {
-                    LoginInputView(text: $email,
-                                   title: "Email Address",
-                                   placeholder: "name@example.com")
+                    LoginInputView(text: $fullName,
+                                   title: "Full Name",
+                                   placeholder: "Evan Ginter")
                     .autocapitalization(.none)
                     
                     LoginInputView(text: $password,
@@ -60,19 +63,8 @@ struct LoginView: View, LoginAuthenticationFormProtocol {
                 // Sign in button
                 Button {
                     Task {
-                        viewModel.signIn(withEmail: email, password: password) { result in
-                            switch result {
-                            case .success:
-                                // Handle successful login
-                                print("Login successful")
-                            case .failure(let error):
-                                // Handle login failure
-                                print("Login failed with error: \(error.localizedDescription)")
-                                showAlert = true
-                                alertMessage = "Login failed. \(error.localizedDescription)"
-                            }
+                        await UserManager.logIn(username: fullName, password: password)
                         }
-                    }
                 } label: {
                     HStack {
                         Text("SIGN IN")
@@ -113,10 +105,10 @@ struct LoginView: View, LoginAuthenticationFormProtocol {
     
     
     var formIsValid: Bool {
-        return !email.isEmpty && email.contains("@") && password.count > 5
+        return !fullName.isEmpty && password.count > 5
     }
 }
 
 #Preview {
-    LoginView()
+    LoginView(UserManager: UserManagement())
 }

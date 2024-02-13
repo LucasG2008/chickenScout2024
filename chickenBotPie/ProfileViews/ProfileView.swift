@@ -59,7 +59,7 @@ struct ProfileView: View {
                                 .foregroundStyle(.gray)
                         }
                         HStack {
-                            SettingsRowView(imageName: "gear",
+                            SettingsRowView(imageName: "chart.bar",
                                             title: "Matches Scouted",
                                             tintColor: Color(.systemGray))
                             
@@ -85,7 +85,9 @@ struct ProfileView: View {
                                 message: Text("Are you sure you want to sign out?"),
                                 primaryButton: .default(Text("Cancel")),
                                 secondaryButton: .destructive(Text("Sign Out")) {
-                                    UserManager.signOut()
+                                    withAnimation {
+                                        UserManager.signOut()
+                                    }
                                 }
                             )
                         }

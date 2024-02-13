@@ -1,16 +1,5 @@
 import SwiftUI
 
-struct BlueAllianceTeam: Codable, Hashable {
-    var city: String?
-    var country: String?
-    var key: String?
-    var name: String?
-    var nickname: String?
-    var state_prov: String?
-    var team_number: Int?
-    var rookie_year: Int?
-}
-
 struct TeamView: View {
     
     @Environment(\.colorScheme) var colorScheme
@@ -22,60 +11,16 @@ struct TeamView: View {
     @State private var sortByNumber = true
     @State private var sortByName = false
     
-    @State private var selectedEvent = "2024mndu2"
-    let eventOptions = ["All", "2024mndu2", "2024wila"]
+    @State private var selectedEvent = "All"
+    let eventOptions = ["All", "2024mndu2", "2024wila"]//
 
     enum SortOption: String, Codable, CaseIterable {
         case teamNumber = "Team Number"
         case name = "Name"
     }
     
-    @State var teams: [BlueAllianceTeam] = []
+    @State var teams: [QuickTeamView] = []
     @State private var teamsViewModel = TBAManager()
-    
-    var teamListItems = Team.loadCSV(from: "teams")
-    var eventTeams = EventTeams.loadCSV(from: "eventTeams")
-    
-    // Get data from The Blue Alliance
-    func requestTeamsBlueAlliance() async {
-        //Update to get based off events
-        //create it to get events and then get team data
-        //Northern Lights is 2024mndu2
-        //Seven Rivers is 2024wila
-        
-        guard let blueAllianceTeamsURL = URL(string: selectedEvent == "All" ? 
-                                             "https://www.thebluealliance.com/api/v3/teams/0" : "https://www.thebluealliance.com/api/v3/event/\(selectedEvent)/teams") else {
-            return
-        }
-        
-        var request = URLRequest(url: blueAllianceTeamsURL)
-        
-        request.httpMethod = "GET"
-        request.addValue("OcfTAuwiy7dvQouocBbQFTstVLeDWUeMF5DoZo4catY50cPSWlGjiGHP1VOiH74A", forHTTPHeaderField: "X-TBA-Auth-Key")
-        
-        URLSession.shared.dataTask(with: request) { data, response, error in
-              if let error = error {
-                print("Error: \(error.localizedDescription)")
-                return
-              }
-              guard let data = data else {
-                print("No data received")
-                return
-              }
-              do {
-                let fetchedTeams = try JSONDecoder().decode([BlueAllianceTeam].self, from: data)
-                //print(String(data: data, encoding: .utf8))
-                DispatchQueue.main.async {
-                  teams = fetchedTeams
-                  print(teams)
-                }
-              } catch {
-                print("Error decoding JSON: \(error.localizedDescription)")
-                print(error)
-              }
-            }.resume()
-        print("asfasdfa")
-      }
     
     var body: some View {
         
@@ -123,7 +68,18 @@ struct TeamView: View {
                     }
                     .onChange(of: selectedEvent) {
                         Task {
-                            await requestTeamsBlueAlliance()
+                            await teamsViewModel.fetchTeamsForEvent(eventCode: selectedEvent)
+                            
+                            switch selectedEvent {
+                                case "2024mndu2":
+                                    teams = teamsViewModel.mndu2Teams
+                                case "2024wila":
+                                    teams = teamsViewModel.wilaTeams
+                                case "All":
+                                    teams = teamsViewModel.allTeams
+                                default:
+                                    break
+                                }
                         }
                     }
                     .pickerStyle(MenuPickerStyle())
@@ -154,6 +110,13 @@ struct TeamView: View {
                 .navigationBarHidden(false)
                 .scrollContentBackground(.hidden)
             }
+            .onAppear {
+                Task{
+                    await teamsViewModel.fetchTeamsForEvent(eventCode: "All")
+                    teams = teamsViewModel.allTeams
+                    selectedEvent = "All"
+                }
+            }
             .background(
                 Group {
                     if colorScheme == .light {
@@ -164,45 +127,13 @@ struct TeamView: View {
                 }
                     .edgesIgnoringSafeArea(.all))
         }
-        .task {
-            Task {
-                await requestTeamsBlueAlliance()
-            }
-        }
-        .task {
-            Task {
-                await teamsViewModel.requestAllTeamsFromBlueAlliance()
-            }
-        }
         
         .accentColor(accentColor)
     }
     
-    var searchResults: [BlueAllianceTeam] {
-        
-        var teamsToDisplay = teams
-        
-        switch selectedSortOption {
-            case .teamNumber:
-                teamsToDisplay.sort { $0.team_number ?? 0000 < $1.team_number ?? 0000 }
-            case .name:
-                teamsToDisplay.sort { $0.nickname ?? "" < $1.nickname ?? "" }
-            }
-        
-        if searchText.isEmpty {
-            return teamsToDisplay
-        } else {
-            return teamsToDisplay.filter { teamItem in
-                String(teamItem.team_number ?? 0000).localizedCaseInsensitiveContains(searchText) ||
-                String(teamItem.nickname ?? "none").localizedCaseInsensitiveContains(searchText)
-            }
-        }
-    }
-    
-    var teamsToDisplay: [BlueAllianceTeam] {
-        if selectedEvent == "All" {
+    var teamsToDisplay: [QuickTeamView] {
             
-            var teamsToDisplay = teamsViewModel.teams
+            var teamsToDisplay = teams
             
             switch selectedSortOption {
                 case .teamNumber:
@@ -219,9 +150,6 @@ struct TeamView: View {
                     String(teamItem.nickname ?? "none").localizedCaseInsensitiveContains(searchText)
                 }
             }
-        } else {
-            return searchResults
-        }
     }
 
     // get accent color
@@ -260,7 +188,7 @@ struct TeamRow: View {
 }
 
 struct TeamListRow: View {
-    var teamItem: BlueAllianceTeam
+    var teamItem: QuickTeamView
 
     var body: some View {
         HStack {

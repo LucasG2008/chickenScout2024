@@ -10,8 +10,9 @@ import SwiftUI
 struct PitScouting: View {
     
     @Environment(\.colorScheme) var colorScheme
-    @EnvironmentObject var dataManager: DataManager
     @EnvironmentObject var viewModel: AuthViewModel
+    
+    @ObservedObject var UserManager: UserManagement
     
     @State private var isSearching = false
     @State private var selectedTeamName: String?
@@ -19,7 +20,7 @@ struct PitScouting: View {
     @State private var showingSuccessAlert = false
     
     @State private var driveTrain = "Swerve"
-    let driveTrains = ["Swerve", "Tank", "Omni", "Macanum", "Other"]
+    let driveTrains = ["Swerve", "Tank", "Omni", "Mecanum", "Other"]
     
     @State private var intake = "Ground"
     let intakeMechanisms = ["Ground", "Source", "Both"]
@@ -302,9 +303,9 @@ struct PitScouting: View {
                         humanPlayer: humanPlayer,
                         submissionTime: Date(),
                         notes: notes,
-                        scout: viewModel.currentUser?.fullname ?? "")
+                        scout: UserManager.currentUser?.fullname ?? "anonymous")
                     
-                    dataManager.addPitScoutData(pitScoutDataInstance: pitScoutData)
+                    // add pit data
                     
                     // Show success alert
                     showingSuccessAlert = true
@@ -387,5 +388,5 @@ struct AnimatedButton: ButtonStyle {
 }
 
 #Preview {
-    PitScouting()
+    PitScouting(UserManager: UserManagement())
 }

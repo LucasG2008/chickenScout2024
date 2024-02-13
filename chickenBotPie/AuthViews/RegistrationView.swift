@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct RegistrationView: View, SignupAuthenticationFormProtocol {
+struct RegistrationView: View, SignupAuthenticationFormProtocol { 
     
     @State internal var email = ""
     @State internal var fullname = ""
@@ -19,8 +19,6 @@ struct RegistrationView: View, SignupAuthenticationFormProtocol {
     
     @Environment(\.dismiss) var dismiss
     @Environment(\.colorScheme) var colorScheme
-
-    @EnvironmentObject var viewModel: AuthViewModel
     
     @ObservedObject var UserManager: UserManagement
 

@@ -14,17 +14,21 @@ struct TeamSearchView: View {
     @Environment(\.colorScheme) var colorScheme
 
     @State private var searchText = ""
-
-    var teamListItems = Team.loadCSV(from: "teams")
+    
+    @State private var teamsViewModel = TBAManager()
+    @State var teams: [QuickTeamView] = []
 
     var body: some View {
+        
             NavigationStack {
-                List(filteredTeams) { teamItem in
-                    Button {
-                        selectedTeamName = teamItem.name
-                        presentationMode.wrappedValue.dismiss()
-                    } label: {
-                        TeamRow(teamItem: teamItem)
+                List() {
+                    ForEach(filteredTeams, id: \.self) {teamItem in
+                        Button {
+                            selectedTeamName = teamItem.nickname
+                            presentationMode.wrappedValue.dismiss()
+                        } label: {
+                            TeamListRow(teamItem: teamItem)
+                        }
                     }
                 }
                 .scrollContentBackground(.hidden)
@@ -41,16 +45,23 @@ struct TeamSearchView: View {
                 .navigationBarHidden(false)
                 .searchable(text: $searchText)
             }
+            .task {
+                Task {
+                    await teamsViewModel.fetchTeamsForEvent(eventCode: "All")
+                    teams = teamsViewModel.allTeams
+                }
+            }
+        
             .accentColor(accentColor)
         }
 
-    var filteredTeams: [Team] {
+    var filteredTeams: [QuickTeamView] {
         if searchText.isEmpty {
-            return teamListItems
+            return teams
         } else {
-            return teamListItems.filter { teamItem in
-                teamItem.teamNum.localizedCaseInsensitiveContains(searchText) ||
-                    teamItem.name.localizedCaseInsensitiveContains(searchText)
+            return teams.filter { teamItem in
+                String(teamItem.team_number ?? 0000).localizedCaseInsensitiveContains(searchText) ||
+                String(teamItem.nickname ?? "none").localizedCaseInsensitiveContains(searchText)
             }
         }
     }

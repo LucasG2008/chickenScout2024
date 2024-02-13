@@ -16,20 +16,19 @@ struct MatchDetailedView: View {
     var body: some View {
         List {
             // Display detailed information for the match
-            Text("Team: \(match.teamName)")
+            Text("Team: \(match.teamName)") 
             Text("Scout: \(match.scout)")
             Text("Alliance: \(match.alliance)")
-            Text("Auto Sequence: \(match.autoSequence.joined(separator: ", "))")
-               .multilineTextAlignment(.trailing)
-            Text("Teleop Sequence: \(match.teleopSequence.joined(separator: ", "))")
-               .multilineTextAlignment(.trailing)
+            //Text("Auto Sequence: \(match.autoSequence.joined(separator: ", "))")
+               //.multilineTextAlignment(.trailing)
+            //Text("Teleop Sequence: \(match.teleopSequence.joined(separator: ", "))")
+               //.multilineTextAlignment(.trailing)
             Text("Drops: \(match.drops)")
             Text("Park: \(match.park)" as String)
             Text("Climbed: \(match.climbed)" as String)
             Text("Harmony: \(match.harmony)" as String)
             Text("Trap: \(match.trap)" as String)
-            Text("High Notes: \(match.highNote)" as String)
-            Text("Misses: \(match.highNoteMisses)")
+
             Text("Score: \(match.score)")
         }
         .scrollContentBackground(.hidden)

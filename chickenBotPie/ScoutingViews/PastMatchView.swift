@@ -9,8 +9,6 @@ import SwiftUI
 
 struct PastMatchView: View {
     @Environment(\.colorScheme) var colorScheme
-    
-    @EnvironmentObject var dataManager: DataManager
     @State private var selectedMatch: matchScoutData?
     
     @State private var searchText = ""
@@ -25,21 +23,7 @@ struct PastMatchView: View {
     var body: some View {
         NavigationView {
             List {
-                Section {
-                    ForEach(filteredMatches.sorted(by: { $0.submissionTime > $1.submissionTime }), id: \.submissionTime) { match in
-                        NavigationLink(
-                            destination: MatchDetailedView(match: match),
-                            label: {
-                                HStack {
-                                    Text("\(match.teamName)")
-                                    Spacer()
-                                    Text("\(dateFormatter.string(from: match.submissionTime))")
-                                }
-                            }
-                        )
-                        .tag(match)
-                    }
-                }
+                Text("Past Matches")
             }
             .searchable(text: $searchText)
             .scrollContentBackground(.hidden)
@@ -53,17 +37,6 @@ struct PastMatchView: View {
                 }
                 .edgesIgnoringSafeArea(.all))
             .navigationTitle("Match Data")
-        }
-    }
-    
-    var filteredMatches: [matchScoutData] {
-        if searchText.isEmpty {
-            return dataManager.matches
-        } else {
-            return dataManager.matches.filter { match in
-                dateFormatter.string(from: match.submissionTime).localizedCaseInsensitiveContains(searchText) ||
-                    match.teamName.localizedCaseInsensitiveContains(searchText)
-            }
         }
     }
 }

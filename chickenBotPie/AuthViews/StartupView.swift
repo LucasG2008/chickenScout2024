@@ -41,7 +41,7 @@ struct StartupView: View {
                 
                 VStack(spacing: 12) {
                     // Navigation links
-                    NavigationLink(destination: LoginView()) {
+                    NavigationLink(destination: LoginView(UserManager: UserManager)) {
                         StartupButton(label: "Log In", color: "dark")
                             
                     }

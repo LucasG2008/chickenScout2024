@@ -115,7 +115,7 @@ struct ScoutingView: View {
                             set: { _ in selectedView = nil }
                         )) {
                             if selectedView == "pitScouting" {
-                                PitScouting()
+                                PitScouting(UserManager: UserManager)
                                     .navigationBarTitle("Pit Scouting", displayMode: .inline)
                             } else if selectedView == "pastMatchData" {
                                 PastMatchView()
@@ -124,11 +124,11 @@ struct ScoutingView: View {
                                 PastPitView()
                                     .navigationBarTitle("Past Data", displayMode: .inline)
                             } else {
-                                MatchScouting()
+                                MatchScouting(UserManager: UserManager)
                                     .navigationBarTitle("Match Scouting", displayMode: .inline)
                             }
                         }
-            
+
         }
         .accentColor(accentColor)
     }

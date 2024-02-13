@@ -11,7 +11,7 @@ import ConfettiSwiftUI
 struct MatchScouting: View {
     
     @EnvironmentObject var viewModel: AuthViewModel
-    @EnvironmentObject var dataManager: DataManager
+    @ObservedObject var UserManager: UserManagement
     @Environment(\.colorScheme) var colorScheme
     
     @State private var showingSuccessAlert = false
@@ -24,8 +24,14 @@ struct MatchScouting: View {
     
     @State private var leftAuto = false
     
-    @State private var autoSequence: [String] = []
-    @State private var teleopSequence: [String] = []
+    @State var autoSequence: [String] = []
+    @State var teleopSequence: [String] = []
+    
+    @State var autoAmpPoints = 0
+    @State var autoSpeakerPoints = 0
+    @State var teleAmpPoints = 0
+    @State var teleSpeakerPoints = 0
+    @State var teleSpeakerAmplifiedNotes = 0
     
     var concatenatedAutoElements: String {
         autoSequence.joined(separator: ", ")
@@ -35,16 +41,22 @@ struct MatchScouting: View {
         teleopSequence.joined(separator: ", ")
         }
     
-    @State private var teleopDrops = 0
+    @State var offeredCoop = false
+    @State var didCoop = false
+    
+    @State private var drops = 0
     
     @State private var park = false
     @State private var climbed = false
     @State private var harmony = false
-    @State private var trap = "No"
-    let trapOutcomes = ["No", "Yes", "Not Attempted"]
     
-    @State private var spotlit = false
-    @State private var highNoteMisses = 0
+    let trapOutcomes = ["No", "Yes", "Not Attempted"]
+    @State private var trap = "No"
+    
+    let mikeOutcomes = ["Miss", "Score", "Score w/ harmony"]
+    @State private var ampMike = "Miss"
+    @State private var sourceMike = "Miss"
+    @State private var centerMike = "Miss"
     
     let generator = UIImpactFeedbackGenerator(style: .heavy)
     let extraGenerator = UIImpactFeedbackGenerator(style: .soft)
@@ -111,14 +123,32 @@ struct MatchScouting: View {
             totalScore += 2
         }
         
-        if harmony && spotlit && climbed {
-           totalScore += 7
-       } else if harmony && climbed && !spotlit {
-           totalScore += 5
-       } else if climbed && !spotlit {
+        if harmony && climbed {
+           totalScore += 4
+        } else if climbed {
             totalScore += 3
-        } else if climbed && spotlit {
-            totalScore += 4
+        }
+        
+        // Spotlight data
+        if ampMike == "Score" {
+            totalScore += 1
+        }
+        if sourceMike == "Score" {
+            totalScore += 1
+        }
+        if centerMike == "Score" {
+            totalScore += 1
+        }
+        
+        
+        if ampMike == "Score w/ harmony" {
+            totalScore += 2
+        }
+        if sourceMike == "Score w/ harmony" {
+            totalScore += 2
+        }
+        if centerMike == "Score w/ harmony" {
+            totalScore += 2
         }
         
         // Check if trap is "Yes"
@@ -304,8 +334,31 @@ struct MatchScouting: View {
                                         }
                                     }
                                 }
-                                .padding(.bottom, 10)
-                                .padding(.top, 10)
+                                .padding([.bottom, .top], 10)
+                    }
+                }
+                
+                Section {
+                    
+                    VStack {
+                        
+                        Spacer()
+                        HStack {
+                            Spacer()
+                            Text("COOPERTITION")
+                                .font(.title2)
+                                .fontWeight(.bold)
+                            Spacer()
+                        }
+                        
+                        Divider()
+                        
+                        Toggle("Offered Coopertition:", isOn: $offeredCoop)
+                            .padding([.bottom, .top], 10)
+                        
+                        Toggle("Did Cooperate:", isOn: $didCoop)
+                            .padding([.bottom, .top], 10)
+                        
                     }
                 }
                 
@@ -449,7 +502,7 @@ struct MatchScouting: View {
                         
                         Divider()
                         
-                        Stepper("Drops: \(teleopDrops)", value: $teleopDrops, in: 0...100)
+                        Stepper("Drops: \(drops)", value: $drops, in: 0...100)
                             .padding(.bottom, 10)
                             .padding(.top, 10)
                         
@@ -471,7 +524,9 @@ struct MatchScouting: View {
                         
                         Toggle("Park: ", isOn: $park)
                         Toggle("Onstage Climb:", isOn: $climbed)
+                            .disabled(park == true)
                         Toggle("Harmony:", isOn: $harmony)
+                            .disabled(park == true)
                         
                         Picker("Trap: ", selection: $trap) {
                             
@@ -479,10 +534,39 @@ struct MatchScouting: View {
                                 Text($0)
                             }
                         }
-                        
-                        Toggle("High Note:", isOn:$spotlit)
-                        Stepper("Misses: \(highNoteMisses)", value: $highNoteMisses, in: 0...3)
 
+                    }
+                }
+                
+                Section{
+                    VStack {
+                        
+                        HStack {
+                            Spacer()
+                            Text("HUMAN PLAYER")
+                                .font(.title2)
+                                .fontWeight(.bold)
+                            Spacer()
+                        }
+                        
+                        Divider()
+                        
+                        Picker("Amp Mike: ", selection: $ampMike) {
+                            ForEach(mikeOutcomes, id: \.self) {
+                                Text($0)
+                            }
+                        }
+                        Picker("Source Mike: ", selection: $sourceMike) {
+                            ForEach(mikeOutcomes, id: \.self) {
+                                Text($0)
+                            }
+                        }
+                        Picker("Center Mike: ", selection: $centerMike) {
+                            ForEach(mikeOutcomes, id: \.self) {
+                                Text($0)
+                            }
+                        }
+                        
                     }
                 }
                 
@@ -510,20 +594,29 @@ struct MatchScouting: View {
                     let matchScoutDataInstance = matchScoutData(
                         teamName: selectedTeamName ?? "",
                         alliance: selectedAlliance,
-                        autoSequence: autoSequence,
-                        teleopSequence: teleopSequence,
-                        drops: teleopDrops,
+                        //autoSequence: autoSequence,
+                        //teleopSequence: teleopSequence,
+                        autoAmpPoints: autoAmpPoints,
+                        autoSpeakerPoints: autoSpeakerPoints,
+                        teleAmpPoints: teleAmpPoints,
+                        teleSpeakerPoints: teleSpeakerPoints,
+                        teleSpeakerAmplifiedNotes: teleSpeakerAmplifiedNotes,
+                        
+                        drops: drops,
                         park: park,
                         climbed: climbed,
                         harmony: harmony,
                         trap: trap,
-                        highNote: spotlit,
-                        highNoteMisses: highNoteMisses,
+                        
+                        ampMike: ampMike,
+                        sourceMike: sourceMike,
+                        centerMike: centerMike,
+                        
                         score: gameScore,
                         submissionTime: Date(),
-                        scout: viewModel.currentUser?.fullname ?? "")
+                        scout: UserManager.currentUser?.fullname ?? "anonymous")
                     
-                    dataManager.addMatchScoutData(matchScoutDataInstance: matchScoutDataInstance)
+                    // upload data
                     
                     // Show success alert
                     showingSuccessAlert = true
@@ -563,6 +656,7 @@ struct MatchScouting: View {
                 }
     }
     
+    
     // get accent color
     var accentColor: Color {
             return colorScheme == .dark ? .white : .black
@@ -575,13 +669,22 @@ struct MatchScouting: View {
         leftAuto = false
         autoSequence = []
         teleopSequence = []
-        teleopDrops = 0
+        
+        autoAmpPoints = 0
+        autoSpeakerPoints = 0
+        teleAmpPoints = 0
+        teleSpeakerPoints = 0
+        teleSpeakerAmplifiedNotes = 0
+        
+        ampMike = "Miss"
+        sourceMike = "Miss"
+        centerMike = "Miss"
+        
+        drops = 0
         park = false
         climbed = false
         harmony = false
         trap = "No"
-        spotlit = false
-        highNoteMisses = 0
 
         }
 
@@ -622,8 +725,7 @@ struct GrowingButtonShort: ButtonStyle {
     }
 }
 
-struct MatchScouting_Previews: PreviewProvider {
-    static var previews: some View {
-        MatchScouting()
-    }
+#Preview {
+    MatchScouting(UserManager: UserManagement())
 }
+
