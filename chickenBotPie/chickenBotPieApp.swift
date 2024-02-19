@@ -10,7 +10,6 @@ import Firebase
 
 @main
 struct chickenBotPieApp: App {
-    @StateObject var viewModel = AuthViewModel()
     
     @StateObject var UserManager = UserManagement()
     
@@ -21,7 +20,6 @@ struct chickenBotPieApp: App {
     var body: some Scene {
         WindowGroup {
             MainView(UserManager: UserManager)
-                .environmentObject(viewModel)
         }
     }
 }

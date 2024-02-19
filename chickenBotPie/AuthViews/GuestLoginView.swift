@@ -9,13 +9,11 @@ import SwiftUI
 
 struct GuestLoginView: View {
     
-    @EnvironmentObject var viewModel: AuthViewModel
     @Environment(\.colorScheme) var colorScheme
+    @ObservedObject var UserManager: UserManagement
     
     @State internal var name = ""
     @State internal var email = ""
-    
-    @ObservedObject var UserManager: UserManagement
     
     var body: some View {
         NavigationStack {

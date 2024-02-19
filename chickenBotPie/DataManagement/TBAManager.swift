@@ -11,8 +11,10 @@ class TBAManager: ObservableObject {
     @Published var allTeams: [QuickTeamView] = []
     @Published var mndu2Teams: [QuickTeamView] = []
     @Published var wilaTeams: [QuickTeamView] = []
+    @Published var loading = false
     
     func requestAllTeamsFromBlueAlliance() async {
+        self.loading = true
         var allTeams: [QuickTeamView] = []
         var page = 0 // Start with the first page
         
@@ -51,7 +53,7 @@ class TBAManager: ObservableObject {
     }
 
     func fetchEventTeams(eventCode: String) async {
-        guard let eventURL = URL(string: "http://75.72.123.64:3082/fetchteams\(eventCode)") else {
+        guard let eventURL = URL(string: "http://98.59.100.219:3082/fetchteams\(eventCode)") else {
             print("Error getting event url")
             
             return
@@ -82,6 +84,7 @@ class TBAManager: ObservableObject {
     }
     
     func fetchTeamsForEvent(eventCode: String) async {
+        self.loading = true
         switch eventCode {
         case "2024mndu2":
             if mndu2Teams.isEmpty {
@@ -98,6 +101,8 @@ class TBAManager: ObservableObject {
         default:
             break
         }
+        
+        self.loading = false
     }
 
 }

@@ -12,7 +12,6 @@
 		EE1C36172B72EB1600FC97E7 /* UserManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE1C36162B72EB1600FC97E7 /* UserManagement.swift */; };
 		EE1F16512B58383000123E69 /* TeamSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE1F16502B58383000123E69 /* TeamSearchView.swift */; };
 		EE1F16562B59547900123E69 /* ConfettiSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = EE1F16552B59547900123E69 /* ConfettiSwiftUI */; };
-		EE1F16582B5AD65A00123E69 /* DataStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE1F16572B5AD65A00123E69 /* DataStructs.swift */; };
 		EE47E1F02B54F4E600FF192C /* chickenBotPieApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE47E1EF2B54F4E600FF192C /* chickenBotPieApp.swift */; };
 		EE47E1F42B54F4E800FF192C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE47E1F32B54F4E800FF192C /* Assets.xcassets */; };
 		EE47E1F72B54F4E800FF192C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE47E1F62B54F4E800FF192C /* Preview Assets.xcassets */; };
@@ -41,18 +40,21 @@
 		EE7C36DC2B5C9DD500439DB3 /* LoginInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7C36DB2B5C9DD500439DB3 /* LoginInputView.swift */; };
 		EE7C36DE2B5CD20800439DB3 /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7C36DD2B5CD20800439DB3 /* RegistrationView.swift */; };
 		EE7C36E22B5CD50B00439DB3 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7C36E12B5CD50B00439DB3 /* ProfileView.swift */; };
-		EE7C36E42B5CD68600439DB3 /* SettingsRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7C36E32B5CD68600439DB3 /* SettingsRowView.swift */; };
 		EE7C36E92B5CDB1700439DB3 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = EE7C36E82B5CDB1700439DB3 /* FirebaseFirestoreSwift */; };
 		EE7C36EB2B5CDB2A00439DB3 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = EE7C36EA2B5CDB2A00439DB3 /* FirebaseStorage */; };
 		EE7C36F02B5CDC2700439DB3 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7C36EF2B5CDC2700439DB3 /* AuthViewModel.swift */; };
 		EE7C36F32B5CDFE400439DB3 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = EE7C36F22B5CDFE400439DB3 /* FirebaseAuth */; };
 		EE7C36F52B5DEED500439DB3 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7C36F42B5DEED500439DB3 /* MainTabView.swift */; };
+		EE8598F72B7F2E0900C047CC /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = EE8598F62B7F2E0900C047CC /* Alamofire */; };
 		EE88F9D12B55C6200016E68E /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE88F9D02B55C6200016E68E /* MainView.swift */; };
 		EE88F9D52B55CA870016E68E /* PieChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE88F9D42B55CA870016E68E /* PieChartView.swift */; };
 		EE88F9DA2B56437E0016E68E /* SwiftCSV in Frameworks */ = {isa = PBXBuildFile; productRef = EE88F9D92B56437E0016E68E /* SwiftCSV */; };
 		EE88F9DC2B580D910016E68E /* ScoutingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE88F9DB2B580D910016E68E /* ScoutingView.swift */; };
 		EE88F9E02B5810840016E68E /* PitScouting.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE88F9DF2B5810840016E68E /* PitScouting.swift */; };
 		EE88F9E62B58116F0016E68E /* MatchScouting.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE88F9E52B58116F0016E68E /* MatchScouting.swift */; };
+		EE8DD1CB2B81A8AB003E2708 /* SettingsRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8DD1CA2B81A8AB003E2708 /* SettingsRowView.swift */; };
+		EE8DD1CD2B81A8B9003E2708 /* DataStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8DD1CC2B81A8B9003E2708 /* DataStructs.swift */; };
+		EEA0BB3F2B7C260F00F9881C /* DataManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA0BB3E2B7C260F00F9881C /* DataManagement.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,7 +79,6 @@
 		EE0CD4012B6F3BE700555085 /* TBAManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TBAManager.swift; sourceTree = "<group>"; };
 		EE1C36162B72EB1600FC97E7 /* UserManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManagement.swift; sourceTree = "<group>"; };
 		EE1F16502B58383000123E69 /* TeamSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamSearchView.swift; sourceTree = "<group>"; };
-		EE1F16572B5AD65A00123E69 /* DataStructs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStructs.swift; sourceTree = "<group>"; };
 		EE47E1EC2B54F4E600FF192C /* chickenBotPie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = chickenBotPie.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE47E1EF2B54F4E600FF192C /* chickenBotPieApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chickenBotPieApp.swift; sourceTree = "<group>"; };
 		EE47E1F32B54F4E800FF192C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -107,7 +108,6 @@
 		EE7C36DB2B5C9DD500439DB3 /* LoginInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInputView.swift; sourceTree = "<group>"; };
 		EE7C36DD2B5CD20800439DB3 /* RegistrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
 		EE7C36E12B5CD50B00439DB3 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
-		EE7C36E32B5CD68600439DB3 /* SettingsRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRowView.swift; sourceTree = "<group>"; };
 		EE7C36EF2B5CDC2700439DB3 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		EE7C36F42B5DEED500439DB3 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		EE88F9D02B55C6200016E68E /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -115,6 +115,9 @@
 		EE88F9DB2B580D910016E68E /* ScoutingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoutingView.swift; sourceTree = "<group>"; };
 		EE88F9DF2B5810840016E68E /* PitScouting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitScouting.swift; sourceTree = "<group>"; };
 		EE88F9E52B58116F0016E68E /* MatchScouting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchScouting.swift; sourceTree = "<group>"; };
+		EE8DD1CA2B81A8AB003E2708 /* SettingsRowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsRowView.swift; sourceTree = "<group>"; };
+		EE8DD1CC2B81A8B9003E2708 /* DataStructs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStructs.swift; sourceTree = "<group>"; };
+		EEA0BB3E2B7C260F00F9881C /* DataManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManagement.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +125,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE8598F72B7F2E0900C047CC /* Alamofire in Frameworks */,
 				EE7C36E92B5CDB1700439DB3 /* FirebaseFirestoreSwift in Frameworks */,
 				EE7C36F32B5CDFE400439DB3 /* FirebaseAuth in Frameworks */,
 				EE1F16562B59547900123E69 /* ConfettiSwiftUI in Frameworks */,
@@ -195,6 +199,7 @@
 				EE0CD4002B6F3BB400555085 /* FBManagement */,
 				EE0CD3FE2B6EC8EA00555085 /* TeamStruct.swift */,
 				EE1C36162B72EB1600FC97E7 /* UserManagement.swift */,
+				EEA0BB3E2B7C260F00F9881C /* DataManagement.swift */,
 				EE73CB952B5E06F0005F4588 /* GoogleService-Info.plist */,
 				EE47E21D2B54F60800FF192C /* teams.csv */,
 				EE47E21F2B55AACD00FF192C /* teamHistory.csv */,
@@ -255,7 +260,7 @@
 			children = (
 				EE0CD4012B6F3BE700555085 /* TBAManager.swift */,
 				EE47E21B2B54F5C600FF192C /* DataFactory.swift */,
-				EE1F16572B5AD65A00123E69 /* DataStructs.swift */,
+				EE8DD1CC2B81A8B9003E2708 /* DataStructs.swift */,
 			);
 			path = DataManagement;
 			sourceTree = "<group>";
@@ -275,7 +280,7 @@
 				EE5AA6042B5B8EED003A4455 /* MatchDetailedView.swift */,
 				EE73CB982B5ECA33005F4588 /* PitDetailedView.swift */,
 				EE7C36DB2B5C9DD500439DB3 /* LoginInputView.swift */,
-				EE7C36E32B5CD68600439DB3 /* SettingsRowView.swift */,
+				EE8DD1CA2B81A8AB003E2708 /* SettingsRowView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -335,6 +340,7 @@
 				EE7C36F22B5CDFE400439DB3 /* FirebaseAuth */,
 				EE73CB912B5E0533005F4588 /* GoogleSignIn */,
 				EE73CB932B5E0533005F4588 /* GoogleSignInSwift */,
+				EE8598F62B7F2E0900C047CC /* Alamofire */,
 			);
 			productName = chickenBotPie;
 			productReference = EE47E1EC2B54F4E600FF192C /* chickenBotPie.app */;
@@ -413,6 +419,7 @@
 				EE1F16542B59547800123E69 /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */,
 				EE5AA5FB2B5B6AA4003A4455 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				EE73CB902B5E0533005F4588 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				EE8598F52B7F2E0900C047CC /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			productRefGroup = EE47E1ED2B54F4E600FF192C /* Products */;
 			projectDirPath = "";
@@ -463,10 +470,12 @@
 			files = (
 				EE7C36F02B5CDC2700439DB3 /* AuthViewModel.swift in Sources */,
 				EE76B7582B79F4160056F445 /* HomeView.swift in Sources */,
+				EE8DD1CB2B81A8AB003E2708 /* SettingsRowView.swift in Sources */,
 				EE7C36DA2B5C9B9C00439DB3 /* LoginView.swift in Sources */,
 				EE88F9DC2B580D910016E68E /* ScoutingView.swift in Sources */,
 				EE1C36172B72EB1600FC97E7 /* UserManagement.swift in Sources */,
 				EE88F9D52B55CA870016E68E /* PieChartView.swift in Sources */,
+				EEA0BB3F2B7C260F00F9881C /* DataManagement.swift in Sources */,
 				EE73CB9D2B5ECF96005F4588 /* PastPitView.swift in Sources */,
 				EE88F9E62B58116F0016E68E /* MatchScouting.swift in Sources */,
 				EE47E1F02B54F4E600FF192C /* chickenBotPieApp.swift in Sources */,
@@ -481,12 +490,11 @@
 				EE0CD3FF2B6EC8EA00555085 /* TeamStruct.swift in Sources */,
 				EE47E21A2B54F58A00FF192C /* TeamView.swift in Sources */,
 				EE7C36E22B5CD50B00439DB3 /* ProfileView.swift in Sources */,
+				EE8DD1CD2B81A8B9003E2708 /* DataStructs.swift in Sources */,
 				EE88F9E02B5810840016E68E /* PitScouting.swift in Sources */,
-				EE1F16582B5AD65A00123E69 /* DataStructs.swift in Sources */,
 				EE73CB992B5ECA33005F4588 /* PitDetailedView.swift in Sources */,
 				EE5AA6052B5B8EED003A4455 /* MatchDetailedView.swift in Sources */,
 				EE1F16512B58383000123E69 /* TeamSearchView.swift in Sources */,
-				EE7C36E42B5CD68600439DB3 /* SettingsRowView.swift in Sources */,
 				EE88F9D12B55C6200016E68E /* MainView.swift in Sources */,
 				EE47E21C2B54F5C600FF192C /* DataFactory.swift in Sources */,
 			);
@@ -656,6 +664,9 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = chickenBotPie/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Allow access or perish";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Allow access or perish";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Allow access or perish";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -686,6 +697,9 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = chickenBotPie/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Allow access or perish";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Allow access or perish";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Allow access or perish";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -846,6 +860,14 @@
 				minimumVersion = 7.0.0;
 			};
 		};
+		EE8598F52B7F2E0900C047CC /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.8.1;
+			};
+		};
 		EE88F9D82B56437E0016E68E /* XCRemoteSwiftPackageReference "SwiftCSV" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/swiftcsv/SwiftCSV.git";
@@ -891,6 +913,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = EE5AA5FB2B5B6AA4003A4455 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
+		};
+		EE8598F62B7F2E0900C047CC /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EE8598F52B7F2E0900C047CC /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
 		};
 		EE88F9D92B56437E0016E68E /* SwiftCSV */ = {
 			isa = XCSwiftPackageProductDependency;

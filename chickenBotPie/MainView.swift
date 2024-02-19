@@ -8,13 +8,61 @@
 import SwiftUI
 import Firebase
 
+import CoreLocation
+
+class LocationManager: NSObject, ObservableObject {
+    private let manager = CLLocationManager()
+    @Published var userLocation: CLLocation?
+    static let shared = LocationManager()
+    
+    override init() {
+        super.init()
+        manager.delegate = self
+        manager.desiredAccuracy = kCLLocationAccuracyBest
+        manager.startUpdatingLocation()
+    }
+    
+    func requestLocation() {
+
+        manager.requestAlwaysAuthorization()
+        
+    }
+}
+
+extension LocationManager: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        
+//        switch status {
+//        case .notDetermined:
+//            print("DEBUG: Not determined")
+//        case .restricted:
+//            print("DEBUG: Restricted")
+//        case .denied:
+//            print("DEBUG: Denied")
+//        case .authorizedAlways:
+//            print("DEBUG: Always")
+//        case .authorizedWhenInUse:
+//            print("DEBUG: When in use")
+//        @unknown default:
+//            break
+//        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last else { return }
+        self.userLocation = location
+    }
+}
+
+
 struct MainView: View {
-    @EnvironmentObject var viewModel: AuthViewModel
     
     @State private var email: String = ""
     @State private var password: String = ""
     
     @ObservedObject var UserManager: UserManagement
+    
+    @ObservedObject var locationManager = LocationManager.shared
     
     var body: some View {
         
@@ -26,6 +74,10 @@ struct MainView: View {
                 StartupView(UserManager: UserManager)
             }
         }
+        .onAppear{
+            LocationManager.shared.requestLocation()
+        }
+
     }
     
 }

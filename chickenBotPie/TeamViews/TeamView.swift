@@ -22,6 +22,11 @@ struct TeamView: View {
     @State var teams: [QuickTeamView] = []
     @State private var teamsViewModel = TBAManager()
     
+    // Spinner
+    var isLoading: Bool {
+        return teamsToDisplay.isEmpty
+    }
+    
     var body: some View {
         
         // navigation stack to display all the robotics teams
@@ -68,10 +73,13 @@ struct TeamView: View {
                     }
                     .onChange(of: selectedEvent) {
                         Task {
+                            print("Fetching updated teams...")
+                            
                             await teamsViewModel.fetchTeamsForEvent(eventCode: selectedEvent)
                             
                             switch selectedEvent {
                                 case "2024mndu2":
+                                print("getting mndu teams")
                                     teams = teamsViewModel.mndu2Teams
                                 case "2024wila":
                                     teams = teamsViewModel.wilaTeams
@@ -88,6 +96,13 @@ struct TeamView: View {
                 }
                 .padding([.leading, .trailing])
                 .padding([.bottom, .top], 10)
+                
+                if isLoading {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle(tint: .blue))
+                        .scaleEffect(2)
+                        .padding()
+                }
                 
                 // Display list of teams
                 List() {
@@ -109,6 +124,7 @@ struct TeamView: View {
                 .navigationTitle("Teams")
                 .navigationBarHidden(false)
                 .scrollContentBackground(.hidden)
+
             }
             .onAppear {
                 Task{
@@ -187,16 +203,9 @@ struct TeamRow: View {
     }
 }
 
-struct TeamListRow: View {
-    var teamItem: QuickTeamView
-
-    var body: some View {
-        HStack {
-            Text(String(teamItem.team_number ?? 0000) + ":")
-            Text(teamItem.nickname ?? "none")
-        }
-        .padding(8)
-    }
+func currentTime() -> Double {
+    // Get current time in seconds
+    return Date().timeIntervalSince1970
 }
 
 struct TeamView_Previews: PreviewProvider {

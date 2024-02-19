@@ -6,16 +6,17 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct PitScouting: View {
     
     @Environment(\.colorScheme) var colorScheme
-    @EnvironmentObject var viewModel: AuthViewModel
-    
     @ObservedObject var UserManager: UserManagement
+    @State private var dataManager = DataManager()
     
     @State private var isSearching = false
     @State private var selectedTeamName: String?
+    @State private var selectedTeamNumber: Int?
     
     @State private var showingSuccessAlert = false
     
@@ -48,9 +49,6 @@ struct PitScouting: View {
     
     let generator = UIImpactFeedbackGenerator(style: .heavy)
     
-    
-    
-    
     var body: some View {
         NavigationStack {
             List {
@@ -68,7 +66,7 @@ struct PitScouting: View {
                         }
                 ){
                     NavigationLink(
-                        destination: TeamSearchView(selectedTeamName: $selectedTeamName),
+                        destination: TeamSearchView(selectedTeamName: $selectedTeamName, selectedTeamNumber: $selectedTeamNumber),
                         label: {
                             HStack {
                                 Text("Team:")
@@ -281,6 +279,14 @@ struct PitScouting: View {
                             .cornerRadius(10)
                             .padding(.bottom, 5)
                             .padding(.top, 10)
+                            .toolbar {
+                                ToolbarItemGroup(placement: .keyboard) {
+                                    Spacer()
+                                    Button("Done") {
+                                        hideKeyboard()
+                                    }
+                                }
+                            }
                     }
                 }
                 
@@ -288,24 +294,28 @@ struct PitScouting: View {
                 Button(action: {
                     generator.impactOccurred(intensity: 1)
                     
-                    let pitScoutData = pitScoutData(
-                        teamName: selectedTeamName ?? "",
-                        driveTrain: driveTrain,
+                    let pitScoutDataInstance = pitScoutData(
+                        teamnumber: selectedTeamNumber ?? 0000,
+                        scoutname: UserManager.currentUser?.fullname ?? "anonymous",
+                        drivetype: driveTrain,
                         intake: intake,
-                        bestAuto: bestAuto,
+                        //playstyle: "pretty good",
+                        bestauto: concatenatedAutoElements,
                         defense: defense,
                         speaker: speaker,
                         amp: amp,
-                        underStage: underStage,
+                        understage: underStage,
                         climb: climb,
                         harmony: harmony,
                         trap: trap,
-                        humanPlayer: humanPlayer,
-                        submissionTime: Date(),
-                        notes: notes,
-                        scout: UserManager.currentUser?.fullname ?? "anonymous")
+                        humanplayer: humanPlayer,
+                        extranotes: notes
+                    )
                     
-                    // add pit data
+                    // Upload data
+                    Task {
+                        await dataManager.uploadPitData(pitData: pitScoutDataInstance)
+                    }
                     
                     // Show success alert
                     showingSuccessAlert = true

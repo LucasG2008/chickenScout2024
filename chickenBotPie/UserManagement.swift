@@ -71,7 +71,7 @@ class UserManagement: ObservableObject {
     // SIGN UP
     
     func signUp(email: String, username: String, password: String) async {
-        guard let signUpURL = URL(string: "http://75.72.123.64:3082/signup") else {
+        guard let signUpURL = URL(string: "http://98.59.100.219:3082/signup") else {
             print("Error getting sign up url")
             
             return
@@ -120,6 +120,14 @@ class UserManagement: ObservableObject {
                                 
                                 self.currentUser = User(id: self.dict_userid, fullname: self.dict_username, password: self.dict_password, email: self.dict_email, matchesScouted: self.dict_matchesScouted)
                                 self.loggedIn = true
+                                
+                                // Save authentication state
+                                self.userDefaults.set(true, forKey: self.loggedInKey)
+                                self.userDefaults.set(self.currentUser?.id, forKey: self.userIdKey)
+                                self.userDefaults.set(self.currentUser?.fullname, forKey: self.userFullname)
+                                self.userDefaults.set(self.currentUser?.password, forKey: self.userPassword)
+                                self.userDefaults.set(self.currentUser?.email, forKey: self.userEmail)
+                                self.userDefaults.set(self.currentUser?.matchesScouted, forKey: String(self.userMatchesScouted))
                             }
                         }
                     } catch {
@@ -152,7 +160,7 @@ class UserManagement: ObservableObject {
     // LOG IN
     
     func logIn(username: String, password: String) async {
-        guard let signUpURL = URL(string: "http://75.72.123.64:3082/login") else {
+        guard let signUpURL = URL(string: "http://98.59.100.219:3082/login") else {
             print("Error getting sign up url")
             
             return
@@ -167,7 +175,7 @@ class UserManagement: ObservableObject {
             request.httpBody = encoded
             
 
-            let task = URLSession.shared.dataTask(with: request) {
+            let task: Void = URLSession.shared.dataTask(with: request) {
                 data, response, error in
                 if let error = error {
                     print("ERROR: \(error.localizedDescription)")
@@ -201,6 +209,14 @@ class UserManagement: ObservableObject {
                                 
                                 self.currentUser = User(id: self.dict_userid, fullname: self.dict_username, password: self.dict_password, email: self.dict_email, matchesScouted: self.dict_matchesScouted)
                                 self.loggedIn = true
+                                
+                                // Save authentication state
+                                self.userDefaults.set(true, forKey: self.loggedInKey)
+                                self.userDefaults.set(self.currentUser?.id, forKey: self.userIdKey)
+                                self.userDefaults.set(self.currentUser?.fullname, forKey: self.userFullname)
+                                self.userDefaults.set(self.currentUser?.password, forKey: self.userPassword)
+                                self.userDefaults.set(self.currentUser?.email, forKey: self.userEmail)
+                                self.userDefaults.set(self.currentUser?.matchesScouted, forKey: String(self.userMatchesScouted))
                             }
                         }
                     } catch {
@@ -208,19 +224,10 @@ class UserManagement: ObservableObject {
                     }
                 }
                 
-            }
-            
-            task.resume()
+            }.resume()
             
         }
         
-        // Save authentication state
-        userDefaults.set(true, forKey: loggedInKey)
-        userDefaults.set(dict_userid, forKey: userIdKey)
-        userDefaults.set(dict_username, forKey: userFullname)
-        userDefaults.set(dict_password, forKey: userPassword)
-        userDefaults.set(dict_email, forKey: userEmail)
-        userDefaults.set(dict_matchesScouted, forKey: String(userMatchesScouted))
     }
     
     // GUEST SIGN IN

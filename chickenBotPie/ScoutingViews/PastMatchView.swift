@@ -7,23 +7,59 @@
 
 import SwiftUI
 
+func formatTimestamp(_ timestamp: String) -> String? {
+    let dateFormatter = DateFormatter()
+    dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+    
+    if let date = dateFormatter.date(from: timestamp) {
+        dateFormatter.dateFormat = "M-d-Y HH:mm"
+        return dateFormatter.string(from: date)
+    } else {
+        return nil
+    }
+}
+
 struct PastMatchView: View {
     @Environment(\.colorScheme) var colorScheme
-    @State private var selectedMatch: matchScoutData?
+    @State private var dataManager = DataManager()
+    
+    @State private var selectedMatch: pastMatchData?
+    @State private var pastMatches: [pastMatchData] = []
     
     @State private var searchText = ""
     
-    let dateFormatter: DateFormatter = {
-            let formatter = DateFormatter()
-            formatter.dateStyle = .short
-            formatter.timeStyle = .short
-            return formatter
-        }()
+    var filteredMatches: [pastMatchData] {
+            if searchText.isEmpty {
+                return pastMatches
+            } else {
+                return pastMatches.filter { match in
+                    "\(match.teamnumber)".contains(searchText) || "\(match.matchnumber)".contains(searchText)
+                }
+            }
+        }
     
     var body: some View {
         NavigationView {
-            List {
-                Text("Past Matches")
+            List(filteredMatches, id: \.self) { match in
+                NavigationLink(destination: MatchDetailedView(match: match)) {
+                    VStack(alignment: .leading) {
+                        Text("Match Number: \(match.matchnumber)")
+                            .font(.headline)
+                        Text("Team Number: \(match.teamnumber)")
+                            .font(.subheadline)
+                        if let formattedTimestamp = formatTimestamp(match.timestamp) {
+                            Text("Submission Data: \(formattedTimestamp)")
+                                .font(.subheadline)
+                        } else {
+                            Text("Invalid Timestamp")
+                                .font(.subheadline)
+                                .foregroundColor(.red) // Optionally indicate an invalid timestamp
+                        }
+                        Text("Scout Name: \(match.scoutname)")
+                            .font(.subheadline)
+                    }
+                }
             }
             .searchable(text: $searchText)
             .scrollContentBackground(.hidden)
@@ -38,9 +74,14 @@ struct PastMatchView: View {
                 .edgesIgnoringSafeArea(.all))
             .navigationTitle("Match Data")
         }
+        .onAppear {
+            Task {
+                do {
+                    pastMatches = try await dataManager.fetchPastMatches()
+                } catch {
+                    print("Error fetching past matches: \(error)")
+                }
+            }
+        }
     }
-}
-
-#Preview {
-    PastMatchView()
 }

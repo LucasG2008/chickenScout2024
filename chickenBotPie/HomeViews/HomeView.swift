@@ -12,7 +12,6 @@ struct HomeView: View {
     
     @State private var teamsViewModel = TBAManager()
     
-    
     var body: some View {
         
         // navigation stack to display all the robotics teams

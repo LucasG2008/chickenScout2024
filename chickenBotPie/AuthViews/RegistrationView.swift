@@ -9,6 +9,11 @@ import SwiftUI
 
 struct RegistrationView: View, SignupAuthenticationFormProtocol { 
     
+    @Environment(\.dismiss) var dismiss
+    @Environment(\.colorScheme) var colorScheme
+    
+    @ObservedObject var UserManager: UserManagement
+    
     @State internal var email = ""
     @State internal var fullname = ""
     @State internal var password = ""
@@ -16,12 +21,6 @@ struct RegistrationView: View, SignupAuthenticationFormProtocol {
     
     @State private var showAlert = false
     @State private var alertMessage = ""
-    
-    @Environment(\.dismiss) var dismiss
-    @Environment(\.colorScheme) var colorScheme
-    
-    @ObservedObject var UserManager: UserManagement
-
     
     var body: some View {
         NavigationStack {

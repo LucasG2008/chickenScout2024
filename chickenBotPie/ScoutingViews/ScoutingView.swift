@@ -10,13 +10,11 @@ import SwiftUI
 struct ScoutingView: View {
     
     @Environment(\.colorScheme) var colorScheme
-    @EnvironmentObject var viewModel: AuthViewModel
+    @ObservedObject var UserManager: UserManagement
     
     @State private var selectedView: String?
     
     @State private var isSignOutAlertPresented = false
-    
-    @ObservedObject var UserManager: UserManagement
     
     var body: some View {
         
@@ -24,38 +22,26 @@ struct ScoutingView: View {
         NavigationStack {
             List {
                 
-                
-                Section {
-                    Button {
-                        selectedView = "pitScouting"
-                    } label: {
-                        Text("Pit Scouting")
-                    }
-                    
-                    Button {
-                        selectedView = "standScouting"
-                    } label: {
-                        Text("Match Scouting")
-                    }
-                
-                } header: {
-                    Text("Add Data")
-                }
-                
-                
-                
                 Section {
                     
                     Button {
                         selectedView = "pastMatchData"
                     } label: {
-                        Text("Past Match Data")
+                        HStack{
+                            Text("Past Match Data")
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                        }
                     }
                     
                     Button {
                         selectedView = "pastPitData"
                     } label: {
-                        Text("Past Pit Data")
+                        HStack{
+                            Text("Past Pit Data")
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                        }
                     }
                     
                     
@@ -94,8 +80,6 @@ struct ScoutingView: View {
                 }
                 .edgesIgnoringSafeArea(.all))
             
-            
-            
             .navigationTitle("Scouting")
             .navigationBarHidden(false)
             // ask for sign out confirmation
@@ -114,21 +98,17 @@ struct ScoutingView: View {
                             get: { selectedView != nil },
                             set: { _ in selectedView = nil }
                         )) {
-                            if selectedView == "pitScouting" {
-                                PitScouting(UserManager: UserManager)
-                                    .navigationBarTitle("Pit Scouting", displayMode: .inline)
-                            } else if selectedView == "pastMatchData" {
+
+                            if selectedView == "pastMatchData" {
                                 PastMatchView()
                                     .navigationBarTitle("Match Data", displayMode: .inline)
                             } else if selectedView == "pastPitData" {
                                 PastPitView()
                                     .navigationBarTitle("Past Data", displayMode: .inline)
                             } else {
-                                MatchScouting(UserManager: UserManager)
-                                    .navigationBarTitle("Match Scouting", displayMode: .inline)
+                                // nothing
                             }
                         }
-
         }
         .accentColor(accentColor)
     }

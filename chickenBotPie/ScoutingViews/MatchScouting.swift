@@ -10,28 +10,40 @@ import ConfettiSwiftUI
 
 struct MatchScouting: View {
     
-    @EnvironmentObject var viewModel: AuthViewModel
-    @ObservedObject var UserManager: UserManagement
     @Environment(\.colorScheme) var colorScheme
+    @ObservedObject var UserManager: UserManagement
+    @State private var dataManager = DataManager()
+    
+    @State var teams: [QuickTeamView] = []
+    @State private var teamsViewModel = TBAManager()
     
     @State private var showingSuccessAlert = false
     
+    @State private var isSearching = false
+    @State private var selectedTeamNumber: Int?
+    
+    @State private var typedTeam = ""
+    @State private var showTeamNumAlert = false
+    
+    @FocusState private var isTeamFocused: Bool
+    @FocusState private var isMatchFocused: Bool
+    @State private var activeTextField: TextFieldType?
+    
+    enum TextFieldType {
+            case team, matchNumber
+        }
+    
+    @State private var selectedOptTeam: Int = 0000
+    
+    @State private var matchNumber = 0000
+    
     @State private var selectedAlliance = "Red"
     let alliances = ["Red", "Blue"]
-    
-    @State private var isSearching = false
-    @State private var selectedTeamName: String?
     
     @State private var leftAuto = false
     
     @State var autoSequence: [String] = []
     @State var teleopSequence: [String] = []
-    
-    @State var autoAmpPoints = 0
-    @State var autoSpeakerPoints = 0
-    @State var teleAmpPoints = 0
-    @State var teleSpeakerPoints = 0
-    @State var teleSpeakerAmplifiedNotes = 0
     
     var concatenatedAutoElements: String {
         autoSequence.joined(separator: ", ")
@@ -52,6 +64,7 @@ struct MatchScouting: View {
     
     let trapOutcomes = ["No", "Yes", "Not Attempted"]
     @State private var trap = "No"
+    @State private var numTraps = 0
     
     let mikeOutcomes = ["Miss", "Score", "Score w/ harmony"]
     @State private var ampMike = "Miss"
@@ -71,7 +84,12 @@ struct MatchScouting: View {
     // TIMES UNTIL CONFETTI
     @State private var timesUntilConfetti: Int = 5
     
-    //Score calculation
+    @State private var stringRep: String = "No data yet"
+    
+    
+    @State private var popupTagsPresented = false
+    
+    // MARK: Score Calculation
     
     var autoScore: Int {
         var totalScore = 0
@@ -153,10 +171,85 @@ struct MatchScouting: View {
         
         // Check if trap is "Yes"
         if trap == "Yes" {
-            totalScore += 5
+            totalScore += (5*numTraps)
         }
         
         return totalScore
+    }
+    
+    var autoAmpPoints: Int {
+        var autoAmpPointsScore = 0
+
+        for element in autoSequence {
+            switch element {
+            case "Amp":
+                autoAmpPointsScore += 2
+            default:
+                break
+            }
+        }
+
+        return autoAmpPointsScore
+    }
+    
+    var autoSpeakerPoints: Int {
+        var autoSpeakerPointsScore = 0
+
+        for element in autoSequence {
+            switch element {
+            case "Speaker":
+                autoSpeakerPointsScore += 5
+            default:
+                break
+            }
+        }
+
+        return autoSpeakerPointsScore
+    }
+    
+    var teleAmpPoints: Int {
+        var teleAmpPointsScore = 0
+
+        for element in teleopSequence {
+            switch element {
+            case "Amp":
+                teleAmpPointsScore += 1
+            default:
+                break
+            }
+        }
+
+        return teleAmpPointsScore
+    }
+    
+    var teleSpeakerPoints: Int {
+        var teleSpeakerPointsScore = 0
+
+        for element in teleopSequence {
+            switch element {
+            case "Speaker":
+                teleSpeakerPointsScore += 2
+            default:
+                break
+            }
+        }
+
+        return teleSpeakerPointsScore
+    }
+    
+    var teleSpeakerAmplifiedNotes: Int {
+        var teleAmpedSpeakerPointsScore = 0
+
+        for element in teleopSequence {
+            switch element {
+            case "Amped Speaker":
+                teleAmpedSpeakerPointsScore += 5
+            default:
+                break
+            }
+        }
+
+        return teleAmpedSpeakerPointsScore
     }
     
     var body: some View {
@@ -176,24 +269,71 @@ struct MatchScouting: View {
                             }
                         }
                 ){
+
+                    HStack{
                     
-                        NavigationLink(
-                            destination: TeamSearchView(selectedTeamName: $selectedTeamName),
-                            label: {
-                                HStack {
-                                    Text("Team:")
-                                    Spacer()
-                                    Text(selectedTeamName ?? "")
-                                        .foregroundColor(selectedTeamName != nil ? .primary : .gray)
-                                }
-                            })
-                    
-                    
-                        Picker("Alliance: ", selection: $selectedAlliance) {
-                            ForEach(alliances, id: \.self) {
-                                Text($0)
+                        Text("Team: ")
+                            .padding(.trailing, 20)
+                        
+                        TextField("Enter team", text: $typedTeam)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .keyboardType(.decimalPad)
+                            .focused($isTeamFocused)
+                            .onChange(of: isTeamFocused) {
+                                activeTextField = .team
                             }
+                            .toolbar {
+                                ToolbarItemGroup(placement: .keyboard) {
+                                    if activeTextField == .team {
+                                    Spacer()
+                                        Button("Done") {
+                                            hideKeyboard()
+                                            
+                                            let teamDisplay = teamNameFromNumber
+                                            
+                                            if teamDisplay == "none" {
+                                                typedTeam = ""
+                                                showTeamNumAlert = true
+                                            } else {
+                                                typedTeam = teamDisplay
+                                                selectedTeamNumber = Int(typedTeam)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                }
+                    HStack {
+                        Text("Match Number: ")
+                        
+                        Spacer()
+                        
+                        TextField("Match Number", value: $matchNumber, format: .number)
+                            .textFieldStyle(.roundedBorder)
+                            .keyboardType(.decimalPad)
+                            .frame(width: 80)
+                            .focused($isMatchFocused)
+                            .onChange(of: isMatchFocused) {
+                                activeTextField = .matchNumber
+                            }
+                            .toolbar {
+                                ToolbarItemGroup(placement: .keyboard) {
+                                    if activeTextField == .matchNumber {
+                                        Spacer()
+                                        Button("Done") {
+                                            hideKeyboard()
+                                        }
+                                    }
+                                }
+                            }
+                            
+                    }
+                
+                    Picker("Alliance: ", selection: $selectedAlliance) {
+                        ForEach(alliances, id: \.self) {
+                            Text($0)
                         }
+                    }
    
                 }
             
@@ -202,15 +342,15 @@ struct MatchScouting: View {
                 Section {
                     VStack {
                         
+                    Spacer()
+                    
+                    HStack {
                         Spacer()
-                        
-                        HStack {
-                            Spacer()
-                            Text("AUTO")
-                                .font(.title2)
-                                .fontWeight(.bold)
-                            Spacer()
-                        }
+                        Text("AUTO")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                        Spacer()
+                    }
                     
                     Divider()
                     
@@ -345,7 +485,7 @@ struct MatchScouting: View {
                         Spacer()
                         HStack {
                             Spacer()
-                            Text("COOPERTITION")
+                            Text("CO-OPERTITION")
                                 .font(.title2)
                                 .fontWeight(.bold)
                             Spacer()
@@ -353,10 +493,10 @@ struct MatchScouting: View {
                         
                         Divider()
                         
-                        Toggle("Offered Coopertition:", isOn: $offeredCoop)
+                        Toggle("Offered Co-Opertition:", isOn: $offeredCoop)
                             .padding([.bottom, .top], 10)
                         
-                        Toggle("Did Cooperate:", isOn: $didCoop)
+                        Toggle("Did Co-Operate:", isOn: $didCoop)
                             .padding([.bottom, .top], 10)
                         
                     }
@@ -523,18 +663,30 @@ struct MatchScouting: View {
                         Divider()
                         
                         Toggle("Park: ", isOn: $park)
+                            .onChange(of: park) {
+                                if park {
+                                    climbed = false
+                                    harmony = false
+                                }
+                            }
                         Toggle("Onstage Climb:", isOn: $climbed)
                             .disabled(park == true)
                         Toggle("Harmony:", isOn: $harmony)
                             .disabled(park == true)
                         
+                    }
+                    VStack {
+                        
                         Picker("Trap: ", selection: $trap) {
-                            
                             ForEach(trapOutcomes, id: \.self) {
                                 Text($0)
                             }
                         }
-
+                        .padding(5)
+                        
+                        Stepper("Traps: \(numTraps)", value: $numTraps, in: 0...3)
+                            .padding(5)
+                        
                     }
                 }
                 
@@ -592,31 +744,44 @@ struct MatchScouting: View {
                     generator.impactOccurred(intensity: 1)
                     
                     let matchScoutDataInstance = matchScoutData(
-                        teamName: selectedTeamName ?? "",
+                        
+                        scoutname: UserManager.currentUser?.fullname ?? "anonymous",
+                        teamnumber: selectedTeamNumber ?? 0000,
+                        matchnumber: matchNumber, // add selector
                         alliance: selectedAlliance,
+                        
                         //autoSequence: autoSequence,
                         //teleopSequence: teleopSequence,
-                        autoAmpPoints: autoAmpPoints,
-                        autoSpeakerPoints: autoSpeakerPoints,
-                        teleAmpPoints: teleAmpPoints,
-                        teleSpeakerPoints: teleSpeakerPoints,
-                        teleSpeakerAmplifiedNotes: teleSpeakerAmplifiedNotes,
+                        
+                        autoamppoints: autoAmpPoints,
+                        autospeakerpoints: autoSpeakerPoints, 
+                        autoleftzone: leftAuto,
+                        teleamppoints: teleAmpPoints,
+                        telespeakerpoints: teleSpeakerPoints,
+                        telespeakeramplifiedpoints: teleSpeakerAmplifiedNotes,
                         
                         drops: drops,
-                        park: park,
+                        
                         climbed: climbed,
+                        parked: park,
+                        
                         harmony: harmony,
                         trap: trap,
+                        numtraps: numTraps,
+                        offeredcoop: offeredCoop,
+                        didcoop: didCoop,
                         
-                        ampMike: ampMike,
-                        sourceMike: sourceMike,
-                        centerMike: centerMike,
+                        ampmike: ampMike,
+                        sourcemike: sourceMike,
+                        centermike: centerMike
                         
-                        score: gameScore,
-                        submissionTime: Date(),
-                        scout: UserManager.currentUser?.fullname ?? "anonymous")
-                    
-                    // upload data
+                        //score: gameScore
+                    )
+
+                    // Upload data
+                    Task {
+                        await dataManager.uploadMatchData(matchData: matchScoutDataInstance)
+                    }
                     
                     // Show success alert
                     showingSuccessAlert = true
@@ -630,7 +795,7 @@ struct MatchScouting: View {
                         .contentShape(RoundedRectangle(cornerRadius: 15))
 
                 })
-                
+                .disabled(formIsInvalid)
                 .frame(minWidth: 0, maxWidth: .infinity)
                 .buttonStyle(GrowingButton())
                 .overlay(
@@ -640,6 +805,12 @@ struct MatchScouting: View {
                 )
                 }
                 .scrollContentBackground(.hidden)
+                .onAppear {
+                    Task{
+                        await teamsViewModel.fetchTeamsForEvent(eventCode: "All")
+                        teams = teamsViewModel.allTeams
+                    }
+                }
                 .background(
                     Group {
                         if colorScheme == .light {
@@ -651,9 +822,13 @@ struct MatchScouting: View {
                     .edgesIgnoringSafeArea(.all))
             
             }
+        .accentColor(accentColor)
         .alert("Data Saved Successfully!", isPresented: $showingSuccessAlert) {
                     Button("OK", role: .cancel) { }
                 }
+        .alert(isPresented: $showTeamNumAlert) {
+                        Alert(title: Text("Invalid Team"), message: Text("You entered an invalid team. Try again."), dismissButton: .default(Text("OK")))
+                    }
     }
     
     
@@ -662,19 +837,37 @@ struct MatchScouting: View {
             return colorScheme == .dark ? .white : .black
         }
     
+    var teamNameFromNumber: String {
+            if let teamNumber = Int(typedTeam),
+               let team = teams.first(where: { $0.team_number == teamNumber }) {
+                return "\(team.team_number ?? 0000): \(team.nickname ?? "N/A")"
+            } else {
+                return "none"
+            }
+        }
+    
+    var formIsInvalid: Bool {
+        return selectedTeamNumber == 000
+    }
+    
     func resetValues() {
         // Set each variable to its default value
         selectedAlliance = "Red"
-        selectedTeamName = ""
+        selectedTeamNumber = 0
+        matchNumber = 0
+        
         leftAuto = false
         autoSequence = []
         teleopSequence = []
         
-        autoAmpPoints = 0
-        autoSpeakerPoints = 0
-        teleAmpPoints = 0
-        teleSpeakerPoints = 0
-        teleSpeakerAmplifiedNotes = 0
+//        autoAmpPoints = 0
+//        autoSpeakerPoints = 0
+//        teleAmpPoints = 0
+//        teleSpeakerPoints = 0
+//        teleSpeakerAmplifiedNotes = 0
+        
+        offeredCoop = false
+        didCoop = false
         
         ampMike = "Miss"
         sourceMike = "Miss"
@@ -725,7 +918,12 @@ struct GrowingButtonShort: ButtonStyle {
     }
 }
 
+extension View {
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
+
 #Preview {
     MatchScouting(UserManager: UserManagement())
 }
-

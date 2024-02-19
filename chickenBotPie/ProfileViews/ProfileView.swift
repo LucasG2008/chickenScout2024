@@ -8,14 +8,12 @@
 import SwiftUI
 
 struct ProfileView: View {
-    
-    @EnvironmentObject var viewModel: AuthViewModel
+
     @Environment(\.colorScheme) var colorScheme
+    @ObservedObject var UserManager: UserManagement
     
     @State private var isDeleteAccountAlertPresented = false
     @State private var isSignOutAlertPresented = false
-    
-    @ObservedObject var UserManager: UserManagement
     
     var body: some View {
         if let user = UserManager.currentUser {
@@ -105,7 +103,7 @@ struct ProfileView: View {
                                 message: Text("Are you sure you want to permanently delete your account?"),
                                 primaryButton: .default(Text("Cancel")),
                                 secondaryButton: .destructive(Text("Delete")) {
-                                    viewModel.deleteAccount()
+                                    // delete account
                                 }
                             )
                         }

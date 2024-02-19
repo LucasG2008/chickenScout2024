@@ -11,26 +11,51 @@ struct MatchDetailedView: View {
     
     @Environment(\.colorScheme) var colorScheme
     
-    let match: matchScoutData
+    let match: pastMatchData
 
     var body: some View {
         List {
-            // Display detailed information for the match
-            Text("Team: \(match.teamName)") 
-            Text("Scout: \(match.scout)")
-            Text("Alliance: \(match.alliance)")
-            //Text("Auto Sequence: \(match.autoSequence.joined(separator: ", "))")
-               //.multilineTextAlignment(.trailing)
-            //Text("Teleop Sequence: \(match.teleopSequence.joined(separator: ", "))")
-               //.multilineTextAlignment(.trailing)
-            Text("Drops: \(match.drops)")
-            Text("Park: \(match.park)" as String)
-            Text("Climbed: \(match.climbed)" as String)
-            Text("Harmony: \(match.harmony)" as String)
-            Text("Trap: \(match.trap)" as String)
-
-            Text("Score: \(match.score)")
+            Section(header: Text("Match Information")) {
+                Text("Scout Name: \(match.scoutname)")
+                Text("Team Number: \(match.teamnumber)")
+                Text("Match Number: \(match.matchnumber)")
+                Text("Alliance: \(match.alliance)")
+            }
+            
+            Section(header: Text("Autonomous")) {
+                Text("Auto AMP Points: \(match.autoamppoints)")
+                Text("Auto Speaker Points: \(match.autospeakerpoints)")
+                Text("Auto Left Zone: \(match.autoleftzone ? "Yes" : "No")")
+            }
+            
+            Section(header: Text("Teleop")) {
+                Text("Tele AMP Points: \(match.teleamppoints)")
+                Text("Tele Speaker Points: \(match.telespeakerpoints)")
+                Text("Tele Speaker Amplified Points: \(match.telespeakeramplifiedpoints)")
+                Text("Drops: \(match.drops)")
+            }
+            
+            Section(header: Text("Endgame")) {
+                Text("Climbed: \(match.climbed ? "Yes" : "No")")
+                Text("Parked: \(match.parked ? "Yes" : "No")")
+                Text("Harmony: \(match.harmony ? "Yes" : "No")")
+                Text("Trap: \(match.trap)")
+                Text("Number of Traps: \(match.numtraps)")
+                Text("Offered Cooperation: \(match.offeredcoop ? "Yes" : "No")")
+                Text("Did Cooperate: \(match.didcoop ? "Yes" : "No")")
+            }
+            
+            Section(header: Text("Human Player")) {
+                Text("AMP Mike: \(match.ampmike)")
+                Text("Source Mike: \(match.sourcemike)")
+                Text("Center Mike: \(match.centermike)")
+            }
+            
+            Section(header: Text("Timestamp")) {
+                Text("Timestamp: \(formatTimestamp(match.timestamp) ?? "Invalid Timestamp")")
+            }
         }
+        .listStyle(InsetGroupedListStyle())
         .scrollContentBackground(.hidden)
         .background(
             Group {

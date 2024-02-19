@@ -30,9 +30,16 @@ struct LoginInputView: View {
                     .font(.system(size: 14))
                     .foregroundColor(colorScheme == .dark ? .white : Color(.darkGray))
             } else {
-                TextField(placeholder, text: $text)
-                    .font(.system(size: 14))
-                    .foregroundColor(colorScheme == .dark ? .white : Color(.darkGray))
+                if title == "Email Address" {
+                    TextField(placeholder, text: $text)
+                        .font(.system(size: 14))
+                        .foregroundColor(colorScheme == .dark ? .white : Color(.darkGray))
+                        .textContentType(.emailAddress)
+                } else {
+                    TextField(placeholder, text: $text)
+                        .font(.system(size: 14))
+                        .foregroundColor(colorScheme == .dark ? .white : Color(.darkGray))
+                }
             }
             
             Divider()

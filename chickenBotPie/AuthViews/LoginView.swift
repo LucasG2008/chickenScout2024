@@ -8,17 +8,16 @@
 import SwiftUI
 
 struct LoginView: View, LoginAuthenticationFormProtocol {
+    
+    @Environment(\.colorScheme) var colorScheme
+    @ObservedObject var UserManager: UserManagement
+    
     @State internal var fullName = ""
     @State internal var email = ""
     @State internal var password = ""
     
     @State private var showAlert = false
     @State private var alertMessage = ""
-    
-    @EnvironmentObject var viewModel: AuthViewModel
-    @Environment(\.colorScheme) var colorScheme
-    
-    @ObservedObject var UserManager: UserManagement
     
     var body: some View {
         NavigationStack {
@@ -43,9 +42,7 @@ struct LoginView: View, LoginAuthenticationFormProtocol {
                     .fontWeight(.bold)
                     .padding(.bottom, 25)
                     .padding([.leading, .trailing], 10)
-                
-                
-                
+
                 // Form fields
                 VStack(spacing: 24) {
                     LoginInputView(text: $fullName,
@@ -102,8 +99,7 @@ struct LoginView: View, LoginAuthenticationFormProtocol {
                 .edgesIgnoringSafeArea(.all))
         }
     }
-    
-    
+
     var formIsValid: Bool {
         return !fullName.isEmpty && password.count > 5
     }
