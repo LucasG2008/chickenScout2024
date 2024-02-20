@@ -34,17 +34,6 @@ struct ScoutingView: View {
                         }
                     }
                     
-                    Button {
-                        selectedView = "pastPitData"
-                    } label: {
-                        HStack{
-                            Text("Past Pit Data")
-                            Spacer()
-                            Image(systemName: "chevron.right")
-                        }
-                    }
-                    
-                    
                 } header: {
                     Text("Past Data")
                 }
@@ -102,9 +91,6 @@ struct ScoutingView: View {
                             if selectedView == "pastMatchData" {
                                 PastMatchView()
                                     .navigationBarTitle("Match Data", displayMode: .inline)
-                            } else if selectedView == "pastPitData" {
-                                PastPitView()
-                                    .navigationBarTitle("Past Data", displayMode: .inline)
                             } else {
                                 // nothing
                             }

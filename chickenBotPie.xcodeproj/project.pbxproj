@@ -55,6 +55,7 @@
 		EE8DD1CB2B81A8AB003E2708 /* SettingsRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8DD1CA2B81A8AB003E2708 /* SettingsRowView.swift */; };
 		EE8DD1CD2B81A8B9003E2708 /* DataStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8DD1CC2B81A8B9003E2708 /* DataStructs.swift */; };
 		EEA0BB3F2B7C260F00F9881C /* DataManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA0BB3E2B7C260F00F9881C /* DataManagement.swift */; };
+		EED684B32B841F65001493DE /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED684B22B841F65001493DE /* NetworkMonitor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -118,6 +119,7 @@
 		EE8DD1CA2B81A8AB003E2708 /* SettingsRowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsRowView.swift; sourceTree = "<group>"; };
 		EE8DD1CC2B81A8B9003E2708 /* DataStructs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStructs.swift; sourceTree = "<group>"; };
 		EEA0BB3E2B7C260F00F9881C /* DataManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManagement.swift; sourceTree = "<group>"; };
+		EED684B22B841F65001493DE /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -187,6 +189,7 @@
 			children = (
 				EE73CB972B5E0729005F4588 /* Info.plist */,
 				EE47E1EF2B54F4E600FF192C /* chickenBotPieApp.swift */,
+				EED684B22B841F65001493DE /* NetworkMonitor.swift */,
 				EE88F9D02B55C6200016E68E /* MainView.swift */,
 				EE7C36F42B5DEED500439DB3 /* MainTabView.swift */,
 				EE76B7532B76EC160056F445 /* AuthViews */,
@@ -475,6 +478,7 @@
 				EE88F9DC2B580D910016E68E /* ScoutingView.swift in Sources */,
 				EE1C36172B72EB1600FC97E7 /* UserManagement.swift in Sources */,
 				EE88F9D52B55CA870016E68E /* PieChartView.swift in Sources */,
+				EED684B32B841F65001493DE /* NetworkMonitor.swift in Sources */,
 				EEA0BB3F2B7C260F00F9881C /* DataManagement.swift in Sources */,
 				EE73CB9D2B5ECF96005F4588 /* PastPitView.swift in Sources */,
 				EE88F9E62B58116F0016E68E /* MatchScouting.swift in Sources */,

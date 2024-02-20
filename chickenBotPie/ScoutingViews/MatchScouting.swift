@@ -14,13 +14,17 @@ struct MatchScouting: View {
     @ObservedObject var UserManager: UserManagement
     @State private var dataManager = DataManager()
     
+    @StateObject var networkMonitor = NetworkMonitor.shared
+    
     @State var teams: [QuickTeamView] = []
     @State private var teamsViewModel = TBAManager()
     
     @State private var showingSuccessAlert = false
+    @State private var showingLocalSaveAlert = false
     
     @State private var isSearching = false
     @State private var selectedTeamNumber: Int?
+    @State private var selectedTeamName: String?
     
     @State private var typedTeam = ""
     @State private var showTeamNumAlert = false
@@ -270,39 +274,16 @@ struct MatchScouting: View {
                         }
                 ){
 
-                    HStack{
-                    
-                        Text("Team: ")
-                            .padding(.trailing, 20)
-                        
-                        TextField("Enter team", text: $typedTeam)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .keyboardType(.decimalPad)
-                            .focused($isTeamFocused)
-                            .onChange(of: isTeamFocused) {
-                                activeTextField = .team
-                            }
-                            .toolbar {
-                                ToolbarItemGroup(placement: .keyboard) {
-                                    if activeTextField == .team {
-                                    Spacer()
-                                        Button("Done") {
-                                            hideKeyboard()
-                                            
-                                            let teamDisplay = teamNameFromNumber
-                                            
-                                            if teamDisplay == "none" {
-                                                typedTeam = ""
-                                                showTeamNumAlert = true
-                                            } else {
-                                                typedTeam = teamDisplay
-                                                selectedTeamNumber = Int(typedTeam)
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                }
+                    NavigationLink(
+                        destination: TeamSearchView(selectedTeamName: $selectedTeamName, selectedTeamNumber: $selectedTeamNumber),
+                    label: {
+                        HStack {
+                            Text("Team:")
+                            Spacer()
+                            Text(selectedTeamName ?? "")
+                                .foregroundColor(selectedTeamName != nil ? .primary : .gray)
+                        }
+                    })
                     HStack {
                         Text("Match Number: ")
                         
@@ -740,6 +721,8 @@ struct MatchScouting: View {
                     }
                 }
                 
+                Text(String(networkMonitor.isConnected))
+                
                 Button(action: {
                     generator.impactOccurred(intensity: 1)
                     
@@ -778,13 +761,21 @@ struct MatchScouting: View {
                         //score: gameScore
                     )
 
-                    // Upload data
-                    Task {
-                        await dataManager.uploadMatchData(matchData: matchScoutDataInstance)
+                    if networkMonitor.isConnected {
+                        // Upload data
+                        Task {
+                            await dataManager.uploadMatchData(matchData: matchScoutDataInstance)
+                        }
+                        
+                        // Show success alert
+                        showingSuccessAlert = true
+                    } else {
+                        // Save data locally
+                        saveDataLocally(matchData: matchScoutDataInstance)
+                        
+                        // Show alert indicating data was saved locally
+                        showingLocalSaveAlert = true
                     }
-                    
-                    // Show success alert
-                    showingSuccessAlert = true
                     
                     // Reset all values
                     resetValues()
@@ -807,7 +798,7 @@ struct MatchScouting: View {
                 .scrollContentBackground(.hidden)
                 .onAppear {
                     Task{
-                        await teamsViewModel.fetchTeamsForEvent(eventCode: "All")
+                        //await teamsViewModel.fetchTeamsForEvent(eventCode: "All")
                         teams = teamsViewModel.allTeams
                     }
                 }
@@ -823,7 +814,10 @@ struct MatchScouting: View {
             
             }
         .accentColor(accentColor)
-        .alert("Data Saved Successfully!", isPresented: $showingSuccessAlert) {
+        .alert("Data Uploaded Successfully!", isPresented: $showingSuccessAlert) {
+                    Button("OK", role: .cancel) { }
+                }
+        .alert("Data Locally Saved Successfully!", isPresented: $showingLocalSaveAlert) {
                     Button("OK", role: .cancel) { }
                 }
         .alert(isPresented: $showTeamNumAlert) {

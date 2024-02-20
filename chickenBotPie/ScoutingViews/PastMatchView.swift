@@ -78,6 +78,7 @@ struct PastMatchView: View {
             Task {
                 do {
                     pastMatches = try await dataManager.fetchPastMatches()
+                    pastMatches = pastMatches.reversed()
                 } catch {
                     print("Error fetching past matches: \(error)")
                 }

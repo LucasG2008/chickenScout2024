@@ -7,6 +7,19 @@
 
 import Foundation
 
+func saveDataLocally(matchData: matchScoutData) {
+    // Convert match data to Data format (assuming MatchScoutData is Codable)
+    do {
+        let encoder = JSONEncoder()
+        let data = try encoder.encode(matchData)
+        
+        // Save data to UserDefaults or CoreData
+        UserDefaults.standard.set(data, forKey: "savedMatchData")
+    } catch {
+        print("Error saving data locally: \(error)")
+    }
+}
+
 class DataManager {
     
     func uploadMatchData(matchData: matchScoutData) async {
