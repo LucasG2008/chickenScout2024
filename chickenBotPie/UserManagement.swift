@@ -247,5 +247,40 @@ class UserManagement: ObservableObject {
         userDefaults.set(guestUser.email, forKey: userEmail)
         userDefaults.set(guestUser.matchesScouted, forKey: String(userMatchesScouted))
     }
+    
+    func getMatchesScouted(name: String) async {
+        
+        if name == "none" {
+            return
+        } else {
+            //
+        }
+        
+        guard let matchesScoutedURL = URL(string: "http://98.59.100.219:3082/scout/matchesscouted/\(name)") else {
+            print("Error getting matches scouted URL")
+            return
+        }
+        
+        var request = URLRequest(url: matchesScoutedURL)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "GET"
+        
+        do {
+            let (data, response) = try await URLSession.shared.data(for: request)
+            
+            if let httpResponse = response as? HTTPURLResponse {
+                //print("Response status code: \(httpResponse.statusCode)")
+            }
+            
+            let responseString = String(data: data, encoding: .utf8) ?? "*unknown encoding"
+            
+            //print("\(name) has scouted \(responseString) matches")
+            
+            self.matchesScouted = Int(responseString) ?? 0
+            
+        } catch {
+            print("Error getting matches scouted: \(error)")
+        }
+    }
 
 }

@@ -315,6 +315,7 @@ struct PitScouting: View {
                     // Upload data
                     Task {
                         await dataManager.uploadPitData(pitData: pitScoutDataInstance)
+                        
                     }
                     
                     // Show success alert

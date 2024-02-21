@@ -71,7 +71,7 @@ struct TeamView: View {
                             Text(option)
                         }
                     }
-                    .onChange(of: selectedEvent) {
+                    .onChange(of: selectedEvent) {_ in
                         Task {
                             print("Fetching updated teams...")
                             

@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-struct PastPitView: View {
+struct PitView: View {
     @Environment(\.colorScheme) var colorScheme
     
-    @State private var selectedPit: pitScoutData?
+    @State private var selectedPit: pitScoutData
     
     @State private var searchText = ""
     
@@ -24,7 +24,10 @@ struct PastPitView: View {
     var body: some View {
         NavigationView {
             List {
-                Text("Past Pit Data")
+                Section(header: Text("Pit Information")) {
+                    Text("Scout Name: \(selectedPit.scoutname)")
+                    Text("Team Number: \(selectedPit.teamnumber)")
+                }
             }
             .searchable(text: $searchText)
             .scrollContentBackground(.hidden)
@@ -37,11 +40,7 @@ struct PastPitView: View {
                     }
                 }
                 .edgesIgnoringSafeArea(.all))
-            .navigationTitle("Past Pit Data")
+            .navigationTitle("Pit Data")
         }
     }
-}
-
-#Preview {
-    PastPitView()
 }

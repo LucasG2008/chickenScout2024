@@ -43,12 +43,18 @@ struct TeamSearchView: View {
                 
                 VStack(spacing: 0) {
                     
+                    HStack {
+                        
+                    }
+                    
                     if isLoading {
                         ProgressView()
                             .progressViewStyle(CircularProgressViewStyle(tint: .blue))
                             .scaleEffect(2)
                             .padding()
+                            .background(.clear)
                     }
+                    
                     
                     List() {
                         ForEach(filteredTeams, id: \.self) {teamItem in

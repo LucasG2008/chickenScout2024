@@ -50,6 +50,9 @@ class NetworkMonitor: ObservableObject {
                 // Upload locally stored data
                 Task {
                     await dataManager.uploadMatchData(matchData: matchData)
+                    
+                    // Clear locally stored data after successful upload
+                    UserDefaults.standard.removeObject(forKey: "savedMatchData")
                 }
             } catch {
                 print("Error decoding locally stored data: \(error)")

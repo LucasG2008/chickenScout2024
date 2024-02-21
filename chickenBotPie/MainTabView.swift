@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@available(iOS 17.0, *)
 struct MainTabView: View {
     
     @ObservedObject var UserManager: UserManagement
@@ -73,7 +74,7 @@ struct MainTabView: View {
             TabView {
                 
                 Group {
-                    HomeView().tabItem {
+                    HomeView(UserManager: UserManager).tabItem {
                         Text("Home")
                         Image(systemName: "house")
                     }
@@ -83,7 +84,7 @@ struct MainTabView: View {
                         Image(systemName: "person.3")
                     }
                     
-                    Spacer().frame(minWidth: 0)
+                    Egg().frame(minWidth: 0)
                     
                     ScoutingView(UserManager: UserManager).tabItem {
                         Text("Scouting")
@@ -183,9 +184,5 @@ struct PopupView: View {
             RoundedRectangle(cornerSize: CGSize(width: 20, height: 20))
         )
     }
-}
-
-#Preview {
-    MainTabView(UserManager: UserManagement())
 }
 

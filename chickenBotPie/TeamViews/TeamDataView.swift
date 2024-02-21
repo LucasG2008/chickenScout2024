@@ -11,6 +11,7 @@ import Charts
 struct TeamDataView: View {
     
     @Environment(\.colorScheme) var colorScheme
+    @State private var dataManager = DataManager()
     
     var selectedTeamID: String
     
@@ -37,7 +38,6 @@ struct TeamDataView: View {
         let selectedTeam = filterTeam(forTeamID: selectedTeamID)
         
         if selectedTeam != nil {
-            
             
             let wins = Double(selectedTeam!.wins) ?? 0
             let losses = Double(selectedTeam!.losses) ?? 0
@@ -250,6 +250,16 @@ struct TeamDataView: View {
                         }
                         
                     }
+                }
+                
+                Section() {
+                    NavigationLink(
+                        destination: PitDetailedView(teamId: selectedTeamID),
+                    label: {
+                        HStack {
+                            Text("Pit Data")
+                        }
+                    })
                 }
                 
             }

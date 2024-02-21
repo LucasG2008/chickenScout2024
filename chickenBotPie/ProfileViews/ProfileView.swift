@@ -63,7 +63,7 @@ struct ProfileView: View {
                             
                             Spacer()
                             
-                            Text("\(UserManager.currentUser?.matchesScouted ?? 000000)")
+                            Text("\(UserManager.matchesScouted)")
                                 .font(.subheadline)
                                 .foregroundStyle(.gray)
                         }
@@ -122,6 +122,11 @@ struct ProfileView: View {
                         }
                     }
                         .edgesIgnoringSafeArea(.all))
+            }
+            .task {
+                Task {
+                    await UserManager.getMatchesScouted(name: UserManager.currentUser?.fullname ?? "none")
+                }
             }
         }
     }

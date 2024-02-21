@@ -55,6 +55,7 @@ extension LocationManager: CLLocationManagerDelegate {
 }
 
 
+@available(iOS 17.0, *)
 struct MainView: View {
     
     @State private var email: String = ""
@@ -82,9 +83,6 @@ struct MainView: View {
     
 }
 
-#Preview {
-    MainView(UserManager: UserManagement())
-}
 
 extension Color {
     static let lightBlue = Color(red: 173/255, green: 216/255, blue: 230/255)

@@ -8,6 +8,7 @@
 import SwiftUI
 import Firebase
 
+@available(iOS 17.0, *)
 @main
 struct chickenBotPieApp: App {
     

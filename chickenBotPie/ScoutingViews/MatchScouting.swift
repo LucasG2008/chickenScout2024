@@ -8,6 +8,7 @@
 import SwiftUI
 import ConfettiSwiftUI
 
+@available(iOS 17.0, *)
 struct MatchScouting: View {
     
     @Environment(\.colorScheme) var colorScheme
@@ -256,6 +257,7 @@ struct MatchScouting: View {
         return teleAmpedSpeakerPointsScore
     }
     
+    
     var body: some View {
         
         NavigationStack {
@@ -274,6 +276,39 @@ struct MatchScouting: View {
                         }
                 ){
 
+//                    HStack{
+//                            Text("Team: ")
+//                                .padding(.trailing, 20)
+//
+//                            TextField("Enter team", text: $typedTeam)
+//                                .textFieldStyle(RoundedBorderTextFieldStyle())
+//                                .keyboardType(.decimalPad)
+//                                .focused($isTeamFocused)
+//                                .onChange(of: isTeamFocused) {
+//                                    activeTextField = .team
+//                                }
+//                                .toolbar {
+//                                    ToolbarItemGroup(placement: .keyboard) {
+//                                        if activeTextField == .team {
+//                                        Spacer()
+//                                            Button("Done") {
+//                                                hideKeyboard()
+//
+//                                                let teamDisplay = teamNameFromNumber
+//
+//                                                if teamDisplay == "none" {
+//                                                    typedTeam = ""
+//                                                    showTeamNumAlert = true
+//                                                } else {
+//                                                    typedTeam = teamDisplay
+//                                                    selectedTeamNumber = Int(typedTeam)
+//                                                }
+//                                            }
+//                                        }
+//                                    }
+//                                }
+//                    }
+                    
                     NavigationLink(
                         destination: TeamSearchView(selectedTeamName: $selectedTeamName, selectedTeamNumber: $selectedTeamNumber),
                     label: {
@@ -294,7 +329,7 @@ struct MatchScouting: View {
                             .keyboardType(.decimalPad)
                             .frame(width: 80)
                             .focused($isMatchFocused)
-                            .onChange(of: isMatchFocused) {
+                            .onChange(of: isMatchFocused) { _ in
                                 activeTextField = .matchNumber
                             }
                             .toolbar {
@@ -444,9 +479,9 @@ struct MatchScouting: View {
                         
                         Divider()
                         
-                        
+
                         Toggle("Left Zone:", isOn: $leftAuto)
-                                .onChange(of: leftAuto, initial: false) {
+                                .onChange(of: leftAuto, initial: false) { _,_ in
                                     if leftAuto == true {
                                         autoSequence.insert("Left", at: 0)
                                     } else {
@@ -644,7 +679,7 @@ struct MatchScouting: View {
                         Divider()
                         
                         Toggle("Park: ", isOn: $park)
-                            .onChange(of: park) {
+                            .onChange(of: park) { _ in
                                 if park {
                                     climbed = false
                                     harmony = false
@@ -771,6 +806,7 @@ struct MatchScouting: View {
                         showingSuccessAlert = true
                     } else {
                         // Save data locally
+                        print("Saving data locally")
                         saveDataLocally(matchData: matchScoutDataInstance)
                         
                         // Show alert indicating data was saved locally
@@ -815,14 +851,14 @@ struct MatchScouting: View {
             }
         .accentColor(accentColor)
         .alert("Data Uploaded Successfully!", isPresented: $showingSuccessAlert) {
-                    Button("OK", role: .cancel) { }
-                }
+            Button("OK", role: .cancel) { }
+        }
         .alert("Data Locally Saved Successfully!", isPresented: $showingLocalSaveAlert) {
-                    Button("OK", role: .cancel) { }
-                }
+            Button("OK", role: .cancel) { }
+        }
         .alert(isPresented: $showTeamNumAlert) {
-                        Alert(title: Text("Invalid Team"), message: Text("You entered an invalid team. Try again."), dismissButton: .default(Text("OK")))
-                    }
+            Alert(title: Text("Invalid Team"), message: Text("You entered an invalid team. Try again."), dismissButton: .default(Text("OK")))
+        }
     }
     
     
@@ -918,6 +954,4 @@ extension View {
     }
 }
 
-#Preview {
-    MatchScouting(UserManager: UserManagement())
-}
+
