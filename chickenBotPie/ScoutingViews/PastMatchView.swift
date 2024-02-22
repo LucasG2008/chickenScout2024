@@ -46,7 +46,7 @@ struct PastMatchView: View {
                     VStack(alignment: .leading) {
                         Text("Match Number: \(match.matchnumber)")
                             .font(.headline)
-                        Text("Team Number: \(match.teamnumber)")
+                        Text(verbatim: "Team Number: \(match.teamnumber)")
                             .font(.subheadline)
                         if let formattedTimestamp = formatTimestamp(match.timestamp) {
                             Text("Submission Data: \(formattedTimestamp)")

@@ -147,6 +147,8 @@ struct MainTabView: View {
 
 struct PopupView: View {
     
+    @Environment(\.colorScheme) var colorScheme
+    
     @Binding var navigateToMatch: Bool
     @Binding var navigateToPit: Bool
     
@@ -181,8 +183,20 @@ struct PopupView: View {
         .frame(maxWidth: .infinity)
         .padding()
         .background(
-            RoundedRectangle(cornerSize: CGSize(width: 20, height: 20))
+            Group {
+                if colorScheme == .light {
+                    RoundedRectangle(cornerSize: CGSize(width: 20, height: 20))
+                        .foregroundStyle(.white)
+                } else {
+                    RoundedRectangle(cornerSize: CGSize(width: 20, height: 20))
+                }
+            }
+                
         )
     }
 }
 
+@available(iOS 17.0, *)
+#Preview {
+    MainTabView(UserManager: UserManagement())
+}

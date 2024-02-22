@@ -12,14 +12,61 @@ struct MatchDetailedView: View {
     @Environment(\.colorScheme) var colorScheme
     
     let match: pastMatchData
+    
+    var gameScore: Int {
+        var totalScore = 0
+        
+        // Add auto and teleop scores
+        totalScore += match.autoamppoints
+        totalScore += match.autospeakerpoints
+        totalScore += match.autoleftzone ? 2 : 0
+        
+        totalScore += match.teleamppoints
+        totalScore += match.telespeakerpoints
+        totalScore += match.telespeakeramplifiedpoints
+        
+        totalScore += match.climbed ? 3 : 0
+        totalScore += match.parked ? 2 : 0
+        totalScore += match.harmony ? 1 : 0
+        
+        // Spotlight data
+        if match.ampmike == "Score" {
+            totalScore += 1
+        }
+        if match.sourcemike == "Score" {
+            totalScore += 1
+        }
+        if match.centermike == "Score" {
+            totalScore += 1
+        }
+        
+        
+        if match.ampmike == "Score w/ harmony" {
+            totalScore += 2
+        }
+        if match.sourcemike == "Score w/ harmony" {
+            totalScore += 2
+        }
+        if match.centermike == "Score w/ harmony" {
+            totalScore += 2
+        }
+        
+        // Check if trap is "Yes"
+        if match.trap == "Yes" {
+            totalScore += (5 * match.numtraps)
+        }
+        
+        return totalScore
+    }
 
     var body: some View {
         List {
             Section(header: Text("Match Information")) {
                 Text("Scout Name: \(match.scoutname)")
-                Text("Team Number: \(match.teamnumber)")
+                Text(verbatim: "Team Number: \(match.teamnumber)")
                 Text("Match Number: \(match.matchnumber)")
                 Text("Alliance: \(match.alliance)")
+                Text("Total Scored Points: \(gameScore)")
             }
             
             Section(header: Text("Autonomous")) {

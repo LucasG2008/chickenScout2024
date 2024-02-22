@@ -315,10 +315,17 @@ struct MatchScouting: View {
                         HStack {
                             Text("Team:")
                             Spacer()
-                            Text(selectedTeamName ?? "")
-                                .foregroundColor(selectedTeamName != nil ? .primary : .gray)
+                            if selectedTeamName != nil {
+                                Text("\(String(selectedTeamNumber ?? 0)) : \(selectedTeamName ?? "")")
+                                    .foregroundColor(selectedTeamName != nil ? .primary : .gray)
+                            } else {
+                                Text("")
+                                    .foregroundColor(selectedTeamName != nil ? .primary : .gray)
+                            }
+                            
                         }
                     })
+                    
                     HStack {
                         Text("Match Number: ")
                         
@@ -342,7 +349,6 @@ struct MatchScouting: View {
                                     }
                                 }
                             }
-                            
                     }
                 
                     Picker("Alliance: ", selection: $selectedAlliance) {
@@ -350,7 +356,6 @@ struct MatchScouting: View {
                             Text($0)
                         }
                     }
-   
                 }
             
                 // MARK: AUTO

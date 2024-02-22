@@ -49,13 +49,13 @@ struct ScoutingView: View {
                     }
                 }
                 
-                Section {
-                    Button  {
-                        isSignOutAlertPresented.toggle()
-                    } label: {
-                        Text("Force Sign Out")
-                    }
-                }
+//                Section {
+//                    Button  {
+//                        isSignOutAlertPresented.toggle()
+//                    } label: {
+//                        Text("Force Sign Out")
+//                    }
+//                }
                 
             }
             .scrollContentBackground(.hidden)
