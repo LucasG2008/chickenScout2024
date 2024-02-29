@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import Firebase
+//import Firebase
 
 @available(iOS 17.0, *)
 @main
@@ -14,9 +14,9 @@ struct chickenBotPieApp: App {
     
     @StateObject var UserManager = UserManagement()
     
-    init() {
-        FirebaseApp.configure()
-    }
+//    init() {
+//        FirebaseApp.configure()
+//    }
     
     var body: some Scene {
         WindowGroup {

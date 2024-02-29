@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct LoginView: View, LoginAuthenticationFormProtocol {
+struct LoginView: View {
     
     @Environment(\.colorScheme) var colorScheme
     @ObservedObject var UserManager: UserManagement

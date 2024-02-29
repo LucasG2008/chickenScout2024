@@ -23,10 +23,7 @@
 		EE47E21E2B54F60900FF192C /* teams.csv in Resources */ = {isa = PBXBuildFile; fileRef = EE47E21D2B54F60800FF192C /* teams.csv */; };
 		EE47E2202B55AACD00FF192C /* teamHistory.csv in Resources */ = {isa = PBXBuildFile; fileRef = EE47E21F2B55AACD00FF192C /* teamHistory.csv */; };
 		EE47E2222B55ADB100FF192C /* TeamDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE47E2212B55ADB100FF192C /* TeamDataView.swift */; };
-		EE5AA5FF2B5B6AA4003A4455 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = EE5AA5FE2B5B6AA4003A4455 /* FirebaseFirestore */; };
 		EE5AA6052B5B8EED003A4455 /* MatchDetailedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5AA6042B5B8EED003A4455 /* MatchDetailedView.swift */; };
-		EE73CB922B5E0533005F4588 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = EE73CB912B5E0533005F4588 /* GoogleSignIn */; };
-		EE73CB942B5E0533005F4588 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = EE73CB932B5E0533005F4588 /* GoogleSignInSwift */; };
 		EE73CB962B5E06F0005F4588 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EE73CB952B5E06F0005F4588 /* GoogleService-Info.plist */; };
 		EE73CB992B5ECA33005F4588 /* PitDetailedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE73CB982B5ECA33005F4588 /* PitDetailedView.swift */; };
 		EE73CB9B2B5ECECE005F4588 /* PastMatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE73CB9A2B5ECECE005F4588 /* PastMatchView.swift */; };
@@ -40,12 +37,8 @@
 		EE7C36DC2B5C9DD500439DB3 /* LoginInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7C36DB2B5C9DD500439DB3 /* LoginInputView.swift */; };
 		EE7C36DE2B5CD20800439DB3 /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7C36DD2B5CD20800439DB3 /* RegistrationView.swift */; };
 		EE7C36E22B5CD50B00439DB3 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7C36E12B5CD50B00439DB3 /* ProfileView.swift */; };
-		EE7C36E92B5CDB1700439DB3 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = EE7C36E82B5CDB1700439DB3 /* FirebaseFirestoreSwift */; };
-		EE7C36EB2B5CDB2A00439DB3 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = EE7C36EA2B5CDB2A00439DB3 /* FirebaseStorage */; };
 		EE7C36F02B5CDC2700439DB3 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7C36EF2B5CDC2700439DB3 /* AuthViewModel.swift */; };
-		EE7C36F32B5CDFE400439DB3 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = EE7C36F22B5CDFE400439DB3 /* FirebaseAuth */; };
 		EE7C36F52B5DEED500439DB3 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7C36F42B5DEED500439DB3 /* MainTabView.swift */; };
-		EE8598F72B7F2E0900C047CC /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = EE8598F62B7F2E0900C047CC /* Alamofire */; };
 		EE88F9D12B55C6200016E68E /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE88F9D02B55C6200016E68E /* MainView.swift */; };
 		EE88F9D52B55CA870016E68E /* PieChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE88F9D42B55CA870016E68E /* PieChartView.swift */; };
 		EE88F9DA2B56437E0016E68E /* SwiftCSV in Frameworks */ = {isa = PBXBuildFile; productRef = EE88F9D92B56437E0016E68E /* SwiftCSV */; };
@@ -131,15 +124,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EE8598F72B7F2E0900C047CC /* Alamofire in Frameworks */,
-				EE7C36E92B5CDB1700439DB3 /* FirebaseFirestoreSwift in Frameworks */,
-				EE7C36F32B5CDFE400439DB3 /* FirebaseAuth in Frameworks */,
 				EE1F16562B59547900123E69 /* ConfettiSwiftUI in Frameworks */,
-				EE73CB942B5E0533005F4588 /* GoogleSignInSwift in Frameworks */,
-				EE5AA5FF2B5B6AA4003A4455 /* FirebaseFirestore in Frameworks */,
 				EE88F9DA2B56437E0016E68E /* SwiftCSV in Frameworks */,
-				EE7C36EB2B5CDB2A00439DB3 /* FirebaseStorage in Frameworks */,
-				EE73CB922B5E0533005F4588 /* GoogleSignIn in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -343,13 +329,6 @@
 			packageProductDependencies = (
 				EE88F9D92B56437E0016E68E /* SwiftCSV */,
 				EE1F16552B59547900123E69 /* ConfettiSwiftUI */,
-				EE5AA5FE2B5B6AA4003A4455 /* FirebaseFirestore */,
-				EE7C36E82B5CDB1700439DB3 /* FirebaseFirestoreSwift */,
-				EE7C36EA2B5CDB2A00439DB3 /* FirebaseStorage */,
-				EE7C36F22B5CDFE400439DB3 /* FirebaseAuth */,
-				EE73CB912B5E0533005F4588 /* GoogleSignIn */,
-				EE73CB932B5E0533005F4588 /* GoogleSignInSwift */,
-				EE8598F62B7F2E0900C047CC /* Alamofire */,
 			);
 			productName = chickenBotPie;
 			productReference = EE47E1EC2B54F4E600FF192C /* chickenBotPie.app */;
@@ -426,9 +405,6 @@
 			packageReferences = (
 				EE88F9D82B56437E0016E68E /* XCRemoteSwiftPackageReference "SwiftCSV" */,
 				EE1F16542B59547800123E69 /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */,
-				EE5AA5FB2B5B6AA4003A4455 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
-				EE73CB902B5E0533005F4588 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
-				EE8598F52B7F2E0900C047CC /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			productRefGroup = EE47E1ED2B54F4E600FF192C /* Products */;
 			projectDirPath = "";
@@ -858,30 +834,6 @@
 				minimumVersion = 1.1.0;
 			};
 		};
-		EE5AA5FB2B5B6AA4003A4455 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 10.20.0;
-			};
-		};
-		EE73CB902B5E0533005F4588 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 7.0.0;
-			};
-		};
-		EE8598F52B7F2E0900C047CC /* XCRemoteSwiftPackageReference "Alamofire" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.8.1;
-			};
-		};
 		EE88F9D82B56437E0016E68E /* XCRemoteSwiftPackageReference "SwiftCSV" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/swiftcsv/SwiftCSV.git";
@@ -897,41 +849,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = EE1F16542B59547800123E69 /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */;
 			productName = ConfettiSwiftUI;
-		};
-		EE5AA5FE2B5B6AA4003A4455 /* FirebaseFirestore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = EE5AA5FB2B5B6AA4003A4455 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseFirestore;
-		};
-		EE73CB912B5E0533005F4588 /* GoogleSignIn */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = EE73CB902B5E0533005F4588 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
-			productName = GoogleSignIn;
-		};
-		EE73CB932B5E0533005F4588 /* GoogleSignInSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = EE73CB902B5E0533005F4588 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
-			productName = GoogleSignInSwift;
-		};
-		EE7C36E82B5CDB1700439DB3 /* FirebaseFirestoreSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = EE5AA5FB2B5B6AA4003A4455 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseFirestoreSwift;
-		};
-		EE7C36EA2B5CDB2A00439DB3 /* FirebaseStorage */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = EE5AA5FB2B5B6AA4003A4455 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseStorage;
-		};
-		EE7C36F22B5CDFE400439DB3 /* FirebaseAuth */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = EE5AA5FB2B5B6AA4003A4455 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAuth;
-		};
-		EE8598F62B7F2E0900C047CC /* Alamofire */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = EE8598F52B7F2E0900C047CC /* XCRemoteSwiftPackageReference "Alamofire" */;
-			productName = Alamofire;
 		};
 		EE88F9D92B56437E0016E68E /* SwiftCSV */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct RegistrationView: View, SignupAuthenticationFormProtocol { 
+struct RegistrationView: View { 
     
     @Environment(\.dismiss) var dismiss
     @Environment(\.colorScheme) var colorScheme
