@@ -16,6 +16,8 @@ struct LoginInputView: View {
     let placeholder: String
     var isSecuredField = false
     
+    @State private var showPassword: Bool = false
+    
     var body: some View {
         
         VStack(alignment: .leading, spacing: 12) {
@@ -26,9 +28,28 @@ struct LoginInputView: View {
                 .font(.footnote)
             
             if isSecuredField {
-                SecureField(placeholder, text: $text)
-                    .font(.system(size: 14))
-                    .foregroundColor(colorScheme == .dark ? .white : Color(.darkGray))
+                
+                ZStack(alignment: .trailing) {
+                    Group {
+                        if !showPassword {
+                            SecureField(placeholder, text: $text)
+                                .font(.system(size: 14))
+                                .foregroundColor(colorScheme == .dark ? .white : Color(.darkGray))
+                        } else {
+                            TextField(placeholder, text: $text)
+                                .font(.system(size: 14))
+                                .foregroundColor(colorScheme == .dark ? .white : Color(.darkGray))
+                        }
+                    }.padding(.trailing, 32)
+
+                    Button(action: {
+                        showPassword.toggle()
+                    }) {
+                        Image(systemName: !self.showPassword ? "eye.slash" : "eye")
+                            .accentColor(.gray)
+                    }
+                }
+
             } else {
                 if title == "Email Address" {
                     TextField(placeholder, text: $text)
@@ -48,5 +69,5 @@ struct LoginInputView: View {
 }
 
 #Preview {
-    LoginInputView(text: .constant(""), title: "Email Address", placeholder: "name@example.com")
+    LoginInputView(text: .constant(""), title: "Password", placeholder: "password", isSecuredField: true)
 }

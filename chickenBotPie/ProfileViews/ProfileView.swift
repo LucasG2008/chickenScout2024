@@ -11,9 +11,12 @@ struct ProfileView: View {
 
     @Environment(\.colorScheme) var colorScheme
     @ObservedObject var UserManager: UserManagement
+    @State private var dataManager = DataManager()
     
     @State private var isDeleteAccountAlertPresented = false
     @State private var isSignOutAlertPresented = false
+    
+    @State private var leaderboard: [scoutData] = []
     
     var body: some View {
         if let user = UserManager.currentUser {
@@ -22,19 +25,36 @@ struct ProfileView: View {
                     
                     Section {
                         HStack {
-                            Text(user.initials)
-                                .font(.title)
-                                .fontWeight(.semibold)
-                                .foregroundStyle(.white)
-                                .frame(width: 72, height: 72)
-                                .background(Color(.systemGray3))
-                                .clipShape(Circle())
+                            if user.initials == "EG" {
+                                Text("EGG")
+                                    .font(.title)
+                                    .fontWeight(.semibold)
+                                    .foregroundStyle(.white)
+                                    .frame(width: 72, height: 72)
+                                    .background(Color(.systemGray3))
+                                    .clipShape(Circle())
+                            } else {
+                                Text(user.initials)
+                                    .font(.title)
+                                    .fontWeight(.semibold)
+                                    .foregroundStyle(.white)
+                                    .frame(width: 72, height: 72)
+                                    .background(Color(.systemGray3))
+                                    .clipShape(Circle())
+                            }
                             
                             VStack (alignment: .leading, spacing: 4) {
-                                Text(user.fullname)
-                                    .font(.subheadline)
-                                    .fontWeight(.semibold)
-                                    .padding(.top, 4)
+                                if user.fullname == "Evan Ginter" {
+                                    Text("Evan \"Jesus\" Ginter")
+                                        .font(.subheadline)
+                                        .fontWeight(.semibold)
+                                        .padding(.top, 4)
+                                } else {
+                                    Text(user.fullname)
+                                        .font(.subheadline)
+                                        .fontWeight(.semibold)
+                                        .padding(.top, 4)
+                                }
                                 
                                 Text(user.email)
                                     .font(.footnote)
@@ -66,6 +86,27 @@ struct ProfileView: View {
                             Text("\(UserManager.matchesScouted)")
                                 .font(.subheadline)
                                 .foregroundStyle(.gray)
+                        }
+                    }
+                    
+                    if leaderboard != nil && leaderboard.count > 0 {
+                        
+                        Section ("Leaderboard"){
+                            HStack {
+                                Text("1st: \(leaderboard[0].name)")
+                                Spacer()
+                                Text("\(leaderboard[0].points) GB's")
+                            }
+                            HStack {
+                                Text("2nd: \(leaderboard[1].name)")
+                                Spacer()
+                                Text("\(leaderboard[1].points) GB's")
+                            }
+                            HStack {
+                                Text("3rd: \(leaderboard[2].name)")
+                                Spacer()
+                                Text("\(leaderboard[2].points) GB's")
+                            }
                         }
                     }
                     
@@ -126,6 +167,16 @@ struct ProfileView: View {
             .task {
                 Task {
                     await UserManager.getMatchesScouted(name: UserManager.currentUser?.fullname ?? "none")
+                    
+                }
+                
+                Task {
+                    do {
+                        leaderboard = try await dataManager.fetchLeaderboard()
+//                        leaderboard = leaderboard.reversed()
+                    } catch {
+                        print("Error fetching leaderboard: \(error)")
+                    }
                 }
             }
         }

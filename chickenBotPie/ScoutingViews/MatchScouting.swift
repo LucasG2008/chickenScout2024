@@ -28,6 +28,15 @@ struct MatchScouting: View {
     @State private var selectedTeamName: String?
     
     @State private var typedTeam = ""
+    var textFieldDisplay: String {
+        if selectedTeamName != nil {
+            return "\(selectedTeamNumber ?? 0): \(selectedTeamName ?? "N/A")"
+        } else {
+            return ""
+        }
+    }
+    @State private var isEditing = true
+    
     @State private var showTeamNumAlert = false
     
     @FocusState private var isTeamFocused: Bool
@@ -42,8 +51,8 @@ struct MatchScouting: View {
     
     @State private var matchNumber = 0000
     
-    @State private var selectedAlliance = "Red"
-    let alliances = ["Red", "Blue"]
+    @State private var selectedAlliance = "Select"
+    let alliances = ["Select", "Red", "Blue"]
     
     @State private var leftAuto = false
     
@@ -277,36 +286,100 @@ struct MatchScouting: View {
                 ){
 
 //                    HStack{
-//                            Text("Team: ")
-//                                .padding(.trailing, 20)
+//                        Text("Team: ")
+//                            //.padding(.trailing, 20)
+//                        
+//                        NavigationLink(
+//                            destination: TeamSearchView(selectedTeamName: $selectedTeamName, selectedTeamNumber: $selectedTeamNumber),
+//                        label: {
+//                            HStack {
+//                                //
+//                            }
+//                        })
 //
-//                            TextField("Enter team", text: $typedTeam)
-//                                .textFieldStyle(RoundedBorderTextFieldStyle())
-//                                .keyboardType(.decimalPad)
-//                                .focused($isTeamFocused)
-//                                .onChange(of: isTeamFocused) {
-//                                    activeTextField = .team
-//                                }
-//                                .toolbar {
-//                                    ToolbarItemGroup(placement: .keyboard) {
-//                                        if activeTextField == .team {
-//                                        Spacer()
-//                                            Button("Done") {
-//                                                hideKeyboard()
+//                        TextField("Enter team", text: $typedTeam)
+//                            .textFieldStyle(RoundedBorderTextFieldStyle())
+//                            .keyboardType(.decimalPad)
+//                            .focused($isTeamFocused)
+//                            .onChange(of: isTeamFocused) {
+//                                activeTextField = .team
+//                            }
+//                        
+//                            .toolbar {
+//                                ToolbarItemGroup(placement: .keyboard) {
+//                                    if activeTextField == .team {
+//                                    Spacer()
+//                                        Button("Enter") {
+//                                            hideKeyboard()
 //
-//                                                let teamDisplay = teamNameFromNumber
+//                                            let teamDisplay = teamNameFromNumber
 //
-//                                                if teamDisplay == "none" {
-//                                                    typedTeam = ""
-//                                                    showTeamNumAlert = true
-//                                                } else {
-//                                                    typedTeam = teamDisplay
-//                                                    selectedTeamNumber = Int(typedTeam)
-//                                                }
+//                                            if teamDisplay == "none" {
+//                                                typedTeam = ""
+//                                                showTeamNumAlert = true
+//                                            } else {
+//                                                typedTeam = teamDisplay
+//                                                selectedTeamNumber = Int(typedTeam)
+//                                                selectedTeamName = teamDisplay
 //                                            }
 //                                        }
 //                                    }
 //                                }
+//                            }
+//                    }
+                    
+//                    HStack {
+//                        NavigationLink(
+//                            destination: TeamSearchView(selectedTeamName: $selectedTeamName, selectedTeamNumber: $selectedTeamNumber),
+//                        label: {
+//                            Text("Team: ")
+//                        })
+//                        .frame(width: 70)
+//                        
+//                        if isEditing {
+//                            Spacer()
+//                            ZStack{
+//                                TextField("Enter team number \u{200c}", text: $typedTeam)
+//                                    .textFieldStyle(RoundedBorderTextFieldStyle())
+//                                    .multilineTextAlignment(.trailing)
+//                                    .keyboardType(.decimalPad)
+//                                    .focused($isTeamFocused)
+//                                    .onChange(of: isTeamFocused) {
+//                                        activeTextField = .team
+//                                    }
+//                                    .frame(width: 175)
+//                                    .toolbar {
+//                                        ToolbarItemGroup(placement: .keyboard) {
+//                                            if activeTextField == .team {
+//                                                Spacer()
+//                                                Button("Enter") {
+//                                                    hideKeyboard()
+//                                                    
+//                                                    let teamDisplay = teamNameFromNumber
+//                                                    
+//                                                    if teamDisplay == "none" {
+//                                                        typedTeam = ""
+//                                                        showTeamNumAlert = true
+//                                                    } else {
+//                                                        //typedTeam = teamDisplay
+//                                                        selectedTeamNumber = Int(typedTeam)
+//                                                        selectedTeamName = teamDisplay
+//                                                        isEditing.toggle()
+//                                                    }
+//                                                }
+//                                            }
+//                                        }
+//                                    }
+//                            }
+//                        } else {
+//                            Spacer()
+//                            Text(textFieldDisplay)
+//                                .onTapGesture {
+//                                    isEditing.toggle()
+//                                    typedTeam = ""
+//                                }
+//                        }
+//                        
 //                    }
                     
                     NavigationLink(
@@ -322,7 +395,6 @@ struct MatchScouting: View {
                                 Text("")
                                     .foregroundColor(selectedTeamName != nil ? .primary : .gray)
                             }
-                            
                         }
                     })
                     
@@ -334,6 +406,7 @@ struct MatchScouting: View {
                         TextField("Match Number", value: $matchNumber, format: .number)
                             .textFieldStyle(.roundedBorder)
                             .keyboardType(.decimalPad)
+                            .multilineTextAlignment(.trailing)
                             .frame(width: 80)
                             .focused($isMatchFocused)
                             .onChange(of: isMatchFocused) { _ in
@@ -356,6 +429,7 @@ struct MatchScouting: View {
                             Text($0)
                         }
                     }
+                    
                 }
             
                 // MARK: AUTO
@@ -761,8 +835,6 @@ struct MatchScouting: View {
                     }
                 }
                 
-                Text(String(networkMonitor.isConnected))
-                
                 Button(action: {
                     generator.impactOccurred(intensity: 1)
                     
@@ -839,7 +911,7 @@ struct MatchScouting: View {
                 .scrollContentBackground(.hidden)
                 .onAppear {
                     Task{
-                        //await teamsViewModel.fetchTeamsForEvent(eventCode: "All")
+                        await teamsViewModel.fetchTeamsForEvent(eventCode: "All")
                         teams = teamsViewModel.allTeams
                     }
                 }
@@ -873,16 +945,16 @@ struct MatchScouting: View {
         }
     
     var teamNameFromNumber: String {
-            if let teamNumber = Int(typedTeam),
-               let team = teams.first(where: { $0.team_number == teamNumber }) {
-                return "\(team.team_number ?? 0000): \(team.nickname ?? "N/A")"
-            } else {
-                return "none"
-            }
-        }
+        let currentNumber = Int(typedTeam)
+            if let team = teams.first(where: { $0.team_number == currentNumber }) {
+             return "\(team.nickname ?? "N/A")"
+         } else {
+             return "none"
+         }
+    }
     
     var formIsInvalid: Bool {
-        return selectedTeamNumber == 000
+        return selectedTeamNumber == 000 && selectedAlliance != "Select"
     }
     
     func resetValues() {
@@ -959,4 +1031,7 @@ extension View {
     }
 }
 
-
+@available(iOS 17.0, *)
+#Preview {
+    MatchScouting(UserManager: UserManagement())
+}

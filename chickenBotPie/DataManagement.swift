@@ -126,16 +126,13 @@ class DataManager {
         do {
             let (data, response) = try await URLSession.shared.data(for: request)
             
-            if let httpResponse = response as? HTTPURLResponse {
-                print("Response status code: \(httpResponse.statusCode)")
-            }
-            
-            let responseString = String(data: data, encoding: .utf8) ?? "*unknown encoding"
-            print(responseString)
+//            if let httpResponse = response as? HTTPURLResponse {
+//                print("Response status code: \(httpResponse.statusCode)")
+//            }
+//            let responseString = String(data: data, encoding: .utf8) ?? "*unknown encoding"
+//            print(responseString)
             
             let pits = try JSONDecoder().decode(pitScoutData.self, from: data)
-            print("Response data:")
-            print(pits)
             
             return pits
         } catch {
@@ -143,13 +140,43 @@ class DataManager {
         }
     }
     
-    func fetchTeamData(teamNum: String) async {
+    func fetchTeamData(teamNum: String) async throws -> teamAvgData {
         guard let teamDataURL = URL(string: "http://98.59.100.219:3082/teamaverages/\(teamNum)") else {
             print("Error getting team data URL")
-            return
+            throw NSError(domain: "FetchError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Error getting team avg URL"])
         }
         
         var request = URLRequest(url: teamDataURL)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "GET"
+        
+        do {
+            
+            let (data, response) = try await URLSession.shared.data(for: request)
+            
+//            if let httpResponse = response as? HTTPURLResponse {
+//                print("Response status code: \(httpResponse.statusCode)")
+//            }
+//            
+//            let responseString = String(data: data, encoding: .utf8) ?? "*unknown encoding"
+//            print("Response data:")
+//            print(responseString)
+            
+            let teamAvgs = try JSONDecoder().decode(teamAvgData.self, from: data)
+            return teamAvgs
+        } catch {
+            throw error
+        }
+    }
+    
+    func fetchLeaderboard() async throws -> [scoutData] {
+        guard let leaderBoardURL = URL(string: "http://98.59.100.219:3082/leaderboard") else {
+            print("Error getting team data URL")
+            throw NSError(domain: "FetchError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Error getting leaderboard URL"])
+        }
+        print("fetching leaderboard")
+        
+        var request = URLRequest(url: leaderBoardURL)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "GET"
         
@@ -165,10 +192,11 @@ class DataManager {
             print("Response data:")
             print(responseString)
             
+            let leaderboard = try JSONDecoder().decode([scoutData].self, from: data)
+            return leaderboard
+            
         } catch {
-            print("Error fetching team data: \(error)")
+            throw error
         }
     }
-
-
 }

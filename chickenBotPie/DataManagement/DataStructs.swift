@@ -111,4 +111,20 @@ struct pastMatchData: Codable, Hashable {
     var timestamp: String
 }
 
+struct teamAvgData: Codable{
+    
+    var averageAutoAmpPoints: Double
+    var averageAutoSpeakerPoints: Double
+    var averageAutoLeftZone: Double
+    
+    var averageTeleAmpPoints: Double
+    var averageTeleSpeakerPoints: Double
+    var averageTeleSpeakerAmplifiedPoints: Double
+    
+    var averageDrops: Double
+}
 
+struct scoutData: Codable {
+    var name: String
+    var points: Int
+}

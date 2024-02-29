@@ -55,6 +55,7 @@
 		EE8DD1CB2B81A8AB003E2708 /* SettingsRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8DD1CA2B81A8AB003E2708 /* SettingsRowView.swift */; };
 		EE8DD1CD2B81A8B9003E2708 /* DataStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8DD1CC2B81A8B9003E2708 /* DataStructs.swift */; };
 		EEA0BB3F2B7C260F00F9881C /* DataManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA0BB3E2B7C260F00F9881C /* DataManagement.swift */; };
+		EEBA889A2B90BCD40000B7D3 /* PastPitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBA88992B90BCD40000B7D3 /* PastPitView.swift */; };
 		EED375C72B86B0CF003E1FC1 /* Egg.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED375C62B86B0CF003E1FC1 /* Egg.swift */; };
 		EED684B32B841F65001493DE /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED684B22B841F65001493DE /* NetworkMonitor.swift */; };
 /* End PBXBuildFile section */
@@ -120,6 +121,7 @@
 		EE8DD1CA2B81A8AB003E2708 /* SettingsRowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsRowView.swift; sourceTree = "<group>"; };
 		EE8DD1CC2B81A8B9003E2708 /* DataStructs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStructs.swift; sourceTree = "<group>"; };
 		EEA0BB3E2B7C260F00F9881C /* DataManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManagement.swift; sourceTree = "<group>"; };
+		EEBA88992B90BCD40000B7D3 /* PastPitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastPitView.swift; sourceTree = "<group>"; };
 		EED375C62B86B0CF003E1FC1 /* Egg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Egg.swift; sourceTree = "<group>"; };
 		EED684B22B841F65001493DE /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -315,6 +317,7 @@
 				EE88F9DB2B580D910016E68E /* ScoutingView.swift */,
 				EE88F9DF2B5810840016E68E /* PitScouting.swift */,
 				EE88F9E52B58116F0016E68E /* MatchScouting.swift */,
+				EEBA88992B90BCD40000B7D3 /* PastPitView.swift */,
 				EE73CB9A2B5ECECE005F4588 /* PastMatchView.swift */,
 				EE73CB9C2B5ECF96005F4588 /* PitView.swift */,
 			);
@@ -486,6 +489,7 @@
 				EE73CB9D2B5ECF96005F4588 /* PitView.swift in Sources */,
 				EED375C72B86B0CF003E1FC1 /* Egg.swift in Sources */,
 				EE88F9E62B58116F0016E68E /* MatchScouting.swift in Sources */,
+				EEBA889A2B90BCD40000B7D3 /* PastPitView.swift in Sources */,
 				EE47E1F02B54F4E600FF192C /* chickenBotPieApp.swift in Sources */,
 				EE7C36DE2B5CD20800439DB3 /* RegistrationView.swift in Sources */,
 				EE7C36DC2B5C9DD500439DB3 /* LoginInputView.swift in Sources */,
@@ -686,7 +690,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = App.chickenBotPie;
+				PRODUCT_BUNDLE_IDENTIFIER = App.chickenBotPie.3082;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -720,7 +724,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = App.chickenBotPie;
+				PRODUCT_BUNDLE_IDENTIFIER = App.chickenBotPie.3082;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

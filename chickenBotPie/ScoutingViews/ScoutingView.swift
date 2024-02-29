@@ -34,6 +34,16 @@ struct ScoutingView: View {
                         }
                     }
                     
+//                    Button {
+//                        selectedView = "pastPits"
+//                    } label: {
+//                        HStack{
+//                            Text("Past Pit Data")
+//                            Spacer()
+//                            Image(systemName: "chevron.right")
+//                        }
+//                    }
+                    
                 } header: {
                     Text("Past Data")
                 }
@@ -84,17 +94,20 @@ struct ScoutingView: View {
             }
             // open up detailed view for scouting
             .navigationDestination(isPresented: Binding(
-                            get: { selectedView != nil },
-                            set: { _ in selectedView = nil }
-                        )) {
+                get: { selectedView != nil },
+                set: { _ in selectedView = nil }
+            )) {
 
-                            if selectedView == "pastMatchData" {
-                                PastMatchView()
-                                    .navigationBarTitle("Match Data", displayMode: .inline)
-                            } else {
-                                // nothing
-                            }
-                        }
+                if selectedView == "pastMatchData" {
+                    PastMatchView()
+                        .navigationBarTitle("Match Data", displayMode: .inline)
+                } else if selectedView == "pastPits" {
+                    PastMatchView()
+                        .navigationBarTitle("Pits Scouted", displayMode: .inline)
+                } else {
+                    // nothing
+                }
+            }
         }
         .accentColor(accentColor)
     }

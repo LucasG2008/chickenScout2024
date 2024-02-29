@@ -16,6 +16,7 @@ struct TeamDataView: View {
     var selectedTeamID: String
     
     var teams = Team.loadCSV(from: "teams")
+    @State private var teamAvgs = teamAvgData(averageAutoAmpPoints: 0, averageAutoSpeakerPoints: 0, averageAutoLeftZone: 0, averageTeleAmpPoints: 0, averageTeleSpeakerPoints: 0, averageTeleSpeakerAmplifiedPoints: 0, averageDrops: 0)
     
     var teamHistData = TeamHistData.loadCSV(from: "teamHistory")
 
@@ -38,6 +39,8 @@ struct TeamDataView: View {
         let selectedTeam = filterTeam(forTeamID: selectedTeamID)
         
         if selectedTeam != nil {
+            
+            let teamNum = String(selectedTeam!.teamNum)
             
             let wins = Double(selectedTeam!.wins) ?? 0
             let losses = Double(selectedTeam!.losses) ?? 0
@@ -73,7 +76,35 @@ struct TeamDataView: View {
                         }
                         Text("Total Games: " + team.count)
                     }
+                    NavigationLink(
+                        destination: PitDetailedView(teamId: selectedTeamID),
+                    label: {
+                        HStack {
+                            Text("Pit Data")
+                        }
+                    })
                 }
+                
+                Section(header:HStack {
+                    Spacer()
+                    Text("Current Data")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                    Spacer()
+                }) {
+                    Text("Auto Avgs:")
+                    Text("Speaker: \(teamAvgs.averageAutoSpeakerPoints)")
+                    Text("Amp: \(teamAvgs.averageAutoAmpPoints)")
+                    Text("Left Zone: \(teamAvgs.averageAutoLeftZone)")
+                    
+                    Text("Tele-op Avgs:")
+                    Text("Speaker: \(teamAvgs.averageTeleSpeakerPoints)")
+                    Text("Amp: \(teamAvgs.averageTeleAmpPoints)")
+                    Text("Amped Speaker: \(teamAvgs.averageTeleSpeakerAmplifiedPoints)")
+                    
+                    Text("Avg. Drops: \(teamAvgs.averageDrops)")
+                }
+                
                 if let latestYearData = teamHistData.filter({ $0.teamNum == selectedTeamID }).max(by: { $0.year < $1.year }) {
                     Section(header: HStack {
                         Spacer()
@@ -248,20 +279,17 @@ struct TeamDataView: View {
                         .chartYAxis {
                             AxisMarks(values: .automatic(desiredCount: 5))
                         }
-                        
                     }
                 }
-                
-                Section() {
-                    NavigationLink(
-                        destination: PitDetailedView(teamId: selectedTeamID),
-                    label: {
-                        HStack {
-                            Text("Pit Data")
-                        }
-                    })
+            }
+            .onAppear {
+                Task {
+                    do {
+                        teamAvgs = try await dataManager.fetchTeamData(teamNum: teamNum)
+                    } catch {
+                        print("Error fetching team averages: \(error)")
+                    }
                 }
-                
             }
             .scrollContentBackground(.hidden)
             .background(

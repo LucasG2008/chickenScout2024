@@ -61,6 +61,16 @@ struct PastMatchView: View {
                     }
                 }
             }
+            .refreshable {
+                Task {
+                    do {
+                        pastMatches = try await dataManager.fetchPastMatches()
+                        pastMatches = pastMatches.reversed()
+                    } catch {
+                        print("Error fetching past matches: \(error)")
+                    }
+                }
+            }
             .searchable(text: $searchText)
             .scrollContentBackground(.hidden)
             .background(
@@ -72,7 +82,7 @@ struct PastMatchView: View {
                     }
                 }
                 .edgesIgnoringSafeArea(.all))
-            .navigationTitle("Match Data")
+//            .navigationTitle("Match Data")
         }
         .onAppear {
             Task {
