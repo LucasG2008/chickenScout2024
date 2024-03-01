@@ -899,7 +899,7 @@ struct MatchScouting: View {
                         .contentShape(RoundedRectangle(cornerRadius: 15))
 
                 })
-                .disabled(!formIsInvalid)
+                //.disabled(!formIsInvalid)
                 .frame(minWidth: 0, maxWidth: .infinity)
                 .buttonStyle(GrowingButton())
                 .overlay(
