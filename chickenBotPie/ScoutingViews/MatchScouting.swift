@@ -49,7 +49,7 @@ struct MatchScouting: View {
     
     @State private var selectedOptTeam: Int = 0000
     
-    @State private var matchNumber = 0000
+    @State private var matchNumber: Int?
     
     @State private var selectedAlliance = "Select"
     let alliances = ["Select", "Red", "Blue"]
@@ -77,7 +77,7 @@ struct MatchScouting: View {
     @State private var harmony = false
     
     let trapOutcomes = ["No", "Yes", "Not Attempted"]
-    @State private var trap = "No"
+    @State private var trap = "Not Attempted"
     @State private var numTraps = 0
     
     let mikeOutcomes = ["Miss", "Score", "Score w/ harmony"]
@@ -842,7 +842,7 @@ struct MatchScouting: View {
                         
                         scoutname: UserManager.currentUser?.fullname ?? "anonymous",
                         teamnumber: selectedTeamNumber ?? 0000,
-                        matchnumber: matchNumber, // add selector
+                        matchnumber: matchNumber ?? 0,
                         alliance: selectedAlliance,
                         
                         //autoSequence: autoSequence,
@@ -899,7 +899,7 @@ struct MatchScouting: View {
                         .contentShape(RoundedRectangle(cornerRadius: 15))
 
                 })
-                .disabled(formIsInvalid)
+                .disabled(!formIsInvalid)
                 .frame(minWidth: 0, maxWidth: .infinity)
                 .buttonStyle(GrowingButton())
                 .overlay(
@@ -954,12 +954,12 @@ struct MatchScouting: View {
     }
     
     var formIsInvalid: Bool {
-        return selectedTeamNumber == 000 && selectedAlliance != "Select"
+        return selectedTeamNumber == 0 && selectedAlliance == "Select"
     }
     
     func resetValues() {
         // Set each variable to its default value
-        selectedAlliance = "Red"
+        selectedAlliance = "Select"
         selectedTeamNumber = 0
         matchNumber = 0
         
@@ -984,7 +984,7 @@ struct MatchScouting: View {
         park = false
         climbed = false
         harmony = false
-        trap = "No"
+        trap = "Not Attempted"
 
         }
 

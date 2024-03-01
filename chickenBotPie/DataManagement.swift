@@ -6,6 +6,9 @@
 //
 
 import Foundation
+struct UsernamePush: Codable {
+    var username: String
+}
 
 func saveDataLocally(matchData: matchScoutData) {
     // Convert match data to Data format (assuming MatchScoutData is Codable)
@@ -174,13 +177,48 @@ class DataManager {
             print("Error getting team data URL")
             throw NSError(domain: "FetchError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Error getting leaderboard URL"])
         }
-        print("fetching leaderboard")
         
         var request = URLRequest(url: leaderBoardURL)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "GET"
         
         do {
+            
+            let (data, response) = try await URLSession.shared.data(for: request)
+            
+//            if let httpResponse = response as? HTTPURLResponse {
+//                print("Response status code: \(httpResponse.statusCode)")
+//            }
+            
+//            let responseString = String(data: data, encoding: .utf8) ?? "*unknown encoding"
+//            print("Response data:")
+//            print(responseString)
+            
+            let leaderboard = try JSONDecoder().decode([scoutData].self, from: data)
+            return leaderboard
+            
+        } catch {
+            throw error
+        }
+    }
+    
+    func fetchSchedule(fullname: String) async {
+        
+        guard let checkInURL = URL(string: "http://98.59.100.219:3082/scheduler/signin") else {
+            print("Error getting scheduler ulr")
+            return
+        }
+        var username = UsernamePush.init(username: fullname)
+        do {
+            let encoded = try JSONEncoder().encode(username)
+            let stringData = String(data: encoded, encoding: .utf8) ?? "*unknown encoding"
+            print("Data to push:")
+            print(stringData)
+            
+            var request = URLRequest(url: checkInURL) // create request\
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.httpMethod = "POST"
+            request.httpBody = encoded
             
             let (data, response) = try await URLSession.shared.data(for: request)
             
@@ -192,11 +230,8 @@ class DataManager {
             print("Response data:")
             print(responseString)
             
-            let leaderboard = try JSONDecoder().decode([scoutData].self, from: data)
-            return leaderboard
-            
         } catch {
-            throw error
+            print("Error fetching shedule: \(error)")
         }
     }
 }

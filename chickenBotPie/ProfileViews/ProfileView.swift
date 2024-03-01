@@ -77,8 +77,8 @@ struct ProfileView: View {
                                 .foregroundStyle(.gray)
                         }
                         HStack {
-                            SettingsRowView(imageName: "chart.bar",
-                                            title: "Matches Scouted",
+                            SettingsRowView(imageName: "dollarsign.circle",
+                                            title: "Ginter Bucks",
                                             tintColor: Color(.systemGray))
                             
                             Spacer()

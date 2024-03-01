@@ -11,6 +11,7 @@ struct ScoutingView: View {
     
     @Environment(\.colorScheme) var colorScheme
     @ObservedObject var UserManager: UserManagement
+    @State private var dataManager = DataManager()
     
     @State private var selectedView: String?
     
@@ -47,6 +48,51 @@ struct ScoutingView: View {
                 } header: {
                     Text("Past Data")
                 }
+                
+//                Section {
+//                    
+//                    HStack {
+//                        Button{
+//                            //check in
+//                            Task {
+//                                await dataManager.fetchSchedule(fullname: UserManager.currentUser?.fullname ?? "anonymous")
+//                            }
+//                        } label: {
+//                            HStack {
+//                                Text("Check In")
+//                                    .fontWeight(.semibold)
+//                                Image(systemName: "arrow.right")
+//                            }
+//                            .foregroundStyle(.white)
+//                            .frame(width: UIScreen.main.bounds.width/2 - 32, height: 48)
+//                        }
+//                        .background(
+//                            LinearGradient(gradient: colorScheme == .dark ? Gradient(colors: [Color.blue.opacity(0.8), Color.blue.opacity(0.6)]) : Gradient(colors: [Color(hex: "#0047AB").opacity(1), Color(hex: "#0047AB").opacity(0.8)]), startPoint: .top, endPoint: .bottom)
+//                        )
+//                        .cornerRadius(5)
+//                        
+//                        Spacer()
+//                        
+//                        Button{
+//                            //check out
+//                        } label: {
+//                            HStack {
+//                                Text("Check Out")
+//                                    .fontWeight(.semibold)
+//                                Image(systemName: "arrow.right")
+//                            }
+//                            .foregroundStyle(.white)
+//                            .frame(width: UIScreen.main.bounds.width/2 - 32, height: 48)
+//                        }
+//                        .background(
+//                            LinearGradient(gradient: colorScheme == .dark ? Gradient(colors: [Color.blue.opacity(0.8), Color.blue.opacity(0.6)]) : Gradient(colors: [Color(hex: "#0047AB").opacity(1), Color(hex: "#0047AB").opacity(0.8)]), startPoint: .top, endPoint: .bottom)
+//                        )
+//                        .cornerRadius(5)
+//                    }
+//                    
+//                } header: {
+//                    Text("Scheduler")
+//                }
                 
                 Section {
                     VStack{
