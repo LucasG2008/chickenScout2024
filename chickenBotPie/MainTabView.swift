@@ -84,7 +84,7 @@ struct MainTabView: View {
                         Image(systemName: "person.3")
                     }
                     
-                    Egg().frame(minWidth: 0)
+                    FakeEgg().frame(minWidth: 0)
                     
                     ScoutingView(UserManager: UserManager).tabItem {
                         Text("Scouting")

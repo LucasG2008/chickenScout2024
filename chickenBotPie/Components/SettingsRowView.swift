@@ -12,16 +12,40 @@ struct SettingsRowView: View {
     let title: String
     let tintColor: Color
     
+    @State private var willMoveToNextScreen = false
+    
     var body: some View {
-        HStack(spacing: 12) {
-            Image(systemName: imageName)
-                .imageScale(.small)
-                .font(.title)
-                .foregroundStyle(tintColor)
+        
+        if title == "Version" {
+            NavigationStack{
+                HStack(spacing: 12) {
+                    Image(systemName: imageName)
+                        .imageScale(.small)
+                        .font(.title)
+                        .foregroundStyle(tintColor)
+                        .background(
+                                    NavigationLink("", destination: Egg())
+                                        .opacity(0)
+                                )
+                    Text(title)
+                        .font(.subheadline)
+                    
+                    //.foregroundStyle(.black)
+                }
+            }
+                
+        } else {
             
-            Text(title)
-                .font(.subheadline)
+            HStack(spacing: 12) {
+                Image(systemName: imageName)
+                    .imageScale(.small)
+                    .font(.title)
+                    .foregroundStyle(tintColor)
+                
+                Text(title)
+                    .font(.subheadline)
                 //.foregroundStyle(.black)
+            }
         }
     }
 }

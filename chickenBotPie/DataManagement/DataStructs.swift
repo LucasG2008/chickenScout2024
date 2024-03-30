@@ -52,6 +52,7 @@ struct matchScoutData: Codable, Hashable {
     var sourcemike: String
     var centermike: String
     
+    var extranotes: String
 }
 
 struct pitScoutData: Codable, Hashable {
@@ -127,4 +128,9 @@ struct teamAvgData: Codable{
 struct scoutData: Codable {
     var name: String
     var points: Int
+}
+
+struct condensedPitScoutData: Codable, Hashable {
+    var number: Int
+    var scouted: Bool
 }

@@ -51,6 +51,8 @@
 		EEBA889A2B90BCD40000B7D3 /* PastPitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBA88992B90BCD40000B7D3 /* PastPitView.swift */; };
 		EED375C72B86B0CF003E1FC1 /* Egg.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED375C62B86B0CF003E1FC1 /* Egg.swift */; };
 		EED684B32B841F65001493DE /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED684B22B841F65001493DE /* NetworkMonitor.swift */; };
+		EEE295012BAF3D050044EFA3 /* FakeEgg.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE295002BAF3D050044EFA3 /* FakeEgg.swift */; };
+		EEE295032BAF43430044EFA3 /* ScoutedPitsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE295022BAF43430044EFA3 /* ScoutedPitsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -117,6 +119,8 @@
 		EEBA88992B90BCD40000B7D3 /* PastPitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastPitView.swift; sourceTree = "<group>"; };
 		EED375C62B86B0CF003E1FC1 /* Egg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Egg.swift; sourceTree = "<group>"; };
 		EED684B22B841F65001493DE /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
+		EEE295002BAF3D050044EFA3 /* FakeEgg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeEgg.swift; sourceTree = "<group>"; };
+		EEE295022BAF43430044EFA3 /* ScoutedPitsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoutedPitsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -274,6 +278,7 @@
 				EE73CB982B5ECA33005F4588 /* PitDetailedView.swift */,
 				EE7C36DB2B5C9DD500439DB3 /* LoginInputView.swift */,
 				EE8DD1CA2B81A8AB003E2708 /* SettingsRowView.swift */,
+				EEE295002BAF3D050044EFA3 /* FakeEgg.swift */,
 				EED375C62B86B0CF003E1FC1 /* Egg.swift */,
 			);
 			path = Components;
@@ -301,6 +306,7 @@
 			isa = PBXGroup;
 			children = (
 				EE88F9DB2B580D910016E68E /* ScoutingView.swift */,
+				EEE295022BAF43430044EFA3 /* ScoutedPitsView.swift */,
 				EE88F9DF2B5810840016E68E /* PitScouting.swift */,
 				EE88F9E52B58116F0016E68E /* MatchScouting.swift */,
 				EEBA88992B90BCD40000B7D3 /* PastPitView.swift */,
@@ -454,6 +460,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EE7C36F02B5CDC2700439DB3 /* AuthViewModel.swift in Sources */,
+				EEE295012BAF3D050044EFA3 /* FakeEgg.swift in Sources */,
 				EE76B7582B79F4160056F445 /* HomeView.swift in Sources */,
 				EE8DD1CB2B81A8AB003E2708 /* SettingsRowView.swift in Sources */,
 				EE7C36DA2B5C9B9C00439DB3 /* LoginView.swift in Sources */,
@@ -470,6 +477,7 @@
 				EE7C36DE2B5CD20800439DB3 /* RegistrationView.swift in Sources */,
 				EE7C36DC2B5C9DD500439DB3 /* LoginInputView.swift in Sources */,
 				EE73CB9B2B5ECECE005F4588 /* PastMatchView.swift in Sources */,
+				EEE295032BAF43430044EFA3 /* ScoutedPitsView.swift in Sources */,
 				EE73CBA02B6064FB005F4588 /* GuestLoginView.swift in Sources */,
 				EE47E2222B55ADB100FF192C /* TeamDataView.swift in Sources */,
 				EE73CBA22B60C204005F4588 /* StartupView.swift in Sources */,

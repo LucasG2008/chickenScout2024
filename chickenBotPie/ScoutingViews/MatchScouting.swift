@@ -5,6 +5,8 @@
 //  Created by Lucas Granucci on 1/17/24.
 //
 
+import CoreImage.CIFilterBuiltins
+
 import SwiftUI
 import ConfettiSwiftUI
 
@@ -44,8 +46,8 @@ struct MatchScouting: View {
     @State private var activeTextField: TextFieldType?
     
     enum TextFieldType {
-            case team, matchNumber
-        }
+        case team, matchNumber
+    }
     
     @State private var selectedOptTeam: Int = 0000
     
@@ -61,11 +63,11 @@ struct MatchScouting: View {
     
     var concatenatedAutoElements: String {
         autoSequence.joined(separator: ", ")
-        }
+    }
     
     var concatenatedTeleopElements: String {
         teleopSequence.joined(separator: ", ")
-        }
+    }
     
     @State var offeredCoop = false
     @State var didCoop = false
@@ -89,25 +91,31 @@ struct MatchScouting: View {
     let extraGenerator = UIImpactFeedbackGenerator(style: .soft)
     let notificationGenerator = UINotificationFeedbackGenerator()
     
+    let context = CIContext()
+    let filter = CIFilter.qrCodeGenerator()
+    
     @State private var teleopConfettiCounter: Int = 0
     @State private var autoConfettiCounter: Int = 0
     
     @State private var autoTimesClicked: Int = 0
     @State private var teleopTimesClicked: Int = 0
     
+    @State private var notes = ""
+    
     // TIMES UNTIL CONFETTI
     @State private var timesUntilConfetti: Int = 5
     
     @State private var stringRep: String = "No data yet"
     
-    
     @State private var popupTagsPresented = false
+    
+    @State private var qr_string: String = ""
     
     // MARK: Score Calculation
     
     var autoScore: Int {
         var totalScore = 0
-
+        
         for element in autoSequence {
             switch element {
             case "Amp":
@@ -120,13 +128,13 @@ struct MatchScouting: View {
                 break
             }
         }
-
+        
         return totalScore
     }
     
     var teleopScore: Int {
         var totalScore = 0
-
+        
         for element in teleopSequence {
             switch element {
             case "Amped Speaker":
@@ -139,7 +147,7 @@ struct MatchScouting: View {
                 break
             }
         }
-
+        
         return totalScore
     }
     
@@ -156,7 +164,7 @@ struct MatchScouting: View {
         }
         
         if harmony && climbed {
-           totalScore += 4
+            totalScore += 4
         } else if climbed {
             totalScore += 3
         }
@@ -193,7 +201,7 @@ struct MatchScouting: View {
     
     var autoAmpPoints: Int {
         var autoAmpPointsScore = 0
-
+        
         for element in autoSequence {
             switch element {
             case "Amp":
@@ -202,13 +210,13 @@ struct MatchScouting: View {
                 break
             }
         }
-
+        
         return autoAmpPointsScore
     }
     
     var autoSpeakerPoints: Int {
         var autoSpeakerPointsScore = 0
-
+        
         for element in autoSequence {
             switch element {
             case "Speaker":
@@ -217,13 +225,13 @@ struct MatchScouting: View {
                 break
             }
         }
-
+        
         return autoSpeakerPointsScore
     }
     
     var teleAmpPoints: Int {
         var teleAmpPointsScore = 0
-
+        
         for element in teleopSequence {
             switch element {
             case "Amp":
@@ -232,13 +240,13 @@ struct MatchScouting: View {
                 break
             }
         }
-
+        
         return teleAmpPointsScore
     }
     
     var teleSpeakerPoints: Int {
         var teleSpeakerPointsScore = 0
-
+        
         for element in teleopSequence {
             switch element {
             case "Speaker":
@@ -247,13 +255,13 @@ struct MatchScouting: View {
                 break
             }
         }
-
+        
         return teleSpeakerPointsScore
     }
     
     var teleSpeakerAmplifiedNotes: Int {
         var teleAmpedSpeakerPointsScore = 0
-
+        
         for element in teleopSequence {
             switch element {
             case "Amped Speaker":
@@ -262,7 +270,7 @@ struct MatchScouting: View {
                 break
             }
         }
-
+        
         return teleAmpedSpeakerPointsScore
     }
     
@@ -271,316 +279,559 @@ struct MatchScouting: View {
         
         NavigationStack {
             List {
-                Section (
-                    header: 
-                        VStack{
-                            HStack {
-                                Spacer()
-                                Text("Team Info")
-                                    .font(.title2)
-                                    .fontWeight(.bold)
-                                    .foregroundStyle(accentColor)
-                                Spacer()
-                            }
-                        }
-                ){
-
-//                    HStack{
-//                        Text("Team: ")
-//                            //.padding(.trailing, 20)
-//                        
-//                        NavigationLink(
-//                            destination: TeamSearchView(selectedTeamName: $selectedTeamName, selectedTeamNumber: $selectedTeamNumber),
-//                        label: {
-//                            HStack {
-//                                //
-//                            }
-//                        })
-//
-//                        TextField("Enter team", text: $typedTeam)
-//                            .textFieldStyle(RoundedBorderTextFieldStyle())
-//                            .keyboardType(.decimalPad)
-//                            .focused($isTeamFocused)
-//                            .onChange(of: isTeamFocused) {
-//                                activeTextField = .team
-//                            }
-//                        
-//                            .toolbar {
-//                                ToolbarItemGroup(placement: .keyboard) {
-//                                    if activeTextField == .team {
-//                                    Spacer()
-//                                        Button("Enter") {
-//                                            hideKeyboard()
-//
-//                                            let teamDisplay = teamNameFromNumber
-//
-//                                            if teamDisplay == "none" {
-//                                                typedTeam = ""
-//                                                showTeamNumAlert = true
-//                                            } else {
-//                                                typedTeam = teamDisplay
-//                                                selectedTeamNumber = Int(typedTeam)
-//                                                selectedTeamName = teamDisplay
+                                Section (
+                                    header:
+                                        VStack{
+                                            HStack {
+                                                Spacer()
+                                                Text("Team Info")
+                                                    .font(.title2)
+                                                    .fontWeight(.bold)
+                                                    .foregroundStyle(accentColor)
+                                                Spacer()
+                                            }
+                                        }
+                                ){
+                
+//                                    HStack{
+//                                        Text("Team: ")
+//                                            //.padding(.trailing, 20)
+//                
+//                                        NavigationLink(
+//                                            destination: TeamSearchView(selectedTeamName: $selectedTeamName, selectedTeamNumber: $selectedTeamNumber),
+//                                        label: {
+//                                            HStack {
+//                                                //
 //                                            }
-//                                        }
-//                                    }
-//                                }
-//                            }
-//                    }
-                    
-//                    HStack {
-//                        NavigationLink(
-//                            destination: TeamSearchView(selectedTeamName: $selectedTeamName, selectedTeamNumber: $selectedTeamNumber),
-//                        label: {
-//                            Text("Team: ")
-//                        })
-//                        .frame(width: 70)
-//                        
-//                        if isEditing {
-//                            Spacer()
-//                            ZStack{
-//                                TextField("Enter team number \u{200c}", text: $typedTeam)
-//                                    .textFieldStyle(RoundedBorderTextFieldStyle())
-//                                    .multilineTextAlignment(.trailing)
-//                                    .keyboardType(.decimalPad)
-//                                    .focused($isTeamFocused)
-//                                    .onChange(of: isTeamFocused) {
-//                                        activeTextField = .team
-//                                    }
-//                                    .frame(width: 175)
-//                                    .toolbar {
-//                                        ToolbarItemGroup(placement: .keyboard) {
-//                                            if activeTextField == .team {
-//                                                Spacer()
-//                                                Button("Enter") {
-//                                                    hideKeyboard()
-//                                                    
-//                                                    let teamDisplay = teamNameFromNumber
-//                                                    
-//                                                    if teamDisplay == "none" {
-//                                                        typedTeam = ""
-//                                                        showTeamNumAlert = true
-//                                                    } else {
-//                                                        //typedTeam = teamDisplay
-//                                                        selectedTeamNumber = Int(typedTeam)
-//                                                        selectedTeamName = teamDisplay
-//                                                        isEditing.toggle()
+//                                        })
+//                
+//                                        TextField("Enter team", text: $typedTeam)
+//                                            .textFieldStyle(RoundedBorderTextFieldStyle())
+//                                            .keyboardType(.decimalPad)
+//                                            .focused($isTeamFocused)
+//                                            .onChange(of: isTeamFocused) {
+//                                                activeTextField = .team
+//                                            }
+//                
+//                                            .toolbar {
+//                                                ToolbarItemGroup(placement: .keyboard) {
+//                                                    if activeTextField == .team {
+//                                                    Spacer()
+//                                                        Button("Enter") {
+//                                                            hideKeyboard()
+//                
+//                                                            let teamDisplay = teamNameFromNumber
+//                
+//                                                            if teamDisplay == "none" {
+//                                                                typedTeam = ""
+//                                                                showTeamNumAlert = true
+//                                                            } else {
+//                                                                typedTeam = teamDisplay
+//                                                                selectedTeamNumber = Int(typedTeam)
+//                                                                selectedTeamName = teamDisplay
+//                                                            }
+//                                                        }
 //                                                    }
 //                                                }
 //                                            }
-//                                        }
 //                                    }
-//                            }
-//                        } else {
-//                            Spacer()
-//                            Text(textFieldDisplay)
-//                                .onTapGesture {
-//                                    isEditing.toggle()
-//                                    typedTeam = ""
-//                                }
-//                        }
-//                        
-//                    }
-                    
-                    NavigationLink(
-                        destination: TeamSearchView(selectedTeamName: $selectedTeamName, selectedTeamNumber: $selectedTeamNumber),
-                    label: {
-                        HStack {
-                            Text("Team:")
-                            Spacer()
-                            if selectedTeamName != nil {
-                                Text("\(String(selectedTeamNumber ?? 0)) : \(selectedTeamName ?? "")")
-                                    .foregroundColor(selectedTeamName != nil ? .primary : .gray)
-                            } else {
-                                Text("")
-                                    .foregroundColor(selectedTeamName != nil ? .primary : .gray)
-                            }
-                        }
-                    })
-                    
-                    HStack {
-                        Text("Match Number: ")
-                        
-                        Spacer()
-                        
-                        TextField("Match Number", value: $matchNumber, format: .number)
-                            .textFieldStyle(.roundedBorder)
-                            .keyboardType(.decimalPad)
-                            .multilineTextAlignment(.trailing)
-                            .frame(width: 80)
-                            .focused($isMatchFocused)
-                            .onChange(of: isMatchFocused) { _ in
-                                activeTextField = .matchNumber
-                            }
-                            .toolbar {
-                                ToolbarItemGroup(placement: .keyboard) {
-                                    if activeTextField == .matchNumber {
+                
+//                                    HStack {
+//                                        NavigationLink(
+//                                            destination: TeamSearchView(selectedTeamName: $selectedTeamName, selectedTeamNumber: $selectedTeamNumber),
+//                                        label: {
+//                                            Text("Team: ")
+//                                        })
+//                                        .frame(width: 70)
+//                
+//                                        if isEditing {
+//                                            Spacer()
+//                                            ZStack{
+//                                                TextField("Enter team number \u{200c}", text: $typedTeam)
+//                                                    .textFieldStyle(RoundedBorderTextFieldStyle())
+//                                                    .multilineTextAlignment(.trailing)
+//                                                    .keyboardType(.decimalPad)
+//                                                    .focused($isTeamFocused)
+//                                                    .onChange(of: isTeamFocused) {
+//                                                        activeTextField = .team
+//                                                    }
+//                                                    .frame(width: 175)
+//                                                    .toolbar {
+//                                                        ToolbarItemGroup(placement: .keyboard) {
+//                                                            if activeTextField == .team {
+//                                                                Spacer()
+//                                                                Button("Enter") {
+//                                                                    hideKeyboard()
+//                
+//                                                                    let teamDisplay = teamNameFromNumber
+//                
+//                                                                    if teamDisplay == "none" {
+//                                                                        typedTeam = ""
+//                                                                        showTeamNumAlert = true
+//                                                                    } else {
+//                                                                        //typedTeam = teamDisplay
+//                                                                        selectedTeamNumber = Int(typedTeam)
+//                                                                        selectedTeamName = teamDisplay
+//                                                                        isEditing.toggle()
+//                                                                    }
+//                                                                }
+//                                                            }
+//                                                        }
+//                                                    }
+//                                            }
+//                                        } else {
+//                                            Spacer()
+//                                            Text(textFieldDisplay)
+//                                                .onTapGesture {
+//                                                    isEditing.toggle()
+//                                                    typedTeam = ""
+//                                                }
+//                                        }
+//                
+//                                    }
+                
+                                    NavigationLink(
+                                        destination: TeamSearchView(selectedTeamName: $selectedTeamName, selectedTeamNumber: $selectedTeamNumber),
+                                    label: {
+                                        HStack {
+                                            Text("Team:")
+                                            Spacer()
+                                            if selectedTeamName != nil {
+                                                Text("\(String(selectedTeamNumber ?? 0)) : \(selectedTeamName ?? "")")
+                                                    .foregroundColor(selectedTeamName != nil ? .primary : .gray)
+                                            } else {
+                                                Text("")
+                                                    .foregroundColor(selectedTeamName != nil ? .primary : .gray)
+                                            }
+                                        }
+                                    })
+                
+                                    HStack {
+                                        Text("Match Number: ")
+                
                                         Spacer()
-                                        Button("Done") {
-                                            hideKeyboard()
+                
+                                        TextField("Match Number", value: $matchNumber, format: .number)
+                                            .textFieldStyle(.roundedBorder)
+                                            .keyboardType(.decimalPad)
+                                            .multilineTextAlignment(.trailing)
+                                            .frame(width: 80)
+                                            .focused($isMatchFocused)
+                                            .onChange(of: isMatchFocused) { _ in
+                                                activeTextField = .matchNumber
+                                            }
+                                            .toolbar {
+                                                ToolbarItemGroup(placement: .keyboard) {
+                                                    if activeTextField == .matchNumber {
+                                                        Spacer()
+                                                        Button("Done") {
+                                                            hideKeyboard()
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                    }
+                
+                                    Picker("Alliance: ", selection: $selectedAlliance) {
+                                        ForEach(alliances, id: \.self) {
+                                            Text($0)
                                         }
                                     }
+                
                                 }
-                            }
-                    }
                 
-                    Picker("Alliance: ", selection: $selectedAlliance) {
-                        ForEach(alliances, id: \.self) {
-                            Text($0)
-                        }
-                    }
-                    
-                }
-            
-                // MARK: AUTO
+                                // MARK: AUTO
                 
-                Section {
-                    VStack {
-                        
-                    Spacer()
-                    
-                    HStack {
-                        Spacer()
-                        Text("AUTO")
-                            .font(.title2)
-                            .fontWeight(.bold)
-                        Spacer()
-                    }
-                    
-                    Divider()
-                    
-                    HStack {
-                        Button(action: {
-                            autoSequence.append("Speaker")
-                            autoTimesClicked += 1
-                            
-                            if autoTimesClicked % timesUntilConfetti == 0 {
-                                autoConfettiCounter += 1
-                            }
-                            
-                            generator.impactOccurred(intensity: 3)
-                            
-                        }, label : {
-                            Text("Speaker")
-                                .frame(minWidth: 0, maxWidth: .infinity)
-                                .contentShape(RoundedRectangle(cornerRadius: 15))
-                        })
-                        .buttonStyle(GrowingButton())
-                        .overlay(
-                                RoundedRectangle(cornerRadius: 15)
-                                    .stroke(accentColor, lineWidth: 2)
-                        )
-                    
-                        
-                        Button(action: {
-                            autoSequence.append("Amp")
-                            autoTimesClicked += 1
-                            
-                            if autoTimesClicked % timesUntilConfetti == 0 {
-                                autoConfettiCounter += 1
-                            }
-                            
-                            generator.impactOccurred(intensity: 3)
-                            
-                        }, label : {
-                            Text("Amp")
-                                .frame(maxWidth: .infinity)
-                                .contentShape(RoundedRectangle(cornerRadius: 15))
-                        })
-                        .buttonStyle(GrowingButton())
-                        .overlay(
-                                RoundedRectangle(cornerRadius: 15)
-                                    .stroke(accentColor, lineWidth: 2)
-                        )
-                        .contentShape(Rectangle())
-                    }
-                    .padding(.top, 10)
-                    .padding(.bottom, 10)
-                    
-                    HStack {
-                        if leftAuto {
-                            Text("Num Moves: \(autoSequence.count-1)")
-                                .font(.headline)
-                        } else {
-                            Text("Num Moves: \(autoSequence.count)")
-                                .font(.headline)
-                        }
-                        Spacer()
-                        
-                        Text("Score: \(autoScore)")
-                            .font(.headline)
-                    }
-                    
-                    .padding(.bottom, 10)
-                    
-                    TextEditor(text: .constant(concatenatedAutoElements))
-                        .padding(5)
-                        .disabled(true)
-                        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 100, maxHeight: .infinity)
-                        .background(RoundedRectangle(cornerRadius: 10).stroke())
-                        .cornerRadius(10)
-                        .padding(.bottom, 10)
-                        .confettiCannon(counter: $autoConfettiCounter, num: 50, confettis: [.text("🐔"), .text("🐣"), .text("🔥")], confettiSize: 50, openingAngle: Angle(degrees: 0), closingAngle: Angle(degrees: 360), radius: 200)
-                    
-                    Spacer()
-                    
-                        HStack {
-                            
-                            Button(action: {
-                                autoSequence.removeAll()
-                                leftAuto = false
-                                extraGenerator.impactOccurred(intensity: 3)
-                            }, label : {
-                                Text("Clear")
-                                    .frame(maxWidth: .infinity)
-                            })
-                            .buttonStyle(.bordered)
-                            
-                            Spacer()
-                            
-                            Button(action: {
-                                if !autoSequence.isEmpty {
-                                    if autoSequence == ["Left"] {
-                                        leftAuto = false
-                                    } else {
-                                        autoSequence.removeLast()
+                                Section {
+                                    VStack {
+                
+                                    Spacer()
+                
+                                    HStack {
+                                        Spacer()
+                                        Text("AUTO")
+                                            .font(.title2)
+                                            .fontWeight(.bold)
+                                        Spacer()
                                     }
-                                }
-                                extraGenerator.impactOccurred(intensity: 3)
-                            }, label : {
-                                Text("Delete")
-                                    .frame(maxWidth: .infinity)
-                            })
-                            .buttonStyle(.bordered)
-
-                        }
-                        .padding(.bottom, 10)
-                        
-                        Divider()
-                        
-
-                        Toggle("Left Zone:", isOn: $leftAuto)
-                                .onChange(of: leftAuto, initial: false) { _,_ in
-                                    if leftAuto == true {
-                                        autoSequence.insert("Left", at: 0)
-                                    } else {
-                                        if !autoSequence.isEmpty {
-                                            autoSequence.removeFirst()
+                
+                                    Divider()
+                
+                                    HStack {
+                                        Button(action: {
+                                            autoSequence.append("Speaker")
+                                            autoTimesClicked += 1
+                
+                                            if autoTimesClicked % timesUntilConfetti == 0 {
+                                                autoConfettiCounter += 1
+                                            }
+                
+                                            generator.impactOccurred(intensity: 3)
+                
+                                        }, label : {
+                                            Text("Speaker")
+                                                .frame(minWidth: 0, maxWidth: .infinity)
+                                                .contentShape(RoundedRectangle(cornerRadius: 15))
+                                        })
+                                        .buttonStyle(GrowingButton())
+                                        .overlay(
+                                                RoundedRectangle(cornerRadius: 15)
+                                                    .stroke(accentColor, lineWidth: 2)
+                                        )
+                
+                
+                                        Button(action: {
+                                            autoSequence.append("Amp")
+                                            autoTimesClicked += 1
+                
+                                            if autoTimesClicked % timesUntilConfetti == 0 {
+                                                autoConfettiCounter += 1
+                                            }
+                
+                                            generator.impactOccurred(intensity: 3)
+                
+                                        }, label : {
+                                            Text("Amp")
+                                                .frame(maxWidth: .infinity)
+                                                .contentShape(RoundedRectangle(cornerRadius: 15))
+                                        })
+                                        .buttonStyle(GrowingButton())
+                                        .overlay(
+                                                RoundedRectangle(cornerRadius: 15)
+                                                    .stroke(accentColor, lineWidth: 2)
+                                        )
+                                        .contentShape(Rectangle())
+                                    }
+                                    .padding(.top, 10)
+                                    .padding(.bottom, 10)
+                
+                                    HStack {
+                                        if leftAuto {
+                                            Text("Num Moves: \(autoSequence.count-1)")
+                                                .font(.headline)
+                                        } else {
+                                            Text("Num Moves: \(autoSequence.count)")
+                                                .font(.headline)
                                         }
+                                        Spacer()
+                
+                                        Text("Score: \(autoScore)")
+                                            .font(.headline)
+                                    }
+                
+                                    .padding(.bottom, 10)
+                
+                                    TextEditor(text: .constant(concatenatedAutoElements))
+                                        .padding(5)
+                                        .disabled(true)
+                                        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 100, maxHeight: .infinity)
+                                        .background(RoundedRectangle(cornerRadius: 10).stroke())
+                                        .cornerRadius(10)
+                                        .padding(.bottom, 10)
+                                        .confettiCannon(counter: $autoConfettiCounter, num: 50, confettis: [.text("🐔"), .text("🐣"), .text("🔥")], confettiSize: 50, openingAngle: Angle(degrees: 0), closingAngle: Angle(degrees: 360), radius: 200)
+                
+                                    Spacer()
+                
+                                        HStack {
+                
+                                            Button(action: {
+                                                autoSequence.removeAll()
+                                                leftAuto = false
+                                                extraGenerator.impactOccurred(intensity: 3)
+                                            }, label : {
+                                                Text("Clear")
+                                                    .frame(maxWidth: .infinity)
+                                            })
+                                            .buttonStyle(.bordered)
+                
+                                            Spacer()
+                
+                                            Button(action: {
+                                                if !autoSequence.isEmpty {
+                                                    if autoSequence == ["Left"] {
+                                                        leftAuto = false
+                                                    } else {
+                                                        autoSequence.removeLast()
+                                                    }
+                                                }
+                                                extraGenerator.impactOccurred(intensity: 3)
+                                            }, label : {
+                                                Text("Delete")
+                                                    .frame(maxWidth: .infinity)
+                                            })
+                                            .buttonStyle(.bordered)
+                
+                                        }
+                                        .padding(.bottom, 10)
+                
+                                        Divider()
+                
+                
+                                        Toggle("Left Zone:", isOn: $leftAuto)
+                                                .onChange(of: leftAuto, initial: false) { _,_ in
+                                                    if leftAuto == true {
+                                                        autoSequence.insert("Left", at: 0)
+                                                    } else {
+                                                        if !autoSequence.isEmpty {
+                                                            autoSequence.removeFirst()
+                                                        }
+                                                    }
+                                                }
+                                                .padding([.bottom, .top], 10)
                                     }
                                 }
-                                .padding([.bottom, .top], 10)
-                    }
-                }
                 
-                Section {
-                    
+                                Section {
+                
+                                    VStack {
+                
+                                        Spacer()
+                                        HStack {
+                                            Spacer()
+                                            Text("CO-OPERTITION")
+                                                .font(.title2)
+                                                .fontWeight(.bold)
+                                            Spacer()
+                                        }
+                
+                                        Divider()
+                
+                                        Toggle("Offered Co-Opertition:", isOn: $offeredCoop)
+                                            .padding([.bottom, .top], 10)
+                
+                                        Toggle("Did Co-Operate:", isOn: $didCoop)
+                                            .padding([.bottom, .top], 10)
+                
+                                    }
+                                }
+                
+                                // MARK: TELE-OPERATIONS
+                
+                                Section {
+                
+                                    VStack {
+                
+                                        Spacer()
+                
+                                        HStack {
+                                            Spacer()
+                                            Text("TELE-OP")
+                                                .font(.title2)
+                                                .fontWeight(.bold)
+                                            Spacer()
+                                        }
+                
+                                        Divider()
+                
+                                        HStack {
+                                            Button(action: {
+                                                teleopSequence.append("Speaker")
+                                                teleopTimesClicked += 1
+                
+                                                if teleopTimesClicked % timesUntilConfetti == 0 {
+                                                    teleopConfettiCounter += 1
+                                                    notificationGenerator.notificationOccurred(.success)
+                                                }
+                
+                                                generator.impactOccurred(intensity: 3)
+                
+                                            }, label : {
+                                                Text("Speaker")
+                                                    .frame(maxWidth: .infinity)
+                                                    .contentShape(RoundedRectangle(cornerRadius: 15))
+                                            })
+                                            .buttonStyle(GrowingButton())
+                                            .overlay(
+                                                RoundedRectangle(cornerRadius: 15)
+                                                    .stroke(accentColor, lineWidth: 2)
+                                            )
+                
+                                            Button(action: {
+                                                teleopSequence.append("Amped Speaker")
+                                                teleopTimesClicked += 1
+                
+                                                if teleopTimesClicked % timesUntilConfetti == 0 {
+                                                    teleopConfettiCounter += 1
+                                                }
+                
+                                                generator.impactOccurred(intensity: 3)
+                
+                                            }, label : {
+                                                Text("Amped Speaker")
+                                                    .frame(maxWidth: .infinity)
+                                                    .contentShape(RoundedRectangle(cornerRadius: 15))
+                                            })
+                
+                                            .buttonStyle(GrowingButtonShort())
+                                            .overlay(
+                                                RoundedRectangle(cornerRadius: 15)
+                                                    .stroke(accentColor, lineWidth: 2)
+                                            )
+                
+                                            Button(action: {
+                                                teleopSequence.append("Amp")
+                                                teleopTimesClicked += 1
+                
+                                                if teleopTimesClicked % timesUntilConfetti == 0 {
+                                                    teleopConfettiCounter += 1
+                                                }
+                
+                                                generator.impactOccurred(intensity: 3)
+                
+                                            }, label : {
+                                                Text("Amp")
+                                                    .frame(maxWidth: .infinity)
+                                                    .contentShape(RoundedRectangle(cornerRadius: 15))
+                                            })
+                                            .buttonStyle(GrowingButton())
+                                            .overlay(
+                                                RoundedRectangle(cornerRadius: 15)
+                                                    .stroke(accentColor, lineWidth: 2)
+                
+                                            )
+                                        }
+                                        .padding(.top, 10)
+                                        .padding(.bottom, 10)
+                
+                                        HStack {
+                                            Text("Num Moves: \(teleopSequence.count)")
+                                                .font(.headline)
+                
+                                            Spacer()
+                
+                                            Text("Score: \(teleopScore)")
+                                                .font(.headline)
+                                        }
+                                        .padding(.bottom, 10)
+                
+                                        TextEditor(text: .constant(concatenatedTeleopElements))
+                                            .padding(5)
+                                            .disabled(true)
+                                            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 100, maxHeight: .infinity)
+                                            .background(RoundedRectangle(cornerRadius: 10).stroke())
+                                            .cornerRadius(10)
+                                            .padding(.bottom, 10)
+                                            .confettiCannon(counter: $teleopConfettiCounter, num: 50, confettis: [.text("🐔"), .text("🐣"), .text("🔥")], confettiSize: 50, openingAngle: Angle(degrees: 0), closingAngle: Angle(degrees: 360), radius: 200)
+                
+                                        Spacer()
+                
+                                        HStack {
+                
+                                            Button(action: {
+                                                teleopSequence.removeAll()
+                                                extraGenerator.impactOccurred(intensity: 3)
+                                            }, label : {
+                                                Text("Clear")
+                                                    .frame(maxWidth: .infinity)
+                                            })
+                                            .buttonStyle(.bordered)
+                
+                                            Spacer()
+                
+                                            Button(action: {
+                                                if !teleopSequence.isEmpty {
+                                                    teleopSequence.removeLast()
+                                                }
+                                                extraGenerator.impactOccurred(intensity: 3)
+                                            }, label : {
+                                                Text("Delete")
+                                                    .frame(maxWidth: .infinity)
+                                            })
+                                            .buttonStyle(.bordered)
+                
+                
+                                        }
+                                        .padding(.bottom, 10)
+                
+                                        Divider()
+                
+                                        Stepper("Drops: \(drops)", value: $drops, in: 0...100)
+                                            .padding(.bottom, 10)
+                                            .padding(.top, 10)
+                
+                                    }
+                                }
+                                // MARK: ENDGAME
+                                Section{
+                                    VStack {
+                
+                                        HStack {
+                                            Spacer()
+                                            Text("ENDGAME")
+                                                .font(.title2)
+                                                .fontWeight(.bold)
+                                            Spacer()
+                                        }
+                
+                                        Divider()
+                
+                                        Toggle("Park: ", isOn: $park)
+                                            .onChange(of: park) { _ in
+                                                if park {
+                                                    climbed = false
+                                                    harmony = false
+                                                }
+                                            }
+                                        Toggle("Onstage Climb:", isOn: $climbed)
+                                            .disabled(park == true)
+                                        Toggle("Harmony:", isOn: $harmony)
+                                            .disabled(park == true)
+                
+                                    }
+                                    VStack {
+                
+                                        Picker("Trap: ", selection: $trap) {
+                                            ForEach(trapOutcomes, id: \.self) {
+                                                Text($0)
+                                            }
+                                        }
+                                        .padding(5)
+                
+                                        Stepper("Traps: \(numTraps)", value: $numTraps, in: 0...3)
+                                            .padding(5)
+                
+                                    }
+                                }
+                
+                                Section{
+                                    VStack {
+                
+                                        HStack {
+                                            Spacer()
+                                            Text("HUMAN PLAYER")
+                                                .font(.title2)
+                                                .fontWeight(.bold)
+                                            Spacer()
+                                        }
+                
+                                        Divider()
+                
+                                        Picker("Amp Mike: ", selection: $ampMike) {
+                                            ForEach(mikeOutcomes, id: \.self) {
+                                                Text($0)
+                                            }
+                                        }
+                                        Picker("Source Mike: ", selection: $sourceMike) {
+                                            ForEach(mikeOutcomes, id: \.self) {
+                                                Text($0)
+                                            }
+                                        }
+                                        Picker("Center Mike: ", selection: $centerMike) {
+                                            ForEach(mikeOutcomes, id: \.self) {
+                                                Text($0)
+                                            }
+                                        }
+                
+                                    }
+                                }
+                
+                // MARK: Notes
+                Section{
                     VStack {
-                        
                         Spacer()
                         HStack {
                             Spacer()
-                            Text("CO-OPERTITION")
+                            Text("Notes")
                                 .font(.title2)
                                 .fontWeight(.bold)
                             Spacer()
@@ -588,232 +839,21 @@ struct MatchScouting: View {
                         
                         Divider()
                         
-                        Toggle("Offered Co-Opertition:", isOn: $offeredCoop)
-                            .padding([.bottom, .top], 10)
+                        TextEditor(text: $notes)
                         
-                        Toggle("Did Co-Operate:", isOn: $didCoop)
-                            .padding([.bottom, .top], 10)
-                        
-                    }
-                }
-                
-                // MARK: TELE-OPERATIONS
-                
-                Section {
-                    
-                    VStack {
-                        
-                        Spacer()
-                        
-                        HStack {
-                            Spacer()
-                            Text("TELE-OP")
-                                .font(.title2)
-                                .fontWeight(.bold)
-                            Spacer()
-                        }
-                        
-                        Divider()
-                        
-                        HStack {
-                            Button(action: {
-                                teleopSequence.append("Speaker")
-                                teleopTimesClicked += 1
-                                
-                                if teleopTimesClicked % timesUntilConfetti == 0 {
-                                    teleopConfettiCounter += 1
-                                    notificationGenerator.notificationOccurred(.success)
-                                }
-                                
-                                generator.impactOccurred(intensity: 3)
-                                
-                            }, label : {
-                                Text("Speaker")
-                                    .frame(maxWidth: .infinity)
-                                    .contentShape(RoundedRectangle(cornerRadius: 15))
-                            })
-                            .buttonStyle(GrowingButton())
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 15)
-                                    .stroke(accentColor, lineWidth: 2)
-                            )
-                            
-                            Button(action: {
-                                teleopSequence.append("Amped Speaker")
-                                teleopTimesClicked += 1
-                                
-                                if teleopTimesClicked % timesUntilConfetti == 0 {
-                                    teleopConfettiCounter += 1
-                                }
-                                
-                                generator.impactOccurred(intensity: 3)
-                                
-                            }, label : {
-                                Text("Amped Speaker")
-                                    .frame(maxWidth: .infinity)
-                                    .contentShape(RoundedRectangle(cornerRadius: 15))
-                            })
-                            
-                            .buttonStyle(GrowingButtonShort())
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 15)
-                                    .stroke(accentColor, lineWidth: 2)
-                            )
-                            
-                            Button(action: {
-                                teleopSequence.append("Amp")
-                                teleopTimesClicked += 1
-                                
-                                if teleopTimesClicked % timesUntilConfetti == 0 {
-                                    teleopConfettiCounter += 1
-                                }
-                                
-                                generator.impactOccurred(intensity: 3)
-                                
-                            }, label : {
-                                Text("Amp")
-                                    .frame(maxWidth: .infinity)
-                                    .contentShape(RoundedRectangle(cornerRadius: 15))
-                            })
-                            .buttonStyle(GrowingButton())
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 15)
-                                    .stroke(accentColor, lineWidth: 2)
-                                
-                            )
-                        }
-                        .padding(.top, 10)
-                        .padding(.bottom, 10)
-                        
-                        HStack {
-                            Text("Num Moves: \(teleopSequence.count)")
-                                .font(.headline)
-                            
-                            Spacer()
-                            
-                            Text("Score: \(teleopScore)")
-                                .font(.headline)
-                        }
-                        .padding(.bottom, 10)
-                        
-                        TextEditor(text: .constant(concatenatedTeleopElements))
-                            .padding(5)
-                            .disabled(true)
                             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 100, maxHeight: .infinity)
                             .background(RoundedRectangle(cornerRadius: 10).stroke())
                             .cornerRadius(10)
-                            .padding(.bottom, 10)
-                            .confettiCannon(counter: $teleopConfettiCounter, num: 50, confettis: [.text("🐔"), .text("🐣"), .text("🔥")], confettiSize: 50, openingAngle: Angle(degrees: 0), closingAngle: Angle(degrees: 360), radius: 200)
-                        
-                        Spacer()
-                        
-                        HStack {
-                            
-                            Button(action: {
-                                teleopSequence.removeAll()
-                                extraGenerator.impactOccurred(intensity: 3)
-                            }, label : {
-                                Text("Clear")
-                                    .frame(maxWidth: .infinity)
-                            })
-                            .buttonStyle(.bordered)
-                            
-                            Spacer()
-                            
-                            Button(action: {
-                                if !teleopSequence.isEmpty {
-                                    teleopSequence.removeLast()
-                                }
-                                extraGenerator.impactOccurred(intensity: 3)
-                            }, label : {
-                                Text("Delete")
-                                    .frame(maxWidth: .infinity)
-                            })
-                            .buttonStyle(.bordered)
-                            
-                            
-                        }
-                        .padding(.bottom, 10)
-                        
-                        Divider()
-                        
-                        Stepper("Drops: \(drops)", value: $drops, in: 0...100)
-                            .padding(.bottom, 10)
+                            .padding(.bottom, 5)
                             .padding(.top, 10)
-                        
-                    }
-                }
-                // MARK: ENDGAME
-                Section{
-                    VStack {
-                        
-                        HStack {
-                            Spacer()
-                            Text("ENDGAME")
-                                .font(.title2)
-                                .fontWeight(.bold)
-                            Spacer()
-                        }
-                        
-                        Divider()
-                        
-                        Toggle("Park: ", isOn: $park)
-                            .onChange(of: park) { _ in
-                                if park {
-                                    climbed = false
-                                    harmony = false
+                            .toolbar {
+                                ToolbarItemGroup(placement: .keyboard) {
+                                    Spacer()
+                                    Button("Done") {
+                                        hideKeyboard()
+                                    }
                                 }
                             }
-                        Toggle("Onstage Climb:", isOn: $climbed)
-                            .disabled(park == true)
-                        Toggle("Harmony:", isOn: $harmony)
-                            .disabled(park == true)
-                        
-                    }
-                    VStack {
-                        
-                        Picker("Trap: ", selection: $trap) {
-                            ForEach(trapOutcomes, id: \.self) {
-                                Text($0)
-                            }
-                        }
-                        .padding(5)
-                        
-                        Stepper("Traps: \(numTraps)", value: $numTraps, in: 0...3)
-                            .padding(5)
-                        
-                    }
-                }
-                
-                Section{
-                    VStack {
-                        
-                        HStack {
-                            Spacer()
-                            Text("HUMAN PLAYER")
-                                .font(.title2)
-                                .fontWeight(.bold)
-                            Spacer()
-                        }
-                        
-                        Divider()
-                        
-                        Picker("Amp Mike: ", selection: $ampMike) {
-                            ForEach(mikeOutcomes, id: \.self) {
-                                Text($0)
-                            }
-                        }
-                        Picker("Source Mike: ", selection: $sourceMike) {
-                            ForEach(mikeOutcomes, id: \.self) {
-                                Text($0)
-                            }
-                        }
-                        Picker("Center Mike: ", selection: $centerMike) {
-                            ForEach(mikeOutcomes, id: \.self) {
-                                Text($0)
-                            }
-                        }
-                        
                     }
                 }
                 
@@ -831,8 +871,26 @@ struct MatchScouting: View {
                         Divider()
                         
                         Text("Total Points Scored: \(gameScore)")
-
+                        
                     }
+                }
+                
+                HStack{
+                    Spacer()
+                    if !qr_string.isEmpty {
+                        Image(uiImage: generateQRCode(from: qr_string))
+                            .interpolation(.none)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 300, height: 300)
+                    } else {
+                        Image(uiImage: generateQRCode(from: "https://tinyurl.com/mrxpbjk5"))
+                            .interpolation(.none)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 300, height: 300)
+                    }
+                    Spacer()
                 }
                 
                 Button(action: {
@@ -849,7 +907,7 @@ struct MatchScouting: View {
                         //teleopSequence: teleopSequence,
                         
                         autoamppoints: autoAmpPoints,
-                        autospeakerpoints: autoSpeakerPoints, 
+                        autospeakerpoints: autoSpeakerPoints,
                         autoleftzone: leftAuto,
                         teleamppoints: teleAmpPoints,
                         telespeakerpoints: teleSpeakerPoints,
@@ -868,11 +926,21 @@ struct MatchScouting: View {
                         
                         ampmike: ampMike,
                         sourcemike: sourceMike,
-                        centermike: centerMike
+                        centermike: centerMike,
+                        
+                        extranotes: notes
                         
                         //score: gameScore
                     )
-
+                    
+                    do {
+                        let jsonData = try JSONEncoder().encode(matchScoutDataInstance)
+                            let jsonString = String(data: jsonData, encoding: .utf8)!
+                        qr_string = jsonString
+                    } catch {
+                        print(error)
+                    }
+                    
                     if networkMonitor.isConnected {
                         // Upload data
                         Task {
@@ -897,7 +965,7 @@ struct MatchScouting: View {
                     Text("Submit")
                         .frame(maxWidth: .infinity)
                         .contentShape(RoundedRectangle(cornerRadius: 15))
-
+                    
                 })
                 //.disabled(!formIsInvalid)
                 .frame(minWidth: 0, maxWidth: .infinity)
@@ -907,25 +975,25 @@ struct MatchScouting: View {
                         .stroke(accentColor, lineWidth: 2)
                     
                 )
+            }
+            .scrollContentBackground(.hidden)
+            .onAppear {
+                Task{
+                    await teamsViewModel.fetchTeamsForEvent(eventCode: "All")
+                    teams = teamsViewModel.allTeams
                 }
-                .scrollContentBackground(.hidden)
-                .onAppear {
-                    Task{
-                        await teamsViewModel.fetchTeamsForEvent(eventCode: "All")
-                        teams = teamsViewModel.allTeams
+            }
+            .background(
+                Group {
+                    if colorScheme == .light {
+                        LinearGradient(gradient: Gradient(colors: [Color.lightBlueStart, Color.lightBlueEnd]), startPoint: .top, endPoint: .bottom)
+                    } else {
+                        LinearGradient(gradient: Gradient(colors: [Color.darkBlueStart, Color.darkBlueEnd]), startPoint: .top, endPoint: .bottom)
                     }
                 }
-                .background(
-                    Group {
-                        if colorScheme == .light {
-                            LinearGradient(gradient: Gradient(colors: [Color.lightBlueStart, Color.lightBlueEnd]), startPoint: .top, endPoint: .bottom)
-                        } else {
-                            LinearGradient(gradient: Gradient(colors: [Color.darkBlueStart, Color.darkBlueEnd]), startPoint: .top, endPoint: .bottom)
-                        }
-                    }
                     .edgesIgnoringSafeArea(.all))
             
-            }
+        }
         .accentColor(accentColor)
         .alert("Data Uploaded Successfully!", isPresented: $showingSuccessAlert) {
             Button("OK", role: .cancel) { }
@@ -941,16 +1009,16 @@ struct MatchScouting: View {
     
     // get accent color
     var accentColor: Color {
-            return colorScheme == .dark ? .white : .black
-        }
+        return colorScheme == .dark ? .white : .black
+    }
     
     var teamNameFromNumber: String {
         let currentNumber = Int(typedTeam)
-            if let team = teams.first(where: { $0.team_number == currentNumber }) {
-             return "\(team.nickname ?? "N/A")"
-         } else {
-             return "none"
-         }
+        if let team = teams.first(where: { $0.team_number == currentNumber }) {
+            return "\(team.nickname ?? "N/A")"
+        } else {
+            return "none"
+        }
     }
     
     var formIsInvalid: Bool {
@@ -961,17 +1029,18 @@ struct MatchScouting: View {
         // Set each variable to its default value
         selectedAlliance = "Select"
         selectedTeamNumber = 0
-        matchNumber = 0
+        selectedTeamName = nil
+        matchNumber = nil
         
         leftAuto = false
         autoSequence = []
         teleopSequence = []
         
-//        autoAmpPoints = 0
-//        autoSpeakerPoints = 0
-//        teleAmpPoints = 0
-//        teleSpeakerPoints = 0
-//        teleSpeakerAmplifiedNotes = 0
+        //        autoAmpPoints = 0
+        //        autoSpeakerPoints = 0
+        //        teleAmpPoints = 0
+        //        teleSpeakerPoints = 0
+        //        teleSpeakerAmplifiedNotes = 0
         
         offeredCoop = false
         didCoop = false
@@ -985,9 +1054,21 @@ struct MatchScouting: View {
         climbed = false
         harmony = false
         trap = "Not Attempted"
-
+        
+        notes = ""
+        
+    }
+    
+    func generateQRCode(from string: String) -> UIImage {
+        filter.message = Data(string.utf8)
+        
+        if let outputImage = filter.outputImage {
+            if let cgImage = context.createCGImage(outputImage, from: outputImage.extent) {
+                return UIImage(cgImage: cgImage)
+            }
         }
-
+        return UIImage(systemName: "xmark.circle") ?? UIImage()
+    }
 }
 
 // MARK: DESIGN STRUCTURES

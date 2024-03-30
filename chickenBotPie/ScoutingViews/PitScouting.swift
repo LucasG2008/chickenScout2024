@@ -5,6 +5,8 @@
 //  Created by Lucas Granucci on 1/17/24.
 //
 
+import CoreImage.CIFilterBuiltins
+
 import SwiftUI
 import UIKit
 
@@ -48,6 +50,11 @@ struct PitScouting: View {
     @State private var notes = ""
     
     let generator = UIImpactFeedbackGenerator(style: .heavy)
+    
+    let context = CIContext()
+    let filter = CIFilter.qrCodeGenerator()
+    
+    @State private var qr_string: String = ""
     
     var body: some View {
         NavigationStack {
@@ -290,6 +297,18 @@ struct PitScouting: View {
                     }
                 }
                 
+                HStack{
+                    Spacer()
+                    if !qr_string.isEmpty {
+                        Image(uiImage: generateQRCode(from: qr_string))
+                            .interpolation(.none)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 300, height: 300)
+                    }
+                    Spacer()
+                }
+                
                 // Submit button 
                 Button(action: {
                     generator.impactOccurred(intensity: 1)
@@ -311,6 +330,14 @@ struct PitScouting: View {
                         humanplayer: humanPlayer,
                         extranotes: notes
                     )
+                    
+                    do {
+                        let jsonData = try JSONEncoder().encode(pitScoutDataInstance)
+                            let jsonString = String(data: jsonData, encoding: .utf8)!
+                        qr_string = jsonString
+                    } catch {
+                        print(error)
+                    }
                     
                     // Upload data
                     Task {
@@ -378,6 +405,18 @@ struct PitScouting: View {
         notes = ""
 
         }
+    
+    func generateQRCode(from string: String) -> UIImage {
+        filter.message = Data(string.utf8)
+        
+        if let outputImage = filter.outputImage {
+            if let cgImage = context.createCGImage(outputImage, from: outputImage.extent) {
+                return UIImage(cgImage: cgImage)
+            }
+        }
+        
+        return UIImage(systemName: "xmark.circle") ?? UIImage()
+    }
     
 }
 
